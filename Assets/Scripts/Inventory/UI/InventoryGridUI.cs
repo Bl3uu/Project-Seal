@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class InventoryGridUI : MonoBehaviour
 {
@@ -9,6 +10,24 @@ public class InventoryGridUI : MonoBehaviour
     [Header("Grid Layout Settings")]
     [SerializeField] private float cellSize = 64f;
     [SerializeField] private float spacing = 2f;
+
+    private void Update()
+    {
+        // Check if mouse is connected and left button was clicked
+        if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
+        {
+            Vector2 mousePosition = Mouse.current.position.ReadValue();
+
+            if (GetGridPosition(mousePosition, out int gridX, out int gridY))
+            {
+                Debug.Log($"Clicked inside Grid! Matrix Position: X = {gridX}, Y = {gridY}");
+            }
+            else
+            {
+                Debug.Log("Clicked outside the grid bounds.");
+            }
+        }
+    }
 
     /// <summary>
     /// Translates raw mouse screen position into array grid indices.
