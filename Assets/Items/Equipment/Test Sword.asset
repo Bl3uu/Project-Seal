@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::WeaponItemData
   ID: test_sword_01
   Name: Test Sword
-  Icon: {fileID: 0}
+  Icon: {fileID: 276994954128972770, guid: a26f5bd09a57e8b4496bf66aecb05563, type: 3}
   Description: 'Test Sword
 
 '
