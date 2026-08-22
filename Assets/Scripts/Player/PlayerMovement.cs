@@ -5,18 +5,21 @@ public class PlayerMovement : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float castDistance = 0.15f;
+    [SerializeField] private LayerMask collisionLayer;
 
     private Rigidbody2D rb;
+    private BoxCollider2D boxCollider;
     private Vector2 moveDirection;
 
     // Public properties for PlayerAnimation script
     public Vector2 MoveDirection => moveDirection;
     public bool IsMoving => moveDirection != Vector2.zero;
 
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
     }
 
     private void Update()
@@ -47,12 +50,44 @@ public class PlayerMovement : MonoBehaviour
         }
         
         // .normalise so diagonal movement is not faster
-        return new Vector2(x, y).normalized;
+        return new Vector2(x, y);
     }
 
     /// Receives a direction and applies velocity to the rigidbody.
     private void ApplyMovement(Vector2 direction)
     {
-        rb.linearVelocity = direction * moveSpeed;
+        if (direction == Vector2.zero)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+
+        // Check X axis independently
+        if (direction.x !=0 && HasWallInDirection(new Vector2(direction.x, 0)))
+        {
+            direction.x = 0f; // Block X movement into walls
+        }
+
+        // Check Y axis independently
+        if (direction.y != 0 && HasWallInDirection(new Vector2(0, direction.y)))
+        { 
+            direction.y = 0f; // Block Y movement into walls
+        }
+
+        rb.linearVelocity = direction.normalized * moveSpeed;
+    }
+
+    private bool HasWallInDirection(Vector2 direction)
+    {
+        RaycastHit2D hit = Physics2D.BoxCast(
+            boxCollider.bounds.center,
+            boxCollider.size,
+            0f,
+            direction,
+            castDistance,
+            collisionLayer
+        );
+
+        return hit.collider != null;
     }
 }
