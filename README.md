@@ -31,3 +31,9 @@ A 2D top-down isometric RPG project that serves as a practical exploration of co
 * **Game Engine:** Unity
 * **Version Control:** Git / Github
 * **Target Platform:** PC
+
+---
+
+## Visual Preview
+
+![Player Movement Demo](./media/Movement.gif)
