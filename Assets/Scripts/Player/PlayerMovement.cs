@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     private LayerMask currentCollisionLayer;
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
-    private SpriteRenderer spriteRenderer;
     private Vector2 moveDirection;
 
     // Public properties for PlayerAnimation script
@@ -22,10 +21,8 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
 
-        // Start default on Layer 1 (Ground Level)
-        SetElevation("Layer 1", "Layer 1");
+        currentCollisionLayer = LayerMask.GetMask(LayerMask.LayerToName(gameObject.layer));
     }
 
     private void Update()
@@ -39,22 +36,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // --- Custom Functions ---
-
-    /// Function for stair trigger script to change elevation floors
-
-    public void SetElevation(string physicsLayerName, string sortingLayerName)
-    {
-        // Update Physics Layer
-        int layerIndex = LayerMask.NameToLayer(physicsLayerName);
-        gameObject.layer = layerIndex;
-
-        // Update BoxCast collision mask to target only the current floor
-        currentCollisionLayer = LayerMask.GetMask(physicsLayerName);
-
-        // Update visual Sorting Layer
-        spriteRenderer.sortingLayerName = sortingLayerName;
-    }
-
     /// Read WASD and Arrow keys and returns normalised direction vector.
     private Vector2 ReadInputVector()
     {
@@ -112,12 +93,17 @@ public class PlayerMovement : MonoBehaviour
         foreach (RaycastHit2D hit in hits)
         {
             // Ignore the player's own collider
-            if (hit.collider != null && hit.collider.gameObject != gameObject)
+            if (hit.collider != null && hit.collider.gameObject != gameObject && !hit.collider.isTrigger)
             {
                 return true; // Hit an actual wall!
             }
         }
 
         return false; // Path is clear
+    }
+
+    public void UpdateCollisionLayer(string physicsLayerName)
+    {
+        currentCollisionLayer = LayerMask.GetMask(physicsLayerName);
     }
 }
