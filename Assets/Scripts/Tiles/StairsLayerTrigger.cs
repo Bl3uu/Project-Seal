@@ -4,62 +4,22 @@ public class StairsElevationTrigger : MonoBehaviour
 {
     public enum Direction { North, South, West, East }
 
-    [Header("Stair Direction")]
-    [Tooltip("Which direction points UP towards the higher floor")]
-    public Direction direction = Direction.North;
-
-    [Header("Upper Floor Settings")]
-    public string layerUpper = "Layer 2";
-    public string sortingLayerUpper = "Layer 2";
-
-    [Header("Lower Floor Settings")]
-    public string layerLower = "Layer 1";
-    public string sortingLayerLower = "Layer 1";
+    [Header("Floor Settings")]
+    [Tooltip("The Physics Layer to apply to the player (e.g., Layer 1 or Layer 2)")]
+    public string targetLayer = "Layer 1";
+    [Tooltip("The Sorting Layer to apply to the player (e.g., Layer 1 or Layer 2)")]
+    public string targetSortingLayer = "Layer 1";
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        CheckAndSetElevation(other);
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        
-    }
-
-    private void CheckAndSetElevation(Collider2D other)
-    {
-        if (other.TryGetComponent<PlayerMovement>(out PlayerMovement player))
+        Debug.Log($"[StairTrigger] Collided with: {other.name} on Layer: {LayerMask.LayerToName(other.gameObject.layer)}");
+        if (other.TryGetComponent<ElevationHandler>(out ElevationHandler entity))
         {
-            Vector3 playerPos = other.transform.position;
-            Vector3 stairPos = transform.position;
-
-            bool isUpperSide = false;
-
-            // Check if player is on the 'Upper' side based on stair direction
-            switch (direction)
-            {
-                case Direction.North:
-                    isUpperSide = playerPos.y > stairPos.y;
-                    break;
-                case Direction.South:
-                    isUpperSide = playerPos.y < stairPos.y;
-                    break;
-                case Direction.West:
-                    isUpperSide = playerPos.x < stairPos.x;
-                    break;
-                case Direction.East:
-                    isUpperSide = playerPos.x > stairPos.x;
-                    break;
-            }
-
-            if (isUpperSide)
-            {
-                player.SetElevation(layerUpper, sortingLayerUpper);
-            }
-            else
-            {
-                player.SetElevation(layerLower, sortingLayerLower);
-            }
+            entity.SetEvelation(targetLayer, targetSortingLayer);
+        }
+        else
+        {
+            Debug.LogWarning($"[StairTrigger] {other.name} entered trigger, but lacks ElevationHandler component!");
         }
     }
 }
