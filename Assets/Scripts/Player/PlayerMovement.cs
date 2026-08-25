@@ -2,16 +2,25 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static Unity.Cinemachine.IInputAxisOwner.AxisDescriptor;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IMovementController
 {
     [Header("Settings")]
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float castDistance = 0.15f;
+
+    public float MoveSpeed
+    {
+        get => MoveSpeed;
+        set => MoveSpeed = value;
+    }
     
     private LayerMask currentCollisionLayer;
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
     private Vector2 moveDirection;
+
+    // stair Bias variable
+    public float StairYBias { get; set; } = 0f; // 0 is on flat ground
 
     // Public properties for PlayerAnimation script
     public Vector2 MoveDirection => moveDirection;
@@ -21,8 +30,7 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
-
-        currentCollisionLayer = LayerMask.GetMask(LayerMask.LayerToName(gameObject.layer));
+        UpdateCollisionLayer(LayerMask.LayerToName(gameObject.layer));
     }
 
     private void Update()
@@ -62,6 +70,12 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocity = Vector2.zero;
             return;
+        }
+
+        // Inject stair slope Y bias if horizontal movement is active
+        if (Mathf.Abs(direction.x) > 0.01f && StairYBias != 0f)
+        {
+            direction.y += Mathf.Sign(direction.x) * StairYBias;
         }
 
         // Check X axis independently
@@ -104,6 +118,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void UpdateCollisionLayer(string physicsLayerName)
     {
+        gameObject.layer = LayerMask.NameToLayer(physicsLayerName);
         currentCollisionLayer = LayerMask.GetMask(physicsLayerName);
     }
 }

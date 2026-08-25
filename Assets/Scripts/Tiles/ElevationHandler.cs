@@ -5,12 +5,15 @@ public class ElevationHandler : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
 
+    // Entity stair state
+    public bool IsOnStairs { get; set; } = false;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void SetEvelation(string physicsLayerName, string sortingLayerName)
+    public void SetElevation(string physicsLayerName, string sortingLayerName)
     {
         //Update Physics Layer
         int layerIndex = LayerMask.NameToLayer(physicsLayerName);
