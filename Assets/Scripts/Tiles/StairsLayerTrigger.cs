@@ -15,7 +15,7 @@ public class StairsElevationTrigger : MonoBehaviour
         Debug.Log($"[StairTrigger] Collided with: {other.name} on Layer: {LayerMask.LayerToName(other.gameObject.layer)}");
         if (other.TryGetComponent<ElevationHandler>(out ElevationHandler entity))
         {
-            entity.SetEvelation(targetLayer, targetSortingLayer);
+            entity.SetElevation(targetLayer, targetSortingLayer);
         }
         else
         {
