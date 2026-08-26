@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &5891524231258766807
+--- !u!1 &5894791866670674322
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,38 +8,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 493235707444566180}
-  - component: {fileID: 8822863213538146180}
-  - component: {fileID: 2651321200761622032}
-  m_Layer: 6
-  m_Name: Stairs Upper Layer Trigger
+  - component: {fileID: 4281363121222416186}
+  - component: {fileID: 2274301174081473116}
+  - component: {fileID: 5893912900190903594}
+  - component: {fileID: 5769554139462832415}
+  m_Layer: 0
+  m_Name: Bottom Landing Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &493235707444566180
+--- !u!4 &4281363121222416186
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5891524231258766807}
+  m_GameObject: {fileID: 5894791866670674322}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.003000021, y: -2.8125, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.264, y: -2.475, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6075975974975622417}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &8822863213538146180
+--- !u!61 &2274301174081473116
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5891524231258766807}
+  m_GameObject: {fileID: 5894791866670674322}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -67,7 +68,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0028026104, y: 1.8620344}
+  m_Offset: {x: 0.27866226, y: -0.3878677}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -77,22 +78,38 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.4876413, y: 0.25445867}
+  m_Size: {x: 1.5573243, y: 0.22426462}
   m_EdgeRadius: 0
---- !u!114 &2651321200761622032
+--- !u!114 &5893912900190903594
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5891524231258766807}
+  m_GameObject: {fileID: 5894791866670674322}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c3513c9018a5a9489aa2ee86a9d20f0, type: 3}
+  m_Script: {fileID: 11500000, guid: b95f7a5cfb42dfc4ba717a8057fac350, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  targetLayer: Layer 2
-  targetSortingLayer: Layer 2
+  m_EditorClassIdentifier: Assembly-CSharp::StairController
+  stairDirection: 0
+  slopeRatio: 0.5
+  lowerLayer: Layer 1
+  upperLayer: Layer 2
+--- !u!114 &5769554139462832415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5894791866670674322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec633a5f07d0ff44b863b973c0ae56b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LandingTrigger
+  landingType: 1
+  mainController: {fileID: 5893912900190903594}
 --- !u!1 &6075975974917516961
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,11 +370,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 493235707444566180}
   - {fileID: 6075975974933568966}
   - {fileID: 6075975974917516960}
   - {fileID: 6075975975660753995}
-  - {fileID: 3232080905502693763}
+  - {fileID: 8065309765362708332}
+  - {fileID: 4281363121222416186}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6075975975660753996
@@ -499,7 +516,7 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.18677002, y: 3}
   m_EdgeRadius: 0
---- !u!1 &7979759184317477253
+--- !u!1 &7919171212327313256
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -507,38 +524,39 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3232080905502693763}
-  - component: {fileID: 2730251520585457524}
-  - component: {fileID: 97940379881846774}
-  m_Layer: 6
-  m_Name: Stairs Lower Layer Trigger
+  - component: {fileID: 8065309765362708332}
+  - component: {fileID: 3941751726095780974}
+  - component: {fileID: 14801636676963559}
+  - component: {fileID: 3562888528942501313}
+  m_Layer: 0
+  m_Name: Top Landing Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3232080905502693763
+--- !u!4 &8065309765362708332
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7979759184317477253}
+  m_GameObject: {fileID: 7919171212327313256}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.003000021, y: -2.8125, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.24, y: -0.53, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6075975974975622417}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &2730251520585457524
+--- !u!61 &3941751726095780974
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7979759184317477253}
+  m_GameObject: {fileID: 7919171212327313256}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -566,7 +584,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.0028026104, y: 0.7341}
+  m_Offset: {x: 0.26688212, y: 0.38239825}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -576,19 +594,35 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.4876413, y: 0.30980706}
+  m_Size: {x: 1.533764, y: 0.2352035}
   m_EdgeRadius: 0
---- !u!114 &97940379881846774
+--- !u!114 &14801636676963559
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7979759184317477253}
+  m_GameObject: {fileID: 7919171212327313256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c3513c9018a5a9489aa2ee86a9d20f0, type: 3}
+  m_Script: {fileID: 11500000, guid: b95f7a5cfb42dfc4ba717a8057fac350, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  targetLayer: Layer 1
-  targetSortingLayer: Layer 1
+  m_EditorClassIdentifier: Assembly-CSharp::StairController
+  stairDirection: 0
+  slopeRatio: 0.5
+  lowerLayer: Layer 1
+  upperLayer: Layer 2
+--- !u!114 &3562888528942501313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7919171212327313256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec633a5f07d0ff44b863b973c0ae56b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LandingTrigger
+  landingType: 0
+  mainController: {fileID: 14801636676963559}
