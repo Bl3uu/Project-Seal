@@ -21,49 +21,37 @@ public class StairController : MonoBehaviour
 
     public void OnLandingTriggerEntered(Collider2D other, LandingTrigger.LandingType landingType)
     {
-        if (!other.TryGetComponent<ElevationHandler>(out var elevation))
+        if (!other.TryGetComponent<IElevationHandler>(out var elevation))
         {
             return;
         }
 
-        // Entering either landing pad always puts/keeps entity in Upper Layer and active stair state
-        elevation.IsOnStairs = true;
-        elevation.SetElevation(upperLayer, upperLayer);
-
-        if (other.TryGetComponent<IMovementController>(out var movement))
-        {
-            ApplyYBias(movement);
-        }
+        other.TryGetComponent<IMovementController>(out var movement);
+        EnterStairState(elevation, movement);
     }
 
     public void OnLandingTriggerExited(Collider2D other, LandingTrigger.LandingType exitedLanding)
     {
-        if (!other.TryGetComponent<ElevationHandler>(out var elevation))
+        if (!other.TryGetComponent<IElevationHandler>(out var elevation))
         {
             return;
         }
 
-        Vector2 moveDir = Vector2.zero;
+        other.TryGetComponent<IMovementController>(out var movement);
 
-        bool hasMovable = other.TryGetComponent<IMovementController>(out var movement);
+        Vector2 moveDir;
 
-        if (hasMovable)
+        if (movement != null)
         {
             moveDir = movement.MoveDirection;
         }
-
-        bool isExitingToFlatGround = IsExitingToFlatGround(exitedLanding, moveDir);
-
-        if (isExitingToFlatGround)
+        else
         {
-            // Revert stair state and bias
-            elevation.IsOnStairs = false;
-
-            if (hasMovable)
-            {
-                movement.StairYBias = 0f;
-            }
-
+            moveDir = Vector2.zero;
+        }
+        
+        if (IsExitingToFlatGround(exitedLanding, moveDir))
+        {
             string targetLayer;
 
             if (exitedLanding == LandingTrigger.LandingType.Upper)
@@ -75,91 +63,97 @@ public class StairController : MonoBehaviour
                 targetLayer = lowerLayer;
             }
 
-            elevation.SetElevation(targetLayer, targetLayer);
+            ExitStairState(elevation, movement, targetLayer);
         }
         else
         {
-            // Steps back into stair slope
-            elevation.IsOnStairs = true;
-            elevation.SetElevation(upperLayer, upperLayer);
+            EnterStairState(elevation, movement);
+        }
+    }
 
-            if (hasMovable)
-            {
-                ApplyYBias(movement);
-            }
+    private void EnterStairState(IElevationHandler elevation, IMovementController movement)
+    {
+        elevation.IsOnStairs = true;
+        elevation.SetElevation(upperLayer, upperLayer);
+
+        if (movement != null)
+        {
+            ApplyYBias(movement);
+        }
+    }
+
+    private void ExitStairState(IElevationHandler elevation, IMovementController movement, string targetLayer)
+    {
+        elevation.IsOnStairs = false;
+        elevation.SetElevation(targetLayer, targetLayer);
+
+        if (movement != null)
+        {
+            movement.StairYBias = 0f;
         }
     }
 
     private bool IsExitingToFlatGround(LandingTrigger.LandingType landing, Vector2 moveDir)
     {
-        // Branch vertical vs horizontal logic cleanly
-        if (stairDirection == StairDirection.North || stairDirection == StairDirection.South)
+        if (moveDir == Vector2.zero)
         {
-            return isExitingVerticalToFlatGround(landing, moveDir);
+            return false;
         }
-        else
-        {
-            return IsExitingHorizontalToFlatGround(landing, moveDir);
-        }
-    }
 
-    // Vertical Stair
-    private bool isExitingVerticalToFlatGround(LandingTrigger.LandingType landing, Vector2 moveDir)
-    {
-        if (stairDirection == StairDirection.North)
+        switch (stairDirection)
         {
-            // North: Lower is at bottom (-Y), Upper landing is at top (+Y)
-            if (landing == LandingTrigger.LandingType.Lower && moveDir.y < 0f)
-            {
-                return true;
-            }
-            if (landing == LandingTrigger.LandingType.Upper && moveDir.y > 0f)
-            {
-                return true;  
-            }
-        }
-        else if (stairDirection == StairDirection.South)
-        {
-            // South: Lower landing is at top (+Y), Upper landing is at bottom (-Y)
-            if (landing == LandingTrigger.LandingType.Lower && moveDir.y > 0f)
-            {
-                return true;
-            }
-            if (landing == LandingTrigger.LandingType.Upper && moveDir.y < 0f)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
+            case StairDirection.North:
+                // Lower landing is at bottom (-Y), Upper landing is at top (+Y)
+                if (landing == LandingTrigger.LandingType.Lower && moveDir.y < 0f)
+                {
+                    return true;
+                }
+                if (landing == LandingTrigger.LandingType.Upper && moveDir.y > 0f)
+                {
+                    return true;
+                }
+                break;
 
-    // Horizontal Stair
-    private bool IsExitingHorizontalToFlatGround(LandingTrigger.LandingType landing, Vector2 moveDir)
-    {
-        if (stairDirection == StairDirection.East)
-        {
-            // East (Descends Down-Right) Upper landing is Left (-X), Lower landing is Right (+X)
-            if (landing == LandingTrigger.LandingType.Lower && moveDir.x > 0f)
-            {
-                return true;
-            }
-            if (landing == LandingTrigger.LandingType.Upper && moveDir.x < 0f)
-            {
-                return true;
-            }
+            case StairDirection.South:
+                // Lower landing is at top (+Y), Upper landing is at bottom (-Y)
+                if (landing == LandingTrigger.LandingType.Lower && moveDir.y > 0f)
+                {
+                    return true;
+                }
+                if (landing == LandingTrigger.LandingType.Upper && moveDir.y < 0f)
+                {
+                    return true;
+                }
+                break;
+
+            case StairDirection.East:
+                //Upper landing is Left (-X), Lower landing is Right (+X)
+                if (landing == LandingTrigger.LandingType.Lower && moveDir.x > 0f)
+                {
+                    return true;
+                }
+                if (landing == LandingTrigger.LandingType.Upper && moveDir.x < 0f)
+                {
+                    return true;
+                }
+                break;
+
+            case StairDirection.West:
+                // Upper landing is Right (+X), Lower landing is Left (-X)
+                if (landing == LandingTrigger.LandingType.Lower && moveDir.x < 0f)
+                {
+                    return true;
+                }
+                if (landing == LandingTrigger.LandingType.Upper && moveDir.x > 0f)
+                {
+                    return true;
+                }
+                break;
+
+            default:
+                return false;
         }
-        else if (stairDirection == StairDirection.West)
-        {
-            // West (Descend Down-Left): Upper landing is Righht (+X), Lower landing is left Left (-X)
-            if (landing == LandingTrigger.LandingType.Lower && moveDir.x < 0f)
-            {
-                return true;
-            }
-            if (landing == LandingTrigger.LandingType.Upper && moveDir.x < 0f)
-            {
-                return true;
-            }
-        }
+
         return false;
     }
 
