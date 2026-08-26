@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(SpriteRenderer))]
-public class ElevationHandler : MonoBehaviour
+public class ElevationHandler : MonoBehaviour, IElevationHandler
 {
     private SpriteRenderer spriteRenderer;
 
