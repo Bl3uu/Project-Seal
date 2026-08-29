@@ -1,35 +1,31 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static Unity.Cinemachine.IInputAxisOwner.AxisDescriptor;
 
 public class PlayerMovement : MonoBehaviour, IMovementController
 {
     [Header("Settings")]
     [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float castDistance = 0.15f;
 
     public float MoveSpeed
     {
-        get => MoveSpeed;
-        set => MoveSpeed = value;
+        get => moveSpeed;
+        set => moveSpeed = value;
     }
-    
+
     private LayerMask currentCollisionLayer;
     private Rigidbody2D rb;
-    private BoxCollider2D boxCollider;
+    private DashController dashController;
     private Vector2 moveDirection;
 
-    // stair Bias variable
-    public float StairYBias { get; set; } = 0f; // 0 is on flat ground
+    public float StairYBias { get; set; } = 0f;
 
-    // Public properties for PlayerAnimation script
     public Vector2 MoveDirection => moveDirection;
     public bool IsMoving => moveDirection != Vector2.zero;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        boxCollider = GetComponent<BoxCollider2D>();
+        dashController = GetComponent<DashController>();
         UpdateCollisionLayer(LayerMask.LayerToName(gameObject.layer));
     }
 
@@ -40,11 +36,14 @@ public class PlayerMovement : MonoBehaviour, IMovementController
 
     private void FixedUpdate()
     {
+        if (dashController != null && dashController.IsDashing)
+        {
+            return;
+        }
+
         ApplyMovement(moveDirection);
     }
 
-    // --- Custom Functions ---
-    /// Read WASD and Arrow keys and returns normalised direction vector.
     private Vector2 ReadInputVector()
     {
         float x = 0f;
@@ -58,12 +57,10 @@ public class PlayerMovement : MonoBehaviour, IMovementController
             if (kb.wKey.isPressed || kb.upArrowKey.isPressed) y += 1f;
             if (kb.sKey.isPressed || kb.downArrowKey.isPressed) y -= 1f;
         }
-        
-        // .normalise so diagonal movement is not faster
-        return new Vector2(x, y);
+
+        return new Vector2(x, y).normalized;
     }
 
-    /// Receives a direction and applies velocity to the rigidbody.
     private void ApplyMovement(Vector2 direction)
     {
         if (direction == Vector2.zero)
@@ -72,48 +69,35 @@ public class PlayerMovement : MonoBehaviour, IMovementController
             return;
         }
 
-        // Inject stair slope Y bias if horizontal movement is active
+        // Apply stair bias
         if (Mathf.Abs(direction.x) > 0.01f && StairYBias != 0f)
         {
             direction.y += Mathf.Sign(direction.x) * StairYBias;
         }
 
-        // Check X axis independently
-        if (direction.x !=0 && HasWallInDirection(new Vector2(direction.x, 0)))
+        // Check if moving horizontally into a wall
+        if (direction.x != 0f && IsAxisBlocked(new Vector2(direction.x, 0f)))
         {
-            direction.x = 0f; // Block X movement into walls
+            direction.x = 0f; // Clear X so Y gets full 1.0 speed
         }
 
-        // Check Y axis independently
-        if (direction.y != 0 && HasWallInDirection(new Vector2(0, direction.y)))
-        { 
-            direction.y = 0f; // Block Y movement into walls
+        if (direction.y != 0f && IsAxisBlocked(new Vector2(direction.y, 0f)))
+        {
+            direction.y = 0f; // Clear Y so X gets full 1.0 speed
         }
 
         rb.linearVelocity = direction.normalized * moveSpeed;
     }
 
-    private bool HasWallInDirection(Vector2 direction)
+    private bool IsAxisBlocked(Vector2 axisDirection)
     {
-        RaycastHit2D[] hits = Physics2D.BoxCastAll(
-            boxCollider.bounds.center,
-            boxCollider.size,
-            0f,
-            direction,
-            castDistance,
-            currentCollisionLayer
-        );
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.SetLayerMask(currentCollisionLayer);
+        filter.useLayerMask = true;
+        filter.useTriggers = false; // Ignore trigger colliders such as stairs, doors etc
 
-        foreach (RaycastHit2D hit in hits)
-        {
-            // Ignore the player's own collider
-            if (hit.collider != null && hit.collider.gameObject != gameObject && !hit.collider.isTrigger)
-            {
-                return true; // Hit an actual wall!
-            }
-        }
-
-        return false; // Path is clear
+        RaycastHit2D[] results = new RaycastHit2D[1];
+        return rb.Cast(axisDirection, filter, results, 0.05f) > 0;
     }
 
     public void UpdateCollisionLayer(string physicsLayerName)
