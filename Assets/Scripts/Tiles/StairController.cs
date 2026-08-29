@@ -39,15 +39,15 @@ public class StairController : MonoBehaviour
 
         other.TryGetComponent<IMovementController>(out var movement);
 
-        Vector2 moveDir;
+        Vector2 moveDir = Vector2.zero;
 
-        if (movement != null)
+        if (movement != null && movement.MoveDirection != Vector2.zero)
         {
             moveDir = movement.MoveDirection;
         }
-        else
+        else if (other.TryGetComponent<Rigidbody2D>(out var rb))
         {
-            moveDir = Vector2.zero;
+            moveDir = rb.linearVelocity.normalized;
         }
         
         if (IsExitingToFlatGround(exitedLanding, moveDir))
