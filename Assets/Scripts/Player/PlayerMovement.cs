@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour, IMovementController
 
     private LayerMask currentCollisionLayer;
     private Rigidbody2D rb;
+    private BoxCollider2D boxCollider;
     private DashController dashController;
     private Vector2 moveDirection;
 
@@ -25,6 +26,7 @@ public class PlayerMovement : MonoBehaviour, IMovementController
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
         dashController = GetComponent<DashController>();
         UpdateCollisionLayer(LayerMask.LayerToName(gameObject.layer));
     }
@@ -58,7 +60,7 @@ public class PlayerMovement : MonoBehaviour, IMovementController
             if (kb.sKey.isPressed || kb.downArrowKey.isPressed) y -= 1f;
         }
 
-        return new Vector2(x, y).normalized;
+        return new Vector2(x, y);
     }
 
     private void ApplyMovement(Vector2 direction)
@@ -81,7 +83,7 @@ public class PlayerMovement : MonoBehaviour, IMovementController
             direction.x = 0f; // Clear X so Y gets full 1.0 speed
         }
 
-        if (direction.y != 0f && IsAxisBlocked(new Vector2(direction.y, 0f)))
+        if (direction.y != 0f && IsAxisBlocked(new Vector2(0f, direction.y)))
         {
             direction.y = 0f; // Clear Y so X gets full 1.0 speed
         }
@@ -91,13 +93,30 @@ public class PlayerMovement : MonoBehaviour, IMovementController
 
     private bool IsAxisBlocked(Vector2 axisDirection)
     {
-        ContactFilter2D filter = new ContactFilter2D();
-        filter.SetLayerMask(currentCollisionLayer);
-        filter.useLayerMask = true;
-        filter.useTriggers = false; // Ignore trigger colliders such as stairs, doors etc
+        if (boxCollider == null)
+        {
+            return false;
+        }
 
-        RaycastHit2D[] results = new RaycastHit2D[1];
-        return rb.Cast(axisDirection, filter, results, 0.05f) > 0;
+        // Cast slightly outside the box collider bounds to detect contact with walls
+        RaycastHit2D[] hits = Physics2D.BoxCastAll(
+            boxCollider.bounds.center,
+            boxCollider.size,
+            0f,
+            axisDirection.normalized,
+            0.08f,
+            currentCollisionLayer
+        );
+
+        foreach (RaycastHit2D hit in hits)
+        {
+            if (hit.collider != null && hit.collider.gameObject != gameObject && !hit.collider.isTrigger)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void UpdateCollisionLayer(string physicsLayerName)
