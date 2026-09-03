@@ -53,10 +53,55 @@ public class PlayerAttack : MonoBehaviour
 
     private void Update()
     {
-        
+        // Keep decay timer running frame-by-frame
+        HandleComboDecay();
     }
 
-    
+    #region Input System Callbakcs
+
+    // Bound to Left Mouse Button (LMB) in Player Input
+    public void OnMeleeInput(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            ExecuteComboInput(ComboInputType.Melee);
+        }
+    }
+
+    // Bound to Right Mouse Button (RMB) in Player Input
+    public void OnFlintlockInput(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            ExecuteComboInput(ComboInputType.Flintlock);
+        }
+    }
+
+    // Bound to Q, E, C, or Tab in Player Input
+    public void OnSkillInput(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            ExecuteComboInput(ComboInputType.Skill);
+        }
+    }
+
+    public void OnFreeFireFlintlockInput(InputValue value)
+    {
+        if (value.isPressed)
+        {
+            ExecuteFreeFireFlintlock();
+        }
+    }
+
+    #endregion
+
+    private void ExecuteFreeFireFlintlock()
+    {
+        Debug.Log("[PlayerAttack] FREE-FIRE FLINTLOCK executed off-GCD (Combo sequence unaffected).");
+        // Delegates directly to FlintlockCarousel without touching currentComboStep
+    }
+
     // Evaluates decay timer. Resets combo sequence back to Step 1 if player waits too long.
     private void HandleComboDecay()
     {
