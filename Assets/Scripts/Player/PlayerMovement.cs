@@ -77,34 +77,33 @@ public class PlayerMovement : MonoBehaviour, IMovementController
             direction.y += Mathf.Sign(direction.x) * StairYBias;
         }
 
-        // Check if moving horizontally into a wall
-        if (direction.x != 0f && IsAxisBlocked(new Vector2(direction.x, 0f)))
+        Vector2 moveVec = direction;
+
+        // Cast the BoxCast in actual movement direction and not split into X/Y
+        RaycastHit2D hit = CheckCollision(moveVec.normalized);
+
+        if (hit.collider != null)
         {
-            direction.x = 0f; // Clear X so Y gets full 1.0 speed
+            // Will now redirect movement along any angle
+            moveVec = moveVec - Vector2.Dot(moveVec, hit.normal) * hit.normal;
         }
 
-        if (direction.y != 0f && IsAxisBlocked(new Vector2(0f, direction.y)))
-        {
-            direction.y = 0f; // Clear Y so X gets full 1.0 speed
-        }
-
-        rb.linearVelocity = direction.normalized * moveSpeed;
+        rb.linearVelocity = moveVec.normalized * moveSpeed;
     }
 
-    private bool IsAxisBlocked(Vector2 axisDirection)
+    private RaycastHit2D CheckCollision(Vector2 dir)
     {
         if (boxCollider == null)
         {
-            return false;
+            return new RaycastHit2D();
         }
 
-        // Cast slightly outside the box collider bounds to detect contact with walls
         RaycastHit2D[] hits = Physics2D.BoxCastAll(
             boxCollider.bounds.center,
             boxCollider.size,
             0f,
-            axisDirection.normalized,
-            0.08f,
+            dir,
+            0.15f,
             currentCollisionLayer
         );
 
@@ -112,11 +111,11 @@ public class PlayerMovement : MonoBehaviour, IMovementController
         {
             if (hit.collider != null && hit.collider.gameObject != gameObject && !hit.collider.isTrigger)
             {
-                return true;
+                return hit;
             }
         }
 
-        return false;
+        return new RaycastHit2D();
     }
 
     public void UpdateCollisionLayer(string physicsLayerName)
