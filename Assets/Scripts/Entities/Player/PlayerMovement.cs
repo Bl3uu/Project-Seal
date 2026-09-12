@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour, IMovementController
+public class PlayerMovement : MonoBehaviour, IMoveable
 {
     [Header("Settings")]
     [SerializeField] private float moveSpeed = 5f;
@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour, IMovementController
     private LayerMask currentCollisionLayer;
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
-    private DashController dashController;
+    private PlayerDash playerDash;
     private Vector2 moveDirection;
 
     public float StairYBias { get; set; } = 0f;
@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour, IMovementController
     {
         rb = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
-        dashController = GetComponent<DashController>();
+        playerDash = GetComponent<PlayerDash>();
         UpdateCollisionLayer(LayerMask.LayerToName(gameObject.layer));
     }
 
@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour, IMovementController
 
     private void FixedUpdate()
     {
-        if (dashController != null && dashController.IsDashing)
+        if (playerDash != null && playerDash.IsDashing)
         {
             return;
         }

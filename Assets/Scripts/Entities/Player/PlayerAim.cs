@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class MouseAimController : MonoBehaviour, IAimProvider
+public class PlayerAim : MonoBehaviour, IAimProvider
 {
     [Header("Custom Cursor Settings")]
     [SerializeField] private Texture2D cursorTexture;
