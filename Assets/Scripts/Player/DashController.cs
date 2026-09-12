@@ -11,6 +11,7 @@ public class DashController : MonoBehaviour
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private HealthComponent healthComponent;
+    [SerializeField] private PlayerAttack playerAttack;
 
     private IAimProvider aimProvider;
     private bool isDashing;
@@ -28,6 +29,10 @@ public class DashController : MonoBehaviour
         {
             healthComponent = GetComponent<HealthComponent>();
         }
+        if (playerAttack == null)
+        {
+            playerAttack = GetComponent<PlayerAttack>();
+        }
 
         // Grab IAimProvider interface from the MouseAimController on this object
         aimProvider = GetComponent<IAimProvider>();
@@ -39,6 +44,26 @@ public class DashController : MonoBehaviour
         Debug.Log("Dash input pressed!");
         if (value.isPressed && canDash && !isDashing)
         {
+            
+            if (playerAttack != null)
+            {
+                // Check if player in middle of attack (active or recovery)
+                if (playerAttack.IsAttacking)
+                {
+                    // Block dash if in active hitframe
+                    if (!playerAttack.TryCancelAttack())
+                    {
+                        Debug.Log("Dash Blocked");
+                        return;
+                    }
+                }
+                // If idle but holding an acitve combo step
+                else if (playerAttack.CurrentComboStep > 0)
+                {
+                    playerAttack.ResetCombo();
+                }
+            }
+
             StartCoroutine(PerformDash());
         }
     }

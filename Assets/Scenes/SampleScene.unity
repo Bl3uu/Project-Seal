@@ -10212,6 +10212,8 @@ GameObject:
   - component: {fileID: 998719339}
   - component: {fileID: 998719338}
   - component: {fileID: 998719340}
+  - component: {fileID: 998719342}
+  - component: {fileID: 998719341}
   - component: {fileID: 998719337}
   m_Layer: 7
   m_Name: Player
@@ -10490,6 +10492,7 @@ MonoBehaviour:
   dashCooldown: 1
   rb: {fileID: 998719329}
   healthComponent: {fileID: 998719339}
+  playerAttack: {fileID: 998719340}
 --- !u!114 &998719339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10524,9 +10527,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3cd21a59953484d9eeb133514dfc5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
-  comboResetWindow: 1
-  attackRecoveryTime: 0.25
+  comboResetWindow: 0.8
+  activeHitDuration: 0.15
+  recoveryDuration: 0.25
+  inputBufferWindow: 0.15
+  meleeAttack: {fileID: 0}
+  flintlockCarousel: {fileID: 0}
+--- !u!114 &998719341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998719327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c813425d6ecd5324bb319dce73ed627a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FlintlockCarousel
+  bulletPrefab: {fileID: 0}
+  firePoint: {fileID: 0}
+  maxBarrels: 4
+--- !u!114 &998719342
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998719327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77494687fb6f3f46bc02c6218e303c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeAttack
   attackOrigin: {fileID: 0}
+  baseDamage: 25
 --- !u!1 &1030457128
 GameObject:
   m_ObjectHideFlags: 0
