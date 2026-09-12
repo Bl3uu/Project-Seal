@@ -1,7 +1,7 @@
 using UnityEngine;
 using static LandingTrigger;
 
-public class StairController : MonoBehaviour
+public class StairMovement : MonoBehaviour
 {
     public enum StairDirection { North, South, East, West }
 
@@ -21,23 +21,23 @@ public class StairController : MonoBehaviour
 
     public void OnLandingTriggerEntered(Collider2D other, LandingTrigger.LandingType landingType)
     {
-        if (!other.TryGetComponent<IElevationHandler>(out var elevation))
+        if (!other.TryGetComponent<IElevatable>(out var elevation))
         {
             return;
         }
 
-        other.TryGetComponent<IMovementController>(out var movement);
+        other.TryGetComponent<IMoveable>(out var movement);
         EnterStairState(elevation, movement);
     }
 
     public void OnLandingTriggerExited(Collider2D other, LandingTrigger.LandingType exitedLanding)
     {
-        if (!other.TryGetComponent<IElevationHandler>(out var elevation))
+        if (!other.TryGetComponent<IElevatable>(out var elevation))
         {
             return;
         }
 
-        other.TryGetComponent<IMovementController>(out var movement);
+        other.TryGetComponent<IMoveable>(out var movement);
 
         Vector2 moveDir = Vector2.zero;
 
@@ -71,7 +71,7 @@ public class StairController : MonoBehaviour
         }
     }
 
-    private void EnterStairState(IElevationHandler elevation, IMovementController movement)
+    private void EnterStairState(IElevatable elevation, IMoveable movement)
     {
         elevation.IsOnStairs = true;
         elevation.SetElevation(upperLayer, upperLayer);
@@ -82,7 +82,7 @@ public class StairController : MonoBehaviour
         }
     }
 
-    private void ExitStairState(IElevationHandler elevation, IMovementController movement, string targetLayer)
+    private void ExitStairState(IElevatable elevation, IMoveable movement, string targetLayer)
     {
         elevation.IsOnStairs = false;
         elevation.SetElevation(targetLayer, targetLayer);
@@ -157,7 +157,7 @@ public class StairController : MonoBehaviour
         return false;
     }
 
-    private void ApplyYBias(IMovementController movement)
+    private void ApplyYBias(IMoveable movement)
     {
         if (stairDirection == StairDirection.North || stairDirection == StairDirection.South)
         {

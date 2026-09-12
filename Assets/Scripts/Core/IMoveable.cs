@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface IMovementController
+public interface IMoveable
 {
     float MoveSpeed { get; set; }
     float StairYBias { get; set; }

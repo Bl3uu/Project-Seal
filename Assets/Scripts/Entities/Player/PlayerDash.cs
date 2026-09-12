@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-public class DashController : MonoBehaviour 
+public class PlayerDash : MonoBehaviour 
 {
     [Header("Dash Parameters")]
     [SerializeField] private float dashSpeed = 25f;
@@ -10,7 +10,7 @@ public class DashController : MonoBehaviour
 
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private HealthComponent healthComponent;
+    [SerializeField] private Health healthComponent;
     [SerializeField] private PlayerAttack playerAttack;
 
     private IAimProvider aimProvider;
@@ -27,14 +27,14 @@ public class DashController : MonoBehaviour
         }
         if (healthComponent == null)
         {
-            healthComponent = GetComponent<HealthComponent>();
+            healthComponent = GetComponent<Health>();
         }
         if (playerAttack == null)
         {
             playerAttack = GetComponent<PlayerAttack>();
         }
 
-        // Grab IAimProvider interface from the MouseAimController on this object
+        // Grab IAimProvider interface from the PlayerAim on this object
         aimProvider = GetComponent<IAimProvider>();
     }
 

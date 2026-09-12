@@ -4,7 +4,7 @@ public class LandingTrigger : MonoBehaviour
 {
     public enum LandingType { Upper, Lower }
     [SerializeField] private LandingType landingType;
-    [SerializeField] private StairController mainController;
+    [SerializeField] private StairMovement mainController;
 
     public LandingType GetLandingType() => landingType;
 
