@@ -5,8 +5,7 @@ using UnityEngine.InputSystem;
 public enum ComboInputType
 {
     Melee,
-    Flintlock,
-    Skill
+    Flintlock
 }
 
 public struct ComboStepData
@@ -19,230 +18,186 @@ public struct ComboStepData
 
 public class PlayerAttack : MonoBehaviour
 {
-    [Header("Combo Configuration")]
-    [Tooltip("Maximum allowed time (seconds) between inputs before the combo resets to Step 1.")]
+    [Header("Combo Timings")]
     [SerializeField] private float comboResetWindow = 1.0f;
+    [SerializeField] private float activeHitDuration = 0.1f;
+    [SerializeField] private float recoveryDuration = 0.25f;
 
-    [Tooltip("Global attack recovery duration before starting another step.")]
-    [SerializeField] private float attackRecoveryTime = 0.25f;
+    [Header("Input Buffer")]
+    [SerializeField] private float inputBufferWindow = 0.15f;
 
     [Header("References")]
-    [SerializeField] private Transform attackOrigin;
+    [SerializeField] private MeleeAttack meleeAttack;
+    [SerializeField] private FlintlockCarousel flintlockCarousel;
 
+    private ComboStateMachine stateMachine = new ComboStateMachine();
+    private InputBuffer<ComboInputType> inputBuffer;
     private IAimProvider aimProvider;
-    private HealthComponent healthComponent;
+    private Coroutine attackRoutine;
 
-    // Combo Pipeline State
-    private int currentComboStep = 0; // 0 = Idle, 1 = Step 1, 2 = Step 2, 3 = Step 3
-    private bool isAttacking = false;
-    private float comboResetTimer = 0f;
+    private float comboDecayTimer;
 
-    public int CurrentComboStep => currentComboStep;
-    public bool IsAttacking => isAttacking;
+    public int CurrentComboStep => stateMachine.CurrentStep;
+    public bool IsAttacking => stateMachine.IsAttacking;
+    public bool IsInRecover => stateMachine.CanCancel;
 
     private void Awake()
     {
         aimProvider = GetComponent<IAimProvider>();
-        healthComponent = GetComponent<HealthComponent>();
+        inputBuffer = new InputBuffer<ComboInputType>(inputBufferWindow);
 
-        if (attackOrigin == null)
+        if (meleeAttack == null)
         {
-            attackOrigin = transform;
+            meleeAttack = GetComponentInChildren<MeleeAttack>();
+        }
+        if (flintlockCarousel == null)
+        {
+            flintlockCarousel = GetComponentInChildren<FlintlockCarousel>();
         }
     }
 
     private void Update()
     {
-        // Keep decay timer running frame-by-frame
-        HandleComboDecay();
+        inputBuffer.Tick(Time.deltaTime);
+        UpdateComboDecay();
     }
 
-    #region Input System Callbakcs
+    #region Input Handlers
 
-    // Bound to Left Mouse Button (LMB) in Player Input
     public void OnMeleeInput(InputValue value)
     {
         if (value.isPressed)
         {
-            ExecuteComboInput(ComboInputType.Melee);
+            HandleInput(ComboInputType.Melee);
         }
     }
 
-    // Bound to Right Mouse Button (RMB) in Player Input
     public void OnFlintlockInput(InputValue value)
     {
         if (value.isPressed)
         {
-            ExecuteComboInput(ComboInputType.Flintlock);
-        }
-    }
-
-    // Bound to Q, E, C, or Tab in Player Input
-    public void OnSkillInput(InputValue value)
-    {
-        if (value.isPressed)
-        {
-            ExecuteComboInput(ComboInputType.Skill);
-        }
-    }
-
-    public void OnFreeFireFlintlockInput(InputValue value)
-    {
-        if (value.isPressed)
-        {
-            ExecuteFreeFireFlintlock();
+            HandleInput(ComboInputType.Flintlock);
         }
     }
 
     #endregion
 
-    private void ExecuteFreeFireFlintlock()
+    private void HandleInput(ComboInputType input)
     {
-        Debug.Log("[PlayerAttack] FREE-FIRE FLINTLOCK executed off-GCD (Combo sequence unaffected).");
-        // Delegates directly to FlintlockCarousel without touching currentComboStep
-    }
-
-    // Evaluates decay timer. Resets combo sequence back to Step 1 if player waits too long.
-    private void HandleComboDecay()
-    {
-        if (currentComboStep > 0 && !isAttacking)
+        if (!stateMachine.IsAttacking)
         {
-            comboResetTimer -= Time.deltaTime;
-            if (comboResetTimer <= 0f)
-            {
-                ResetCombo();
-            }
-        }
-    }
-
-    // Entry point for triggering any combat input (Melee / Flintlock / Skill)
-    public void ExecuteComboInput(ComboInputType inputType)
-    {
-        if (isAttacking)
-        {
-            return; // Busy in active execution/recovery frames
-        }
-
-        // Advance step (1, 2, or 3)
-        currentComboStep++;
-        if (currentComboStep > 3)
-        {
-            currentComboStep = 1;
-        }
-
-        // Capture snapshot from IAimProvider
-        Vector2 aimDir;
-        Vector2 aimPos;
-
-        if (aimProvider != null)
-        {
-            aimDir = aimProvider.AimDirection;
+            ExecuteStep(input);
         }
         else
         {
-            aimDir = Vector2.down;
+            inputBuffer.Buffer(input);
         }
+    }
+
+    private void ExecuteStep(ComboInputType input)
+    {
+        StopActiveRoutine();
+
+        stateMachine.StartStep();
+        comboDecayTimer = comboResetWindow;
+
+        ComboStepData stepData = new ComboStepData();
+        stepData.StepIndex = stateMachine.CurrentStep;
+        stepData.InputType = input;
 
         if (aimProvider != null)
         {
-            aimPos = aimProvider.AimWorldPosition;
+            stepData.AimDirection = aimProvider.AimDirection;
         }
         else
         {
-            aimPos = (Vector2)transform.position;
+            stepData.AimDirection = Vector2.zero;
         }
 
-        ComboStepData stepData = new ComboStepData
-        {
-            StepIndex = currentComboStep,
-            InputType = inputType,
-            AimDirection = aimDir,
-            AimWorldPosition = aimPos
-        };
+        stepData.AimWorldPosition = (Vector2)transform.position;
 
-        StartCoroutine(PerformAttackRoutine(stepData));
+        attackRoutine = StartCoroutine(PerformAttack(stepData));
     }
 
-    private IEnumerator PerformAttackRoutine(ComboStepData stepData)
+    private IEnumerator PerformAttack(ComboStepData stepData)
     {
-        isAttacking = true;
-
-        // Route to execution logic based on input type
-        switch (stepData.InputType)
+        // Dispatch attack execution to either melee or flintlock
+        if (stepData.InputType == ComboInputType.Melee && meleeAttack != null)
         {
-            case ComboInputType.Melee:
-                ExecuteMeleeAttack(stepData);
-                break;
-            case ComboInputType.Flintlock:
-                ExecuteFlintlockAttack(stepData);
-                break;
-            case ComboInputType.Skill:
-                ExecuteSkillAttack(stepData);
-                break;
+            meleeAttack.ExecuteSlash(stepData);
+        }
+        else if (stepData.InputType == ComboInputType.Flintlock && flintlockCarousel != null)
+        {
+            flintlockCarousel.FireComboShot(stepData);
         }
 
-        // Active recovery delay
-        yield return new WaitForSeconds(attackRecoveryTime);
+        // Active windup / Hitframe
+        yield return new WaitForSeconds(activeHitDuration);
 
-        isAttacking = false;
-        comboResetTimer = comboResetWindow;
+        // Enter Recovery
+        stateMachine.EnterRecovery();
 
-        // Auto-reset if step 3 just completed
-        if (currentComboStep >= 3)
+        // Check input buffer upon entering recovery
+        if (inputBuffer.HasBufferedInput)
+        {
+            ComboInputType nextInput = inputBuffer.Consume().Value;
+            ExecuteStep(nextInput);
+            yield break;
+        }
+
+        // Recovery Window
+        yield return new WaitForSeconds(recoveryDuration);
+
+        // Attack action finished normally
+        if (stateMachine.CurrentStep >= 3)
         {
             ResetCombo();
         }
-    }
-
-    private void ExecuteMeleeAttack(ComboStepData stepData)
-    {
-        Debug.Log($"[PlayerAttack] Executing MELEE - Step {stepData.StepIndex} | Aim Dir: {stepData.AimDirection}");
-
-        // Example Boxcast check along aim vector
-        RaycastHit2D[] hits = Physics2D.BoxCastAll(
-            attackOrigin.position,
-            new Vector2(1.5f, 1.5f),
-            0f,
-            stepData.AimDirection,
-            1.2f
-        );
-
-        foreach (RaycastHit2D hit in hits)
+        else
         {
-            if (hit.collider != null && hit.collider.gameObject != gameObject)
-            {
-                if (hit.collider.TryGetComponent<IDamageable>(out var damageable))
-                {
-                    DamageData damagePayload = new DamageData
-                    {
-                        Amount = 25f * stepData.StepIndex, // Escalating step damage
-                        HitDirection = stepData.AimDirection,
-                        Source = gameObject
-                    };
-
-                    damageable.TakeDamage(damagePayload);
-                }
-            }
+            stateMachine.CompleteAttack();
         }
     }
 
-    private void ExecuteFlintlockAttack(ComboStepData stepData)
+    public bool TryCancelAttack()
     {
-        Debug.Log($"[PlayerAttack] Executing FLINTLOCK CAROUSEL - Step {stepData.StepIndex}");
-        // Delegates to FlintlockCarousel execution logic here
-    }
+        if (stateMachine.CanCancel)
+        {
+            ResetCombo();
+            return true;
+        }
 
-    private void ExecuteSkillAttack(ComboStepData stepData)
-    {
-        Debug.Log($"[PlayerAttack] Executing SKILL - Step {stepData.StepIndex}");
-        // Delegates to active Skill execution logic here
+        return false;
     }
 
     public void ResetCombo()
     {
-        currentComboStep = 0;
-        comboResetTimer = 0f;
-        isAttacking = false;
+        StopActiveRoutine();
+        stateMachine.Reset();
+        inputBuffer.Clear();
+        comboDecayTimer = 0f;
         Debug.Log("[PlayerAttack] Combo Sequence Reset.");
+    }
+
+    private void StopActiveRoutine()
+    {
+        if (attackRoutine != null)
+        {
+            StopCoroutine(attackRoutine);
+            attackRoutine = null;
+        }
+    }
+
+    private void UpdateComboDecay()
+    {
+        // Combo Step Window Decay
+        if (stateMachine.CurrentStep > 0 && !stateMachine.IsAttacking)
+        {
+            comboDecayTimer -= Time.deltaTime;
+            if (comboDecayTimer <= 0f)
+            {
+                ResetCombo();
+            }
+        }
     }
 }
