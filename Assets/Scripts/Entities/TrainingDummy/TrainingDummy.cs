@@ -1,15 +1,23 @@
+using System.Collections;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IDamageable
+public class TrainingDummy : MonoBehaviour, IDamageable
 {
     [Header("References")]
     [SerializeField] private Health health;
     [SerializeField] private KnockbackReceiver knockbackReceiver;
     [SerializeField] private HitFeedback hitFeedback;
 
-    public bool IsDead => health != null && health.IsDead;
+    [Header("Dummy Reset Timer")]
+    [SerializeField] private float resetDelay = 3f; 
 
-    private void Awake()
+    private Coroutine resetDummy;
+    private float remainingResetTime;
+
+    public float RemainingResetTime => remainingResetTime;
+    public float ResetDelay => resetDelay;
+
+    public void Awake()
     {
         health = GetComponent<Health>();
         knockbackReceiver = GetComponent<KnockbackReceiver>();
@@ -18,11 +26,6 @@ public class Enemy : MonoBehaviour, IDamageable
 
     public void TakeDamage(DamageData payload)
     {
-        if (IsDead)
-        {
-            return;
-        }
-
         if (health != null)
         {
             health.ApplyDamage(payload.Amount);
@@ -37,29 +40,30 @@ public class Enemy : MonoBehaviour, IDamageable
         {
             hitFeedback.PlayHitEffects();
         }
-    }
-    
-    private void HandleDeath()
-    {
-        if (TryGetComponent<Collider2D>(out var col))
+
+        if (resetDummy != null)
         {
-            col.enabled = false;
+            StopCoroutine(resetDummy);
         }
+
+        resetDummy = StartCoroutine(ResetRoutine());
     }
 
-    private void OnEnable()
+    private IEnumerator ResetRoutine()
     {
-        if (health != null)
-        {
-            health.OnDeath.AddListener(HandleDeath);
-        }
-    }
+        remainingResetTime = resetDelay;
 
-    private void OnDisable()
-    {
+        while (remainingResetTime > 0f)
+        {
+            yield return null;
+            remainingResetTime -= Time.deltaTime;
+        }
+
+        remainingResetTime = 0f;
+  
         if (health != null)
         {
-            health.OnDeath.RemoveListener(HandleDeath);
+            health.ResetHealth();
         }
     }
 }
