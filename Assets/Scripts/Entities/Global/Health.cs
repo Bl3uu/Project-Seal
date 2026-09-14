@@ -1,20 +1,21 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Health : MonoBehaviour, IDamageable
+public class Health : MonoBehaviour
 {
     [Header("Health Settings")]
     [SerializeField] private float maxHealth = 100f;
 
     public float CurrentHealth { get; private set; }
-    public float MaxHeatlh => maxHealth;
+    public float MaxHealth => maxHealth;
+    public bool IsDead => isDead;
 
     [Header("Events")]
     [Tooltip("Fires whenever damage is taken. Passes current HP and max HP.")]
     public UnityEvent<float, float> OnHealthChanged;
 
-    [Tooltip("Fires on the exact hit that reduces health to 0.")]
-    public UnityEvent<DamageData> OnTakeDamage;
+    [Tooltip("Fires when damage is successfully applied.")]
+    public UnityEvent<float> OnDamaged;
 
     public UnityEvent OnDeath;
     private bool isDead;
@@ -29,19 +30,19 @@ public class Health : MonoBehaviour, IDamageable
         OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
     }
 
-    public void TakeDamage(DamageData damageData)
+    public void ApplyDamage(float amount)
     {
-        if (isDead || damageData.Amount <= 0f)
+        if (isDead || amount <= 0f)
         {
             return;
         }
 
-        CurrentHealth -= damageData.Amount;
+        CurrentHealth -= amount;
         CurrentHealth = Mathf.Max(CurrentHealth, 0f);
 
         // Notify anything listening (for UI, damage popups, hit flashes etc)
         OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
-        OnTakeDamage?.Invoke(damageData);
+        OnDamaged?.Invoke(amount);
 
         if (CurrentHealth <= 0f && !isDead)
         {
@@ -63,6 +64,13 @@ public class Health : MonoBehaviour, IDamageable
         }
 
         CurrentHealth = Mathf.Min(CurrentHealth + amount, maxHealth);
+        OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
+    }
+
+    public void ResetHealth()
+    {
+        CurrentHealth = maxHealth;
+        isDead = false;
         OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
     }
 }
