@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour, IMoveable
     private Rigidbody2D rb;
     private BoxCollider2D boxCollider;
     private PlayerDash playerDash;
+    private PlayerAttack playerAttack;
     private Vector2 moveDirection;
 
     public float StairYBias { get; set; } = 0f;
@@ -28,6 +29,7 @@ public class PlayerMovement : MonoBehaviour, IMoveable
         rb = GetComponent<Rigidbody2D>();
         boxCollider = GetComponent<BoxCollider2D>();
         playerDash = GetComponent<PlayerDash>();
+        playerAttack = GetComponent<PlayerAttack>();
         UpdateCollisionLayer(LayerMask.LayerToName(gameObject.layer));
     }
 
@@ -38,7 +40,7 @@ public class PlayerMovement : MonoBehaviour, IMoveable
 
     private void FixedUpdate()
     {
-        if (playerDash != null && playerDash.IsDashing)
+        if ((playerDash != null && playerDash.IsDashing) || (playerAttack != null && playerAttack.IsAttacking))
         {
             return;
         }

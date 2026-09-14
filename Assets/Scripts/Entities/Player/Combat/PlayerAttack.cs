@@ -2,26 +2,14 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public enum ComboInputType
-{
-    Melee,
-    Flintlock
-}
-
-public struct ComboStepData
-{
-    public int StepIndex; // 1, 2, or 3
-    public ComboInputType InputType;
-    public Vector2 AimDirection;
-    public Vector2 AimWorldPosition;
-}
-
 public class PlayerAttack : MonoBehaviour
 {
+    [Header("Combo Asset Blueprint Tree")]
+    [SerializeField] private AttackData entryMeleeAttackData;
+    [SerializeField] private AttackData entryFlintlockAttackData;
+
     [Header("Combo Timings")]
     [SerializeField] private float comboResetWindow = 1.0f;
-    [SerializeField] private float activeHitDuration = 0.1f;
-    [SerializeField] private float recoveryDuration = 0.25f;
 
     [Header("Input Buffer")]
     [SerializeField] private float inputBufferWindow = 0.15f;
@@ -29,12 +17,14 @@ public class PlayerAttack : MonoBehaviour
     [Header("References")]
     [SerializeField] private MeleeAttack meleeAttack;
     [SerializeField] private FlintlockCarousel flintlockCarousel;
+    [SerializeField] private Rigidbody2D rb;
 
     private ComboStateMachine stateMachine = new ComboStateMachine();
-    private InputBuffer<ComboInputType> inputBuffer;
+    private InputBuffer<AttackType> inputBuffer;
     private IAimProvider aimProvider;
     private Coroutine attackRoutine;
 
+    private AttackData currentAttackData;
     private float comboDecayTimer;
 
     public int CurrentComboStep => stateMachine.CurrentStep;
@@ -44,8 +34,12 @@ public class PlayerAttack : MonoBehaviour
     private void Awake()
     {
         aimProvider = GetComponent<IAimProvider>();
-        inputBuffer = new InputBuffer<ComboInputType>(inputBufferWindow);
+        inputBuffer = new InputBuffer<AttackType>(inputBufferWindow);
 
+        if (rb == null)
+        {
+            rb = GetComponent<Rigidbody2D>();
+        }
         if (meleeAttack == null)
         {
             meleeAttack = GetComponentInChildren<MeleeAttack>();
@@ -54,6 +48,11 @@ public class PlayerAttack : MonoBehaviour
         {
             flintlockCarousel = GetComponentInChildren<FlintlockCarousel>();
         }
+    }
+
+    private void Start()
+    {
+        ResetCombo();
     }
 
     private void Update()
@@ -68,7 +67,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (value.isPressed)
         {
-            HandleInput(ComboInputType.Melee);
+            HandleInput(AttackType.Melee);
         }
     }
 
@@ -76,13 +75,13 @@ public class PlayerAttack : MonoBehaviour
     {
         if (value.isPressed)
         {
-            HandleInput(ComboInputType.Flintlock);
+            HandleInput(AttackType.Flintlock);
         }
     }
 
     #endregion
 
-    private void HandleInput(ComboInputType input)
+    private void HandleInput(AttackType input)
     {
         if (!stateMachine.IsAttacking)
         {
@@ -94,45 +93,91 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    private void ExecuteStep(ComboInputType input)
+    private void ExecuteStep(AttackType input)
     {
+        AttackData targetAttack = EvaluateNextAttackNode(input);
+
+        if (targetAttack == null)
+        {
+            Debug.LogWarning("[PlayerAttack] No valid AttackData node found for input. Resetting combo.");
+            ResetCombo();
+            return;
+        }
+
         StopActiveRoutine();
 
+        currentAttackData = targetAttack;
         stateMachine.StartStep();
         comboDecayTimer = comboResetWindow;
 
-        ComboStepData stepData = new ComboStepData();
-        stepData.StepIndex = stateMachine.CurrentStep;
-        stepData.InputType = input;
+        Vector2 aimDirection;
 
         if (aimProvider != null)
         {
-            stepData.AimDirection = aimProvider.AimDirection;
+            aimDirection = aimProvider.AimDirection;
         }
         else
         {
-            stepData.AimDirection = Vector2.zero;
+            aimDirection = Vector2.right;
         }
 
-        stepData.AimWorldPosition = (Vector2)transform.position;
-
-        attackRoutine = StartCoroutine(PerformAttack(stepData));
+        attackRoutine = StartCoroutine(PerformAttack(input, currentAttackData, aimDirection));
     }
 
-    private IEnumerator PerformAttack(ComboStepData stepData)
+    private AttackData EvaluateNextAttackNode(AttackType input)
     {
-        // Dispatch attack execution to either melee or flintlock
-        if (stepData.InputType == ComboInputType.Melee && meleeAttack != null)
+        if (currentAttackData == null || stateMachine.CurrentStep == 0)
         {
-            meleeAttack.ExecuteSlash(stepData);
+            if (input == AttackType.Melee)
+            {
+                return entryMeleeAttackData;
+            }
+            else
+            {
+                return entryFlintlockAttackData;
+            }
         }
-        else if (stepData.InputType == ComboInputType.Flintlock && flintlockCarousel != null)
+
+        AttackData targetNode;
+
+        if (input == AttackType.Melee)
         {
-            flintlockCarousel.FireComboShot(stepData);
+            targetNode = currentAttackData.nextMeleeFollowUp;
+        }
+        else
+        {
+            targetNode = currentAttackData.nextFlintlockFollowUp;
+        }
+
+        if (targetNode != null && targetNode.attackType != input)
+        {
+            Debug.LogError($"[PlayerAttack] Mismatched AttackType on node '{targetNode.name}'! Expected {input}, but node is typed as {targetNode.attackType}. Blocking sequence step.");
+            return null;
+        }
+
+        return targetNode;
+    }
+
+    private IEnumerator PerformAttack(AttackType inputType, AttackData attackData, Vector2 aimDirection)
+    {
+        if (rb != null && attackData.lungeForce > 0f)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.AddForce(aimDirection.normalized * attackData.lungeForce, ForceMode2D.Impulse);
+        }
+
+        // Dispatch attack execution to either melee or flintlock
+        if (inputType == AttackType.Melee && meleeAttack != null)
+        {
+            meleeAttack.ExecuteSlash(attackData, aimDirection);
+        }
+        else if (inputType == AttackType.Flintlock && flintlockCarousel != null)
+        {
+            flintlockCarousel.FireComboShot(attackData, aimDirection);
         }
 
         // Active windup / Hitframe
-        yield return new WaitForSeconds(activeHitDuration);
+        yield return new WaitForSeconds(attackData.activeHitDuration);
 
         // Enter Recovery
         stateMachine.EnterRecovery();
@@ -140,16 +185,18 @@ public class PlayerAttack : MonoBehaviour
         // Check input buffer upon entering recovery
         if (inputBuffer.HasBufferedInput)
         {
-            ComboInputType nextInput = inputBuffer.Consume().Value;
+            AttackType nextInput = inputBuffer.Consume().Value;
             ExecuteStep(nextInput);
             yield break;
         }
 
         // Recovery Window
-        yield return new WaitForSeconds(recoveryDuration);
+        yield return new WaitForSeconds(attackData.recoveryDuration);
+
+        bool hasFollowUp = (currentAttackData.nextMeleeFollowUp != null || currentAttackData.nextFlintlockFollowUp != null);
 
         // Attack action finished normally
-        if (stateMachine.CurrentStep >= 3)
+        if (!hasFollowUp)
         {
             ResetCombo();
         }
@@ -176,6 +223,7 @@ public class PlayerAttack : MonoBehaviour
         stateMachine.Reset();
         inputBuffer.Clear();
         comboDecayTimer = 0f;
+        currentAttackData = null;
         Debug.Log("[PlayerAttack] Combo Sequence Reset.");
     }
 
