@@ -14,15 +14,11 @@ public class ComboStateMachine
     public bool CanCancel => CurrentState == ComboState.Recovery;
     public bool IsAttacking => CurrentState == ComboState.Active || CurrentState == ComboState.Recovery;
 
-    public void StartStep(int maxSteps = 3)
+    public void StartStep()
     {
         CurrentStep++;
-        if (CurrentStep > maxSteps)
-        {
-            CurrentStep = 1;
-        }
         CurrentState = ComboState.Active;
-        Debug.Log("[ComboStateMachine] Combo State is Active");
+        Debug.Log($"[ComboStateMachine] Step {CurrentStep} Active");
     }
 
     public void EnterRecovery()
@@ -30,19 +26,20 @@ public class ComboStateMachine
         if (CurrentState == ComboState.Active)
         {
             CurrentState = ComboState.Recovery;
+            Debug.Log($"[ComboStateMachine] State -> Recovery");
         }
-        Debug.Log("[ComboStateMachine] Combo State is Recovering");
     }
 
     public void Reset()
     {
         CurrentStep = 0;
         CurrentState = ComboState.Idle;
-        Debug.Log("[ComboStateMachine] Combo State is Idle");
+        Debug.Log("[ComboStateMachine] State -> Idle");
     }
 
     public void CompleteAttack()
     {
         CurrentState = ComboState.Idle;
+        Debug.Log("[ComboStateMachine Step Complete -> Waiting for input window]");
     }
 }

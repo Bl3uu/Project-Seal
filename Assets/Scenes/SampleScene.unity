@@ -4256,7 +4256,7 @@ MonoBehaviour:
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
-  OnTakeDamage:
+  OnDamaged:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
@@ -10509,7 +10509,7 @@ MonoBehaviour:
   OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
-  OnTakeDamage:
+  OnDamaged:
     m_PersistentCalls:
       m_Calls: []
   OnDeath:
@@ -10527,12 +10527,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed3cd21a59953484d9eeb133514dfc5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
+  entryMeleeAttackData: {fileID: 11400000, guid: be1dcfb4720b75a40bcdf917ef599afc, type: 2}
+  entryFlintlockAttackData: {fileID: 0}
   comboResetWindow: 0.8
-  activeHitDuration: 0.15
-  recoveryDuration: 0.25
   inputBufferWindow: 0.15
-  meleeAttack: {fileID: 0}
-  flintlockCarousel: {fileID: 0}
+  meleeAttack: {fileID: 998719342}
+  flintlockCarousel: {fileID: 998719341}
+  rb: {fileID: 998719329}
 --- !u!114 &998719341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10546,7 +10547,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlintlockCarousel
   bulletPrefab: {fileID: 0}
-  firePoint: {fileID: 0}
+  firePoint: {fileID: 998719331}
   maxBarrels: 4
 --- !u!114 &998719342
 MonoBehaviour:
@@ -10560,8 +10561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f77494687fb6f3f46bc02c6218e303c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttack
-  attackOrigin: {fileID: 0}
-  baseDamage: 25
+  attackOrigin: {fileID: 998719331}
 --- !u!1 &1030457128
 GameObject:
   m_ObjectHideFlags: 0
