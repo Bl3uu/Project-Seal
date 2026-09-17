@@ -60,7 +60,7 @@ public class PlayerDash : MonoBehaviour
                 // If idle but holding an acitve combo step
                 else if (playerAttack.CurrentComboStep > 0)
                 {
-                    playerAttack.ResetCombo();
+                    playerAttack.NotifyActionInterrupt();
                 }
             }
 

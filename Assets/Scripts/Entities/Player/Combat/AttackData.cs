@@ -39,17 +39,4 @@ public class AttackData : ScriptableObject
     [Header("Sequence Branching (Follow-ups)")]
     public AttackData nextMeleeFollowUp;
     public AttackData nextFlintlockFollowUp;
-
-    private void OnValidate()
-    {
-        if (nextMeleeFollowUp != null && nextMeleeFollowUp.attackType != AttackType.Melee)
-        {
-            Debug.LogWarning($"[AttackData] '{name}': nextMeleeFollowUp has an asset typed '{nextMeleeFollowUp.attackType}' instead of Melee!", this);
-        }
-
-        if (nextFlintlockFollowUp != null && nextFlintlockFollowUp.attackType != AttackType.Flintlock)
-        {
-            Debug.LogWarning($"[AttackData] '{name}': nextFlintlockFollowUp has an asset typed '{nextFlintlockFollowUp.attackType}' instead of Flintlock!", this);
-        }
-    }
 }
