@@ -206,11 +206,26 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    public void NotifyActionInterrupt()
+    {
+        if (stateMachine.CurrentStep == 0)
+        {
+            return;
+        }
+
+        StopActiveRoutine();
+        inputBuffer.Clear();
+        stateMachine.CompleteAttack();
+        comboDecayTimer = comboResetWindow;
+
+        Debug.Log($"[PlayerAttack] Action Interrupted! Combo preserved at Step {stateMachine.CurrentStep}.");
+    }
+
     public bool TryCancelAttack()
     {
         if (stateMachine.CanCancel)
         {
-            ResetCombo();
+            NotifyActionInterrupt();
             return true;
         }
 
