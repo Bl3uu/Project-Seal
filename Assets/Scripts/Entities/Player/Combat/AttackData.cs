@@ -17,7 +17,7 @@ public class AttackData : ScriptableObject
     [Tooltip("Width and Height of Physics2D BoxCast")]
     public Vector2 hitboxSize = new Vector2(1.5f, 1.5f);
 
-    [Tooltip("Distance forward from origin to cast the hitbox")]
+    [Tooltip("Distance forward from origin to cast the hitbox")]    
     public float attackDistance = 1.2f;
 
     [Header("Payload Stats")]
