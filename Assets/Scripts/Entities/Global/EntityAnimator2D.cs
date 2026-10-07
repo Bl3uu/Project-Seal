@@ -9,8 +9,11 @@ public class EntityAnimator2d : MonoBehaviour, IAnimationController
     [Header("Settings")]
     [Tooltip("True for Player, False for simple walking enemies")]
     [SerializeField] private bool faceAimDirection = true;
+    [Tooltip("Uncheck this for asymmetrical character designs so sprite graphics arent mirrored horizontally.")]
+    [SerializeField] private bool useSpriteFlipping = true;
 
     private static readonly int SpeedParam = Animator.StringToHash("Speed");
+    private static readonly int FacingXParam = Animator.StringToHash("FacingX");
     private static readonly int HurtTrigger = Animator.StringToHash("Hurt");
     private static readonly int IsDeadParam = Animator.StringToHash("IsDead");
 
@@ -32,10 +35,16 @@ public class EntityAnimator2d : MonoBehaviour, IAnimationController
             targetDir = movementInput;
         }
 
-        if (targetDir.x != 0 && spriteRenderer != null)
+        if (targetDir.x != 0)
         {
-            // Flip sprite left if aiming or moving left, right if aiming or moving right
-            spriteRenderer.flipX = targetDir.x < 0;
+            if (useSpriteFlipping && spriteRenderer != null)
+            {
+                spriteRenderer.flipX = targetDir.x < 0;
+            }
+            else if (animator != null)
+            {
+                animator.SetFloat(FacingXParam, Mathf.Sign(targetDir.x));
+            }
         }
     }
 
