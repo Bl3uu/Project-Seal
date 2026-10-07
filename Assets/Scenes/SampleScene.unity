@@ -10205,8 +10205,8 @@ GameObject:
   - component: {fileID: 998719329}
   - component: {fileID: 998719334}
   - component: {fileID: 998719333}
+  - component: {fileID: 998719343}
   - component: {fileID: 998719328}
-  - component: {fileID: 998719332}
   - component: {fileID: 998719335}
   - component: {fileID: 998719336}
   - component: {fileID: 998719339}
@@ -10311,7 +10311,7 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 2
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 4723107735738678597, guid: b7cd09abf22084842a47d7cc1a5b8398, type: 3}
+  m_Sprite: {fileID: 558841896111137245, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -10338,18 +10338,6 @@ Transform:
   - {fileID: 365154361}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &998719332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 998719327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b83a44f8be204234e939b7ee0aeb5054, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerAnimation
 --- !u!95 &998719333
 Animator:
   serializedVersion: 7
@@ -10360,7 +10348,7 @@ Animator:
   m_GameObject: {fileID: 998719327}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f1e3a1bc0be203f478260379f6524488, type: 2}
+  m_Controller: {fileID: 9100000, guid: 39941786cabb3434280819b453f27150, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -10410,7 +10398,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
-    oldSize: {x: 0.5, y: 0.9583333}
+    oldSize: {x: 0.9375, y: 0.96875}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -10562,6 +10550,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttack
   attackOrigin: {fileID: 998719331}
+--- !u!114 &998719343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998719327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e130362374972444a9fa6a629263aee1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EntityAnimator2d
+  spriteRenderer: {fileID: 998719330}
+  animator: {fileID: 998719333}
+  faceAimDirection: 1
+  useSpriteFlipping: 0
 --- !u!1 &1030457128
 GameObject:
   m_ObjectHideFlags: 0

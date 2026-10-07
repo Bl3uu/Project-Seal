@@ -19,7 +19,7 @@ MonoBehaviour:
   knockbackForce: 3
   knockbackDuration: 0.2
   lungeForce: 4
-  animationTriggerName: 
+  animationTriggerName: Attack
   activeHitDuration: 0.1
   recoveryDuration: 0.2
   nextMeleeFollowUp: {fileID: 11400000, guid: f3ce720f4789fe64c8c8e7bc515497c0, type: 2}

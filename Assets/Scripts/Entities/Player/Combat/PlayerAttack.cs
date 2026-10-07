@@ -1,4 +1,6 @@
 using System.Collections;
+using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,6 +20,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private MeleeAttack meleeAttack;
     [SerializeField] private FlintlockCarousel flintlockCarousel;
     [SerializeField] private Rigidbody2D rb;
+    private EntityAnimator2D entityAnimator;
 
     private ComboStateMachine stateMachine = new ComboStateMachine();
     private InputBuffer<AttackType> inputBuffer;
@@ -35,6 +38,7 @@ public class PlayerAttack : MonoBehaviour
     {
         aimProvider = GetComponent<IAimProvider>();
         inputBuffer = new InputBuffer<AttackType>(inputBufferWindow);
+        entityAnimator = GetComponent<EntityAnimator2D>();
 
         if (rb == null)
         {
@@ -160,6 +164,13 @@ public class PlayerAttack : MonoBehaviour
 
     private IEnumerator PerformAttack(AttackType inputType, AttackData attackData, Vector2 aimDirection)
     {
+        float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+
+        if (entityAnimator != null)
+        {
+            entityAnimator.PlayerAttack(stateMachine.CurrentStep, aimAngle);
+        }
+
         if (rb != null && attackData.lungeForce > 0f)
         {
             rb.linearVelocity = Vector2.zero;
@@ -169,7 +180,7 @@ public class PlayerAttack : MonoBehaviour
         // Dispatch attack execution to either melee or flintlock
         if (inputType == AttackType.Melee && meleeAttack != null)
         {
-            meleeAttack.ExecuteSlash(attackData, aimDirection);
+            meleeAttack.ExecuteSlash(attackData, aimDirection, stateMachine.CurrentStep);
         }
         else if (inputType == AttackType.Flintlock && flintlockCarousel != null)
         {

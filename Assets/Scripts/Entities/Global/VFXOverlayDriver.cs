@@ -11,11 +11,11 @@ public class VFXOverlayDriver : MonoBehaviour
     [SerializeField] private GameObject[] meleeSlashPrefabs;
     [SerializeField] private ParticleSystem muzzleFlashVFX;
 
-    public void TriggerSlashVFX(int comboStep, float aimAngle)
+    public MeleeHitbox TriggerSlashVFX(int comboStep, float aimAngle)
     {
         if (weaponPivot == null)
         {
-            return;
+            return null;
         }
 
         weaponPivot.rotation = Quaternion.Euler(0f, 0f, aimAngle);
@@ -23,8 +23,11 @@ public class VFXOverlayDriver : MonoBehaviour
         int index = Mathf.Clamp(comboStep - 1, 0, meleeSlashPrefabs.Length - 1);
         if (meleeSlashPrefabs.Length > 0 && meleeSlashPrefabs[index] != null)
         {
-            Instantiate(meleeSlashPrefabs[index], weaponPivot.position, weaponPivot.rotation);
+            GameObject vfxInstance = Instantiate(meleeSlashPrefabs[index], weaponPivot.position, weaponPivot.rotation);
+            return vfxInstance.GetComponent<MeleeHitbox>();
         }
+
+        return null;
     }
 
     public void TriggerMuzzleFlash(float aimAngle)

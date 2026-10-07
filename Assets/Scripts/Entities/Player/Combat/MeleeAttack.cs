@@ -3,6 +3,7 @@ using UnityEngine;
 public class MeleeAttack : MonoBehaviour
 {
     [SerializeField] private Transform attackOrigin;
+    [SerializeField] private VFXOverlayDriver vfxDriver;
 
     private AttackData lastAttackData;
     private Vector2 lastAimDirection;
@@ -15,37 +16,36 @@ public class MeleeAttack : MonoBehaviour
         }
     }
 
-    public void ExecuteSlash(AttackData attackData, Vector2 aimDirection)
+    public void ExecuteSlash(AttackData attackData, Vector2 aimDirection, int comboStep)
     {
+        if (attackData == null)
+        {
+            return;
+        }
+
         Debug.Log("[MeleeAttack] Executing Slash");
 
-        lastAttackData = attackData;
-        lastAimDirection = aimDirection.normalized;
+        Vector2 normalizedAimDir = aimDirection.normalized;
+        float aimAngle = Mathf.Atan2(normalizedAimDir.y, normalizedAimDir.x) * Mathf.Rad2Deg;
 
-        RaycastHit2D[] hits = Physics2D.BoxCastAll(
-            attackOrigin.position,
-            attackData.hitboxSize,
-            0f,
-            lastAimDirection,
-            attackData.attackDistance
-        );
+        DamageData payload = new DamageData();
 
-        foreach (RaycastHit2D hit in hits)
+        payload.Amount = attackData.baseDamage;
+        payload.HitDirection = normalizedAimDir;
+        payload.KnockbackForce = attackData.knockbackForce; ;
+        payload.KnockbackDuration = attackData.knockbackDuration;
+        payload.Source = transform.root.gameObject;
+
+        if (vfxDriver != null)
         {
-            if (hit.collider != null && hit.collider.gameObject != transform.root.gameObject)
+            MeleeHitbox hitbox = vfxDriver.TriggerSlashVFX(comboStep, aimAngle);
+            if (hitbox != null)
             {
-                if (hit.collider.TryGetComponent<IDamageable>(out var damageable))
-                {
-                    DamageData payload = new DamageData();
-
-                    payload.Amount = attackData.baseDamage;
-                    payload.HitDirection = lastAimDirection;
-                    payload.KnockbackForce = attackData.knockbackForce; ;
-                    payload.KnockbackDuration = attackData.knockbackDuration;
-                    payload.Source = transform.root.gameObject;
-
-                    damageable.TakeDamage(payload);
-                }
+                hitbox.Initialize(payload, attackData.activeHitDuration);
+            }
+            else
+            {
+                Debug.LogWarning($"[MeleeAttack] No MeleeHitbox component found on VFX prefab for combo step {comboStep}");
             }
         }
     }

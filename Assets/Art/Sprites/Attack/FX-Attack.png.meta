@@ -1,0 +1,611 @@
+fileFormatVersion: 2
+guid: db95f921852de6041adc28da984e919d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 8842398555604916490
+    second: FX-Attack_0
+  - first:
+      213: -3573775185859571444
+    second: FX-Attack_1
+  - first:
+      213: -6173332619332831229
+    second: FX-Attack_2
+  - first:
+      213: 4568558679452224477
+    second: FX-Attack_3
+  - first:
+      213: -2311893675320398080
+    second: FX-Attack_4
+  - first:
+      213: 8612556916757847227
+    second: FX-Attack_5
+  - first:
+      213: 2723778780857930268
+    second: FX-Attack_6
+  - first:
+      213: -1461575405390735719
+    second: FX-Attack_7
+  - first:
+      213: 6142581537722279085
+    second: FX-Attack_8
+  - first:
+      213: 6529365084078575885
+    second: FX-Attack_9
+  - first:
+      213: 454563809201908377
+    second: FX-Attack_10
+  - first:
+      213: 3917697693920265161
+    second: FX-Attack_11
+  - first:
+      213: -6015264926717902751
+    second: FX-Attack_12
+  - first:
+      213: -1235824861648311152
+    second: FX-Attack_13
+  - first:
+      213: 4673276866331527408
+    second: FX-Attack_14
+  - first:
+      213: -871276465304372284
+    second: FX-Attack_15
+  - first:
+      213: 6992536298941734960
+    second: FX-Attack_16
+  - first:
+      213: 8828397139364202049
+    second: FX-Attack_17
+  - first:
+      213: -4738146175372077272
+    second: FX-Attack_18
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: FX-Attack_0
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 107
+        width: 51
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a09124523a286ba70800000000000000
+      internalID: 8842398555604916490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_1
+      rect:
+        serializedVersion: 2
+        x: 74
+        y: 104
+        width: 48
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c011cb33766676ec0800000000000000
+      internalID: -3573775185859571444
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_2
+      rect:
+        serializedVersion: 2
+        x: 8
+        y: 75
+        width: 13
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 308b550c0bae35aa0800000000000000
+      internalID: -6173332619332831229
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_3
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 80
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddb0748e9e7c66f30800000000000000
+      internalID: 4568558679452224477
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_4
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 72
+        width: 21
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00f2e0483f08aefd0800000000000000
+      internalID: -2311893675320398080
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_5
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 81
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bbc5f2f62e2f58770800000000000000
+      internalID: 8612556916757847227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_6
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 69
+        width: 23
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1298c7be5eccc520800000000000000
+      internalID: 2723778780857930268
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_7
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 67
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 996dc3d99e077bbe0800000000000000
+      internalID: -1461575405390735719
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_8
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 71
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: da42fcf1d55de3550800000000000000
+      internalID: 6142581537722279085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_9
+      rect:
+        serializedVersion: 2
+        x: 44
+        y: 37
+        width: 13
+        height: 14
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d01975d23f6fc9a50800000000000000
+      internalID: 6529365084078575885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_10
+      rect:
+        serializedVersion: 2
+        x: 73
+        y: 37
+        width: 17
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 99a6a37406fee4600800000000000000
+      internalID: 454563809201908377
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_11
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 47
+        width: 22
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9c30c77bb457e5630800000000000000
+      internalID: 3917697693920265161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_12
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 38
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1600d1d5b6c758ca0800000000000000
+      internalID: -6015264926717902751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_13
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 37
+        width: 12
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09c2bd406d779dee0800000000000000
+      internalID: -1235824861648311152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_14
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 6
+        width: 72
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0f8cdb2cc80dad040800000000000000
+      internalID: 4673276866331527408
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_15
+      rect:
+        serializedVersion: 2
+        x: 43
+        y: 21
+        width: 10
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4cbff58cbaa98e3f0800000000000000
+      internalID: -871276465304372284
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_16
+      rect:
+        serializedVersion: 2
+        x: 71
+        y: 4
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 030627147ba7a0160800000000000000
+      internalID: 6992536298941734960
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_17
+      rect:
+        serializedVersion: 2
+        x: 100
+        y: 4
+        width: 27
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 146c0e36c64c48a70800000000000000
+      internalID: 8828397139364202049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: FX-Attack_18
+      rect:
+        serializedVersion: 2
+        x: 45
+        y: 4
+        width: 11
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 82752134829be3eb0800000000000000
+      internalID: -4738146175372077272
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      FX-Attack_0: 8842398555604916490
+      FX-Attack_1: -3573775185859571444
+      FX-Attack_10: 454563809201908377
+      FX-Attack_11: 3917697693920265161
+      FX-Attack_12: -6015264926717902751
+      FX-Attack_13: -1235824861648311152
+      FX-Attack_14: 4673276866331527408
+      FX-Attack_15: -871276465304372284
+      FX-Attack_16: 6992536298941734960
+      FX-Attack_17: 8828397139364202049
+      FX-Attack_18: -4738146175372077272
+      FX-Attack_2: -6173332619332831229
+      FX-Attack_3: 4568558679452224477
+      FX-Attack_4: -2311893675320398080
+      FX-Attack_5: 8612556916757847227
+      FX-Attack_6: 2723778780857930268
+      FX-Attack_7: -1461575405390735719
+      FX-Attack_8: 6142581537722279085
+      FX-Attack_9: 6529365084078575885
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
