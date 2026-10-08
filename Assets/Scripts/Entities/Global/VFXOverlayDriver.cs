@@ -6,41 +6,19 @@ public class VFXOverlayDriver : MonoBehaviour
     [Tooltip("Rotates around character centre toward cursor")]
     [SerializeField] private Transform weaponPivot;
 
-    [Header("VFX Prefabs / Pool")]
-    [Tooltip("Assigned Per comboStep index")]
-    [SerializeField] private GameObject[] meleeSlashPrefabs;
-    [SerializeField] private ParticleSystem muzzleFlashVFX;
-
-    public MeleeHitbox TriggerSlashVFX(int comboStep, float aimAngle)
+    public MeleeHitbox SpawnAttackVFX(GameObject vfxPrefab, float aimAngle, float attackDistance)
     {
-        if (weaponPivot == null)
+        if (weaponPivot == null || vfxPrefab == null)
         {
             return null;
         }
 
         weaponPivot.rotation = Quaternion.Euler(0f, 0f, aimAngle);
 
-        int index = Mathf.Clamp(comboStep - 1, 0, meleeSlashPrefabs.Length - 1);
-        if (meleeSlashPrefabs.Length > 0 && meleeSlashPrefabs[index] != null)
-        {
-            GameObject vfxInstance = Instantiate(meleeSlashPrefabs[index], weaponPivot.position, weaponPivot.rotation);
-            return vfxInstance.GetComponent<MeleeHitbox>();
-        }
+        GameObject vfxInstance = Instantiate(vfxPrefab, weaponPivot.position, weaponPivot.rotation, weaponPivot);
 
-        return null;
-    }
+        vfxInstance.transform.localPosition = new Vector3(attackDistance, 0f, 0f);
 
-    public void TriggerMuzzleFlash(float aimAngle)
-    {
-        if (weaponPivot == null)
-        {
-            return;
-        }
-
-        weaponPivot.rotation = Quaternion.Euler(0f, 0f, aimAngle);
-        if (muzzleFlashVFX != null)
-        {
-            muzzleFlashVFX.Play();
-        }
+        return vfxInstance.GetComponent<MeleeHitbox>();
     }
 }

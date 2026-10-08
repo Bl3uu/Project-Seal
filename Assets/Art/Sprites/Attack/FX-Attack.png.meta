@@ -91,7 +91,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -105,7 +105,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -128,7 +128,7 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 4
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -157,12 +157,12 @@ TextureImporter:
       name: FX-Attack_0
       rect:
         serializedVersion: 2
-        x: 7
-        y: 107
-        width: 51
-        height: 13
+        x: 0
+        y: 96
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -179,12 +179,12 @@ TextureImporter:
       name: FX-Attack_1
       rect:
         serializedVersion: 2
-        x: 74
-        y: 104
-        width: 48
-        height: 15
+        x: 32
+        y: 96
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -201,12 +201,12 @@ TextureImporter:
       name: FX-Attack_2
       rect:
         serializedVersion: 2
-        x: 8
-        y: 75
-        width: 13
-        height: 10
+        x: 64
+        y: 96
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -223,12 +223,12 @@ TextureImporter:
       name: FX-Attack_3
       rect:
         serializedVersion: 2
-        x: 39
-        y: 80
-        width: 9
-        height: 9
+        x: 96
+        y: 96
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -245,12 +245,12 @@ TextureImporter:
       name: FX-Attack_4
       rect:
         serializedVersion: 2
-        x: 43
-        y: 72
-        width: 21
-        height: 14
+        x: 0
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -267,12 +267,12 @@ TextureImporter:
       name: FX-Attack_5
       rect:
         serializedVersion: 2
-        x: 44
-        y: 81
-        width: 6
-        height: 6
+        x: 32
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -289,12 +289,12 @@ TextureImporter:
       name: FX-Attack_6
       rect:
         serializedVersion: 2
-        x: 73
-        y: 69
-        width: 23
-        height: 19
+        x: 64
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -311,12 +311,12 @@ TextureImporter:
       name: FX-Attack_7
       rect:
         serializedVersion: 2
-        x: 105
-        y: 67
-        width: 23
-        height: 23
+        x: 96
+        y: 64
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -333,12 +333,12 @@ TextureImporter:
       name: FX-Attack_8
       rect:
         serializedVersion: 2
-        x: 39
-        y: 71
-        width: 9
-        height: 9
+        x: 0
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -355,12 +355,12 @@ TextureImporter:
       name: FX-Attack_9
       rect:
         serializedVersion: 2
-        x: 44
-        y: 37
-        width: 13
-        height: 14
+        x: 32
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -377,12 +377,12 @@ TextureImporter:
       name: FX-Attack_10
       rect:
         serializedVersion: 2
-        x: 73
-        y: 37
-        width: 17
-        height: 18
+        x: 64
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -399,12 +399,12 @@ TextureImporter:
       name: FX-Attack_11
       rect:
         serializedVersion: 2
-        x: 100
-        y: 47
-        width: 22
-        height: 8
+        x: 96
+        y: 32
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -421,12 +421,12 @@ TextureImporter:
       name: FX-Attack_12
       rect:
         serializedVersion: 2
-        x: 111
-        y: 38
-        width: 10
-        height: 10
+        x: 0
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -443,12 +443,12 @@ TextureImporter:
       name: FX-Attack_13
       rect:
         serializedVersion: 2
-        x: 6
-        y: 37
-        width: 12
-        height: 6
+        x: 32
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -465,12 +465,12 @@ TextureImporter:
       name: FX-Attack_14
       rect:
         serializedVersion: 2
-        x: 6
-        y: 6
-        width: 72
-        height: 19
+        x: 64
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -487,12 +487,12 @@ TextureImporter:
       name: FX-Attack_15
       rect:
         serializedVersion: 2
-        x: 43
-        y: 21
-        width: 10
-        height: 7
+        x: 96
+        y: 0
+        width: 32
+        height: 32
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -505,77 +505,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: FX-Attack_16
-      rect:
-        serializedVersion: 2
-        x: 71
-        y: 4
-        width: 23
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 030627147ba7a0160800000000000000
-      internalID: 6992536298941734960
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FX-Attack_17
-      rect:
-        serializedVersion: 2
-        x: 100
-        y: 4
-        width: 27
-        height: 24
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 146c0e36c64c48a70800000000000000
-      internalID: 8828397139364202049
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: FX-Attack_18
-      rect:
-        serializedVersion: 2
-        x: 45
-        y: 4
-        width: 11
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 82752134829be3eb0800000000000000
-      internalID: -4738146175372077272
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1c5742efc6413f1498e177707550ce6d
     internalID: 0
     vertices: []
     indices: 
@@ -583,7 +517,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       FX-Attack_0: 8842398555604916490
       FX-Attack_1: -3573775185859571444
@@ -593,9 +529,6 @@ TextureImporter:
       FX-Attack_13: -1235824861648311152
       FX-Attack_14: 4673276866331527408
       FX-Attack_15: -871276465304372284
-      FX-Attack_16: 6992536298941734960
-      FX-Attack_17: 8828397139364202049
-      FX-Attack_18: -4738146175372077272
       FX-Attack_2: -6173332619332831229
       FX-Attack_3: 4568558679452224477
       FX-Attack_4: -2311893675320398080

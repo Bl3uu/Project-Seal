@@ -16,7 +16,7 @@ public class MeleeAttack : MonoBehaviour
         }
     }
 
-    public void ExecuteSlash(AttackData attackData, Vector2 aimDirection, int comboStep)
+    public void ExecuteSlash(AttackData attackData, Vector2 aimDirection)
     {
         if (attackData == null)
         {
@@ -38,14 +38,10 @@ public class MeleeAttack : MonoBehaviour
 
         if (vfxDriver != null)
         {
-            MeleeHitbox hitbox = vfxDriver.TriggerSlashVFX(comboStep, aimAngle);
+            MeleeHitbox hitbox = vfxDriver.SpawnAttackVFX(attackData.vfxPrefab, aimAngle, attackData.attackDistance);
             if (hitbox != null)
             {
                 hitbox.Initialize(payload, attackData.activeHitDuration);
-            }
-            else
-            {
-                Debug.LogWarning($"[MeleeAttack] No MeleeHitbox component found on VFX prefab for combo step {comboStep}");
             }
         }
     }

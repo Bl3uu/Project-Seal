@@ -180,7 +180,7 @@ public class PlayerAttack : MonoBehaviour
         // Dispatch attack execution to either melee or flintlock
         if (inputType == AttackType.Melee && meleeAttack != null)
         {
-            meleeAttack.ExecuteSlash(attackData, aimDirection, stateMachine.CurrentStep);
+            meleeAttack.ExecuteSlash(attackData, aimDirection);
         }
         else if (inputType == AttackType.Flintlock && flintlockCarousel != null)
         {

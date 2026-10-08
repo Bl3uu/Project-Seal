@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackData
   attackType: 1
   hitboxSize: {x: 1.5, y: 1.5}
-  attackDistance: 1.2
+  attackDistance: 1
   baseDamage: 25
   knockbackForce: 5
   knockbackDuration: 0.2
   lungeForce: 3
   animationTriggerName: Attack
+  vfxPrefab: {fileID: 2453681267547979762, guid: 59789d698a1f92f4fbace10d48dfe3e7, type: 3}
   activeHitDuration: 0.1
   recoveryDuration: 0.25
   nextMeleeFollowUp: {fileID: 0}

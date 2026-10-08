@@ -4665,7 +4665,7 @@ Transform:
   m_GameObject: {fileID: 365154360}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.051, y: 0.031, z: 0}
+  m_LocalPosition: {x: 0.034, y: 0.015, z: 0}
   m_LocalScale: {x: 1.9703143, y: 1.4129, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5356,7 +5356,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.18, y: -0.29, z: -10}
+  m_LocalPosition: {x: -1.252, y: -0.294, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8413,6 +8413,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6075975974975622417, guid: 74908d4e572f4c541baeae9f5c236a36, type: 3}
   m_PrefabInstance: {fileID: 103602850}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &757629722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 757629723}
+  m_Layer: 7
+  m_Name: WeaponPivot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &757629723
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 757629722}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 998719331}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &791633158 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2055102311959635375, guid: 99597c7b4aa47494fb2b6061505735da, type: 3}
@@ -10215,6 +10246,7 @@ GameObject:
   - component: {fileID: 998719342}
   - component: {fileID: 998719341}
   - component: {fileID: 998719337}
+  - component: {fileID: 998719344}
   m_Layer: 7
   m_Name: Player
   m_TagString: Player
@@ -10331,11 +10363,12 @@ Transform:
   m_GameObject: {fileID: 998719327}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.18, y: -0.29, z: 0}
+  m_LocalPosition: {x: -1.252, y: -0.294, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 365154361}
+  - {fileID: 757629723}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &998719333
@@ -10394,7 +10427,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: -0.048212945, y: 0.035518885}
+  m_Offset: {x: 0.03857076, y: 0.0118505955}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0}
@@ -10404,7 +10437,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.66613734, y: 0.2983973}
+  m_Size: {x: 0.66929317, y: 0.30155307}
   m_EdgeRadius: 0
 --- !u!114 &998719335
 MonoBehaviour:
@@ -10550,6 +10583,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeAttack
   attackOrigin: {fileID: 998719331}
+  vfxDriver: {fileID: 998719344}
 --- !u!114 &998719343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10566,6 +10600,19 @@ MonoBehaviour:
   animator: {fileID: 998719333}
   faceAimDirection: 1
   useSpriteFlipping: 0
+--- !u!114 &998719344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998719327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 038c1e3f9d0bdf440a015e6f5bc8f249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXOverlayDriver
+  weaponPivot: {fileID: 757629723}
 --- !u!1 &1030457128
 GameObject:
   m_ObjectHideFlags: 0
@@ -17710,7 +17757,7 @@ Transform:
   m_GameObject: {fileID: 1829825635}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.18, y: -0.29, z: -10}
+  m_LocalPosition: {x: -1.252, y: -0.294, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

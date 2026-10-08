@@ -28,6 +28,7 @@ public class AttackData : ScriptableObject
     [Header("Movement & Animation")]
     public float lungeForce = 3f;
     public string animationTriggerName;
+    public GameObject vfxPrefab;
 
     [Header("Dynamic Frame Timings")]
     [Tooltip("Duration the stays in the active hitframes before entering recovery.")]
