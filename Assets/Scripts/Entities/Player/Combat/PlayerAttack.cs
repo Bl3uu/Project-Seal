@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEditor.Rendering;
 using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -22,6 +23,12 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     private EntityAnimator2D entityAnimator;
 
+    [Header("Free-Fire Settings")]
+    [SerializeField] private AttackData freeFireAttackData;
+
+    [Header("Stance settings")]
+    [SerializeField] private bool isFreeFireStance = false;
+
     private ComboStateMachine stateMachine = new ComboStateMachine();
     private InputBuffer<AttackType> inputBuffer;
     private IAimProvider aimProvider;
@@ -33,6 +40,7 @@ public class PlayerAttack : MonoBehaviour
     public int CurrentComboStep => stateMachine.CurrentStep;
     public bool IsAttacking => stateMachine.IsAttacking;
     public bool IsInRecover => stateMachine.CanCancel;
+    public bool IsFreeFireStance => isFreeFireStance;
 
     private void Awake()
     {
@@ -69,18 +77,70 @@ public class PlayerAttack : MonoBehaviour
 
     public void OnMeleeInput(InputValue value)
     {
-        if (value.isPressed)
+        if (!value.isPressed || isFreeFireStance)
         {
-            HandleInput(AttackType.Melee);
+            return;
         }
+
+        HandleInput(AttackType.Melee);
     }
 
     public void OnFlintlockInput(InputValue value)
     {
-        if (value.isPressed)
+        if (!value.isPressed || isFreeFireStance)
         {
-            HandleInput(AttackType.Flintlock);
+            return;
         }
+
+        HandleInput(AttackType.Flintlock);
+    }
+
+    public void OnToggleStanceInput(InputValue value)
+    {
+        if (!value.isPressed || stateMachine.IsAttacking) 
+        {
+            return;
+        }
+
+        isFreeFireStance = !isFreeFireStance;
+        Debug.Log($"[PlayerAttack] Swtiched Stance. Free-Fire Active: {isFreeFireStance}");
+    }
+
+    public void OnFreeFireInput(InputValue value)
+    {
+        if (!value.isPressed || flintlockCarousel == null || !isFreeFireStance)
+        {
+            return;
+        }
+
+        if (stateMachine.IsAttacking && !TryCancelAttack())
+        {
+            return;
+        }
+
+        Vector2 aimDirection;
+
+        if (aimProvider != null)
+        {
+            aimDirection = aimProvider.AimDirection;
+        }
+        else
+        {
+            aimDirection = Vector2.right;
+        }
+
+        StopActiveRoutine();
+        attackRoutine = StartCoroutine(PerformFreeFireShot(aimDirection));
+    }
+
+    public void OnReloadInput(InputValue value)
+    {
+        if (!value.isPressed || flintlockCarousel == null || stateMachine.IsAttacking)
+        {
+            return;
+        }
+
+        flintlockCarousel.StartReload();
     }
 
     #endregion
@@ -164,6 +224,16 @@ public class PlayerAttack : MonoBehaviour
 
     private IEnumerator PerformAttack(AttackType inputType, AttackData attackData, Vector2 aimDirection)
     {
+        if (inputType == AttackType.Flintlock && flintlockCarousel != null)
+        {
+            bool shotFired = flintlockCarousel.FireComboShot(attackData, aimDirection);
+            if (!shotFired)
+            {
+                ResetCombo();
+                yield break;
+            }
+        }
+
         float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
 
         if (entityAnimator != null)
@@ -171,7 +241,7 @@ public class PlayerAttack : MonoBehaviour
             entityAnimator.PlayerAttack(stateMachine.CurrentStep, aimAngle);
         }
 
-        if (rb != null && attackData.lungeForce > 0f)
+        if (rb != null && inputType == AttackType.Melee && attackData.lungeForce > 0f)
         {
             rb.linearVelocity = Vector2.zero;
             rb.AddForce(aimDirection.normalized * attackData.lungeForce, ForceMode2D.Impulse);
@@ -181,10 +251,6 @@ public class PlayerAttack : MonoBehaviour
         if (inputType == AttackType.Melee && meleeAttack != null)
         {
             meleeAttack.ExecuteSlash(attackData, aimDirection);
-        }
-        else if (inputType == AttackType.Flintlock && flintlockCarousel != null)
-        {
-            flintlockCarousel.FireComboShot(attackData, aimDirection);
         }
 
         // Active windup / Hitframe
@@ -215,6 +281,29 @@ public class PlayerAttack : MonoBehaviour
         {
             stateMachine.CompleteAttack();
         }
+    }
+
+    private IEnumerator PerformFreeFireShot(Vector2 aimDirection)
+    {
+        stateMachine.StartStep();
+
+        flintlockCarousel.FireFreeShot(aimDirection, freeFireAttackData);
+
+        float duration;
+
+        if (freeFireAttackData != null)
+        {
+            duration = freeFireAttackData.activeHitDuration + freeFireAttackData.recoveryDuration;
+        }
+        else
+        {
+            duration = 0.15f;
+        }
+
+        yield return new WaitForSeconds(duration);
+
+        stateMachine.CompleteAttack();
+        ResetCombo();
     }
 
     public void NotifyActionInterrupt()

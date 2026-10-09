@@ -10555,6 +10555,7 @@ MonoBehaviour:
   meleeAttack: {fileID: 998719342}
   flintlockCarousel: {fileID: 998719341}
   rb: {fileID: 998719329}
+  freeFireAttackData: {fileID: 11400000, guid: a08fbe6a95692cb46a89b3a1f4fa7cd6, type: 2}
 --- !u!114 &998719341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10567,9 +10568,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c813425d6ecd5324bb319dce73ed627a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlintlockCarousel
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 7107048573077243279, guid: 50bbf3a2de6788e489c1a7f4283052a5, type: 3}
   firePoint: {fileID: 998719331}
+  vfxDriver: {fileID: 998719344}
   maxBarrels: 4
+  reloadDuration: 1.2
 --- !u!114 &998719342
 MonoBehaviour:
   m_ObjectHideFlags: 0

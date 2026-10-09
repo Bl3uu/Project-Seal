@@ -137,9 +137,29 @@
                     "priority": 0
                 },
                 {
-                    "name": "FreeFireFlintlockInput",
+                    "name": "FreeFireInput",
                     "type": "Button",
                     "id": "d6bdeb68-77da-4c68-943c-e6ae4eca20fd",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "ReloadInput",
+                    "type": "Button",
+                    "id": "4697972e-f728-40d3-ba05-1e1dd38b83fb",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                },
+                {
+                    "name": "ToggleStanceInput",
+                    "type": "Button",
+                    "id": "0c5ac50e-62d4-409c-8e76-7b6f28bca3ce",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -613,11 +633,33 @@
                 {
                     "name": "",
                     "id": "a28ec91c-fc34-45ba-b274-a24c9939f300",
-                    "path": "<Keyboard>/f",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
-                    "action": "FreeFireFlintlockInput",
+                    "action": "FreeFireInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d2fe82b0-8ee8-433f-8bc2-dfbea5f05d45",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReloadInput",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "81f753c6-4840-44b5-8030-d5151e037730",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleStanceInput",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

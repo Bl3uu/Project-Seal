@@ -12,23 +12,9 @@ public class MeleeHitbox : MonoBehaviour
 
         Invoke(nameof(DisableHitbox), activeHitDuration);
 
-        float vfxDuration = GetAnimationDuration();
+        float vfxDuration = this.GetAnimationLengthOrDefault();
 
         Destroy(gameObject, vfxDuration);
-    }
-
-    private float GetAnimationDuration()
-    {
-        if (TryGetComponent<Animator>(out var animator))
-        {
-            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            if (stateInfo.length > 0f)
-            {
-                return stateInfo.length;
-            }
-        }
-
-        return 0.3f; // if no animator is attached
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
