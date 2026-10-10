@@ -45,16 +45,4 @@ public class MeleeAttack : MonoBehaviour
             }
         }
     }
-
-    private void OnDrawGizmosSelected()
-    {
-        if (lastAttackData == null || attackOrigin == null)
-        {
-            return;
-        }
-
-        Gizmos.color = Color.red;
-        Vector3 boxCenter = attackOrigin.position + (Vector3)(lastAimDirection * lastAttackData.attackDistance);
-        Gizmos.DrawWireCube(boxCenter, lastAttackData.hitboxSize);
-    }
 }

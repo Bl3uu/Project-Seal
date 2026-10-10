@@ -13,10 +13,6 @@ public class AttackData : ScriptableObject
     [Header("Attack Classification")]
     public AttackType attackType = AttackType.Melee;
 
-    [Header("Hitbox Shape & Reach")]
-    [Tooltip("Width and Height of Physics2D BoxCast")]
-    public Vector2 hitboxSize = new Vector2(1.5f, 1.5f);
-
     [Tooltip("Distance forward from origin to cast the hitbox")]    
     public float attackDistance = 1.2f;
 
@@ -33,9 +29,12 @@ public class AttackData : ScriptableObject
     [Header("Dynamic Frame Timings")]
     [Tooltip("Duration the stays in the active hitframes before entering recovery.")]
     public float activeHitDuration = 0.1f;
-
     [Tooltip("Duration of recovery phase where cancels or sequence follow-ups are permitted")]
     public float recoveryDuration = 0.25f;
+
+    [Header("Audio")]
+    public AudioClip attackSFX;
+    public AudioClip hitImpactSFX;
 
     [Header("Sequence Branching (Follow-ups)")]
     public AttackData nextMeleeFollowUp;

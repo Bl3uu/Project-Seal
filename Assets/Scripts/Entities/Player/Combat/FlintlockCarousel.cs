@@ -98,6 +98,11 @@ public class FlintlockCarousel : MonoBehaviour
             vfxDriver.PlayVFX(attackData.vfxPrefab, aimAngle, attackData.attackDistance);
         }
 
+        if (attackData != null && attackData.attackSFX != null)
+        {
+            AudioManager.Instance.PlaySFX(attackData.attackSFX);
+        }
+
         if (playerRb != null && attackData != null && attackData.lungeForce > 0f)
         {
             Debug.Log($"[FlintlockCarousel] Applying Recoil Vector: {-direction.normalized}");
