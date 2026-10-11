@@ -4,7 +4,7 @@ using UnityEngine;
 public class EntityAudioDriver : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private AudioSource audioSource;
+    private AudioSource audioSource;
 
     private void Awake()
     {

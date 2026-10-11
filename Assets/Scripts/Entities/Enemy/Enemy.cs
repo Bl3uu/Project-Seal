@@ -3,9 +3,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour, IDamageable
 {
     [Header("References")]
-    [SerializeField] private Health health;
-    [SerializeField] private KnockbackReceiver knockbackReceiver;
-    [SerializeField] private HitFeedback hitFeedback;
+    [SerializeField] protected Health health;
+    [SerializeField] protected KnockbackReceiver knockbackReceiver;
+    [SerializeField] protected HitFeedback hitFeedback;
 
     public bool IsDead => health != null && health.IsDead;
 
@@ -16,7 +16,34 @@ public class Enemy : MonoBehaviour, IDamageable
         hitFeedback = GetComponent<HitFeedback>();
     }
 
-    public void TakeDamage(DamageData payload)
+    private void Start()
+    {
+        IgnorePlayerCollision();
+    }
+
+    private void IgnorePlayerCollision()
+    {
+        if (!TryGetComponent<Collider2D>(out var myCollider))
+        {
+            return;
+        }
+
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player == null)
+        {
+            return;
+        }
+
+        Collider2D[] playerColliders = player.GetComponentsInChildren<Collider2D>();
+
+        foreach (var playerCol in playerColliders)
+        {
+            Physics2D.IgnoreCollision(myCollider, playerCol, true);
+        }
+    }
+
+    public virtual void TakeDamage(DamageData payload)
     {
         if (IsDead)
         {

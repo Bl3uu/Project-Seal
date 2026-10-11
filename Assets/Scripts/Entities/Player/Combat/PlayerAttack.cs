@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.AppUI.UI;
 using Unity.VisualScripting;
 using UnityEditor.Rendering;
 using UnityEditorInternal;
@@ -243,8 +244,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (rb != null && inputType == AttackType.Melee && attackData.lungeForce > 0f)
         {
-            rb.linearVelocity = Vector2.zero;
-            rb.AddForce(aimDirection.normalized * attackData.lungeForce, ForceMode2D.Impulse);
+            rb.linearVelocity = aimDirection.normalized * attackData.lungeForce;
         }
 
         // Dispatch attack execution to either melee or flintlock

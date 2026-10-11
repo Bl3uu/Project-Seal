@@ -8,7 +8,8 @@ public class FlintlockCarousel : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private VFXOverlayDriver vfxDriver;
-    [SerializeField] private Rigidbody2D playerRb;
+    [SerializeField] private Rigidbody2D rb;
+    private EntityAudioDriver audioDriver;
 
     [Header("Carousel Capacity")]
     [SerializeField] private int maxBarrels = 4;
@@ -28,10 +29,12 @@ public class FlintlockCarousel : MonoBehaviour
         {
             firePoint = transform;
         }
-        if (playerRb == null)
+        if (rb == null)
         {
-            playerRb = GetComponentInParent<Rigidbody2D>();
+            rb = GetComponentInParent<Rigidbody2D>();
         }
+
+        audioDriver = GetComponentInParent<EntityAudioDriver>();
     }
 
     public bool FireComboShot(AttackData attackData, Vector2 aimDirection)
@@ -89,25 +92,24 @@ public class FlintlockCarousel : MonoBehaviour
         Debug.Log("[FlintlockCarousel] Reload complete");
     }
 
-    private void SpawnProjectile(Vector2 direction, AttackData attackData)
+    private void SpawnProjectile(Vector2 aimDirection, AttackData attackData)
     {
-        float aimAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
 
-        if (vfxDriver != null && attackData != null && attackData.vfxPrefab != null)
+        if (attackData != null && attackData.vfxPrefab != null)
         {
             vfxDriver.PlayVFX(attackData.vfxPrefab, aimAngle, attackData.attackDistance);
         }
 
-        if (attackData != null && attackData.attackSFX != null)
+        if (audioDriver != null && attackData != null && attackData.attackSFX != null)
         {
-            AudioManager.Instance.PlaySFX(attackData.attackSFX);
+            audioDriver.PlaySound(attackData.attackSFX);
         }
 
-        if (playerRb != null && attackData != null && attackData.lungeForce > 0f)
+        if (rb != null && attackData != null && attackData.lungeForce > 0f)
         {
-            Debug.Log($"[FlintlockCarousel] Applying Recoil Vector: {-direction.normalized}");
-            playerRb.linearVelocity = Vector2.zero;
-            playerRb.AddForce(-direction.normalized * attackData.lungeForce, ForceMode2D.Impulse);
+            Debug.Log($"[FlintlockCarousel] Applying Recoil Vector: {-aimDirection.normalized}");
+            rb.linearVelocity = -aimDirection.normalized * attackData.lungeForce;
         }
 
         if (bulletPrefab != null)
@@ -133,7 +135,7 @@ public class FlintlockCarousel : MonoBehaviour
                     kbDuration = 0.15f;
                 }
 
-                bullet.Initialize(direction, damage, kbForce, kbDuration, transform.root.gameObject);
+                bullet.Initialize(aimDirection, damage, kbForce, kbDuration, transform.root.gameObject);
             }
         }
     }
