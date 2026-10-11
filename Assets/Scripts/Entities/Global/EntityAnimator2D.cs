@@ -6,7 +6,7 @@ public class EntityAnimator2D : MonoBehaviour, IAnimationController
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator animator;
 
-    private PlayerMovement playerMovement;
+    private EntityMotor motor;
     private PlayerAim playerAim;
     private PlayerAttack playerAttack;
 
@@ -24,19 +24,19 @@ public class EntityAnimator2D : MonoBehaviour, IAnimationController
 
     private void Awake()
     {
-        playerMovement = GetComponent<PlayerMovement>();
+        motor = GetComponent<EntityMotor>();
         playerAim = GetComponent<PlayerAim>();
         playerAttack = GetComponent<PlayerAttack>();
     }
 
     private void Update()
     {
-        if (playerMovement != null)
+        if (motor != null)
         {
             bool isAttacking = playerAttack != null && playerAttack.IsAttacking;
             faceAimDirection = isAttacking;
 
-            Vector2 moveDir = playerMovement.MoveDirection;
+            Vector2 moveDir = motor.MoveDirection;
             Vector2 aimDir;
 
             if (playerAim != null)

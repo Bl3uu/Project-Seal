@@ -6,6 +6,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(EntityMotor))]
 public class PlayerAttack : MonoBehaviour
 {
     [Header("Combo Asset Blueprint Tree")]
@@ -21,7 +22,7 @@ public class PlayerAttack : MonoBehaviour
     [Header("References")]
     [SerializeField] private MeleeAttack meleeAttack;
     [SerializeField] private FlintlockCarousel flintlockCarousel;
-    [SerializeField] private Rigidbody2D rb;
+    private EntityMotor playerMotor;
     private EntityAnimator2D entityAnimator;
 
     [Header("Free-Fire Settings")]
@@ -45,14 +46,11 @@ public class PlayerAttack : MonoBehaviour
 
     private void Awake()
     {
+        playerMotor = GetComponent<EntityMotor>();
         aimProvider = GetComponent<IAimProvider>();
         inputBuffer = new InputBuffer<AttackType>(inputBufferWindow);
         entityAnimator = GetComponent<EntityAnimator2D>();
 
-        if (rb == null)
-        {
-            rb = GetComponent<Rigidbody2D>();
-        }
         if (meleeAttack == null)
         {
             meleeAttack = GetComponentInChildren<MeleeAttack>();
@@ -242,19 +240,27 @@ public class PlayerAttack : MonoBehaviour
             entityAnimator.PlayerAttack(stateMachine.CurrentStep, aimAngle);
         }
 
-        if (rb != null && inputType == AttackType.Melee && attackData.lungeForce > 0f)
-        {
-            rb.linearVelocity = aimDirection.normalized * attackData.lungeForce;
-        }
-
         // Dispatch attack execution to either melee or flintlock
         if (inputType == AttackType.Melee && meleeAttack != null)
         {
             meleeAttack.ExecuteSlash(attackData, aimDirection);
         }
 
-        // Active windup / Hitframe
-        yield return new WaitForSeconds(attackData.activeHitDuration);
+        float timer = 0f;
+
+        while (timer < attackData.activeHitDuration)
+        {
+            timer += Time.fixedDeltaTime;
+
+            if (inputType == AttackType.Melee && attackData.lungeForce > 0f)
+            {
+                playerMotor.Move(aimDirection, attackData.lungeForce);
+            }
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        playerMotor.Move(Vector2.zero, 0f);
 
         // Enter Recovery
         stateMachine.EnterRecovery();

@@ -2,6 +2,7 @@ using UnityEngine;
 
 public interface IElevatable
 {
+    int CurrentHeight { get; }
     bool IsOnStairs { get; set; }
-    void SetElevation(string physicsLayer, string sortingLayer);
+    void SetElevation(int heightLevel, string sortingLayer);
 }

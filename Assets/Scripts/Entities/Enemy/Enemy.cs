@@ -16,33 +16,6 @@ public class Enemy : MonoBehaviour, IDamageable
         hitFeedback = GetComponent<HitFeedback>();
     }
 
-    private void Start()
-    {
-        IgnorePlayerCollision();
-    }
-
-    private void IgnorePlayerCollision()
-    {
-        if (!TryGetComponent<Collider2D>(out var myCollider))
-        {
-            return;
-        }
-
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-        if (player == null)
-        {
-            return;
-        }
-
-        Collider2D[] playerColliders = player.GetComponentsInChildren<Collider2D>();
-
-        foreach (var playerCol in playerColliders)
-        {
-            Physics2D.IgnoreCollision(myCollider, playerCol, true);
-        }
-    }
-
     public virtual void TakeDamage(DamageData payload)
     {
         if (IsDead)

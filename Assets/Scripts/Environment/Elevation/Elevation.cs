@@ -5,7 +5,10 @@ public class Elevation : MonoBehaviour, IElevatable
 {
     private SpriteRenderer spriteRenderer;
 
-    // Entity stair state
+    [Header("Elevation State")]
+    [SerializeField] private int currentHeight = 0;
+
+    public int CurrentHeight => currentHeight;
     public bool IsOnStairs { get; set; } = false;
 
     private void Awake()
@@ -13,22 +16,19 @@ public class Elevation : MonoBehaviour, IElevatable
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public void SetElevation(string physicsLayerName, string sortingLayerName)
+    public void SetElevation(int heightLevel, string sortingLayerName)
     {
-        //Update Physics Layer
-        int layerIndex = LayerMask.NameToLayer(physicsLayerName);
-        if (layerIndex != -1)
+        currentHeight = heightLevel;
+        
+        if (spriteRenderer != null)
         {
-            gameObject.layer = layerIndex;
+            spriteRenderer.sortingLayerName = sortingLayerName;
         }
 
-        // Update visual sorting Layer
-        spriteRenderer.sortingLayerName = sortingLayerName;
-
         // If entity has PlayerMovement, update its custom BoxCast mask
-        if (TryGetComponent<PlayerMovement>(out var playerMovement))
+        if (TryGetComponent<EntityMotor>(out var motor))
         {
-            playerMovement.UpdateCollisionLayer(physicsLayerName);
+            motor.UpdateHeightLevel(currentHeight);
         }
     }
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
+[RequireComponent(typeof(EntityMotor))]
 public class PlayerDash : MonoBehaviour 
 {
     [Header("Dash Parameters")]
@@ -9,10 +11,10 @@ public class PlayerDash : MonoBehaviour
     [SerializeField] private float dashCooldown = 0.5f;
 
     [Header("References")]
-    [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Health healthComponent;
     [SerializeField] private PlayerAttack playerAttack;
 
+    private EntityMotor playerMotor;
     private IAimProvider aimProvider;
     private bool isDashing;
     private bool canDash = true;
@@ -21,10 +23,8 @@ public class PlayerDash : MonoBehaviour
 
     private void Awake()
     {
-        if (rb == null)
-        {
-            rb = GetComponent<Rigidbody2D>();
-        }
+        playerMotor = GetComponent<EntityMotor>();
+
         if (healthComponent == null)
         {
             healthComponent = GetComponent<Health>();
@@ -73,7 +73,7 @@ public class PlayerDash : MonoBehaviour
         canDash = false;
         isDashing = true;
 
-        // Get current aim direction (or fallback to movement direction if aim is zero)
+        // Get current aim direction (or fallback to EntityMotor direction if aim is zero)
         Vector2 dashDirection;
         if (aimProvider != null)
         {
@@ -84,20 +84,26 @@ public class PlayerDash : MonoBehaviour
             dashDirection = Vector2.down;
         }
 
+        if (dashDirection == Vector2.zero)
+        {
+            dashDirection = Vector2.down;
+        }
+
+        dashDirection = dashDirection.normalized;
+
         float timer = 0f;
 
         while (timer < dashDuration)
         {
             timer += Time.fixedDeltaTime;
 
-            // Move along the aim vector using Rigidbody physics
-            rb.linearVelocity = dashDirection * dashSpeed;
+            playerMotor.Move(dashDirection, dashSpeed);
 
             yield return new WaitForFixedUpdate();
         }
 
         // Stop dash velocity
-        rb.linearVelocity = Vector2.zero;
+        playerMotor.Move(Vector2.zero, 0f);
         isDashing = false;
 
         // Cooldown timer before player can dash again

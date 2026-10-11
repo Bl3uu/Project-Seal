@@ -2,13 +2,15 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 
+[RequireComponent(typeof(EntityMotor))]
 public class FlintlockCarousel : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private VFXOverlayDriver vfxDriver;
-    [SerializeField] private Rigidbody2D rb;
+
+    private EntityMotor playerMotor;
     private EntityAudioDriver audioDriver;
 
     [Header("Carousel Capacity")]
@@ -29,11 +31,8 @@ public class FlintlockCarousel : MonoBehaviour
         {
             firePoint = transform;
         }
-        if (rb == null)
-        {
-            rb = GetComponentInParent<Rigidbody2D>();
-        }
-
+        
+        playerMotor = GetComponent<EntityMotor>();
         audioDriver = GetComponentInParent<EntityAudioDriver>();
     }
 
@@ -106,10 +105,11 @@ public class FlintlockCarousel : MonoBehaviour
             audioDriver.PlaySound(attackData.attackSFX);
         }
 
-        if (rb != null && attackData != null && attackData.lungeForce > 0f)
+        if (playerMotor != null && attackData != null && attackData.lungeForce > 0f)
         {
+            Vector2 recoilDirection = -aimDirection.normalized;
             Debug.Log($"[FlintlockCarousel] Applying Recoil Vector: {-aimDirection.normalized}");
-            rb.linearVelocity = -aimDirection.normalized * attackData.lungeForce;
+            playerMotor.Move(recoilDirection, attackData.lungeForce);
         }
 
         if (bulletPrefab != null)

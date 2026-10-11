@@ -3,14 +3,14 @@ using UnityEngine.UIElements;
 
 public class PlayerAnimation : MonoBehaviour
 {
-    private PlayerMovement movement;
+    private EntityMotor playerMotor;
     private SpriteRenderer spriteRenderer;
     private Animator animator;
     private Vector2 lastFacingDirection = Vector2.down;
 
     private void Awake()
     {
-        movement= GetComponent<PlayerMovement>();
+        playerMotor= GetComponent<EntityMotor>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
     }
@@ -22,8 +22,8 @@ public class PlayerAnimation : MonoBehaviour
 
     private void UpdateAnimator()
     {
-        bool isMoving = movement.IsMoving;
-        Vector2 input = movement.MoveDirection;
+        bool isMoving = playerMotor.IsMoving;
+        Vector2 input = playerMotor.MoveDirection;
 
         animator.SetBool("IsMoving", isMoving);
 

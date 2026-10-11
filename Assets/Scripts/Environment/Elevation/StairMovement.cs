@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using static LandingTrigger;
 
@@ -13,11 +14,12 @@ public class StairMovement : MonoBehaviour
     [SerializeField] private float slopeRatio = 0.5f;
 
     [Header("Elevation Layers")]
-    [Tooltip("The lower floor physics/sorting layer name")]
-    [SerializeField] private string lowerLayer = "Layer 1";
+    [SerializeField] private int lowerHeight = 0;
+    [SerializeField] private int upperHeight = 1;
 
-    [Tooltip("The upper floor physics/sorting layer name")]
-    [SerializeField] private string upperLayer = "Layer 2";
+    [Header("Sorting Layers")]
+    [SerializeField] private string lowerSortingLayer = "Layer 1";
+    [SerializeField] private string upperSortingLayer = "Layer 2";
 
     public void OnLandingTriggerEntered(Collider2D other, LandingTrigger.LandingType landingType)
     {
@@ -52,18 +54,21 @@ public class StairMovement : MonoBehaviour
         
         if (IsExitingToFlatGround(exitedLanding, moveDir))
         {
-            string targetLayer;
+            int targetHeight;
+            string targetSortingLayer;
 
             if (exitedLanding == LandingTrigger.LandingType.Upper)
             {
-                targetLayer = upperLayer;
+                targetHeight = upperHeight;
+                targetSortingLayer = upperSortingLayer;
             }
             else
             {
-                targetLayer = lowerLayer;
+                targetHeight = lowerHeight;
+                targetSortingLayer = lowerSortingLayer;
             }
 
-            ExitStairState(elevation, movement, targetLayer);
+            ExitStairState(elevation, movement, targetHeight, targetSortingLayer);
         }
         else
         {
@@ -74,7 +79,7 @@ public class StairMovement : MonoBehaviour
     private void EnterStairState(IElevatable elevation, IMoveable movement)
     {
         elevation.IsOnStairs = true;
-        elevation.SetElevation(upperLayer, upperLayer);
+        elevation.SetElevation(upperHeight, upperSortingLayer);
 
         if (movement != null)
         {
@@ -82,10 +87,10 @@ public class StairMovement : MonoBehaviour
         }
     }
 
-    private void ExitStairState(IElevatable elevation, IMoveable movement, string targetLayer)
+    private void ExitStairState(IElevatable elevation, IMoveable movement, int targetHeight, string targetSortingLayer)
     {
         elevation.IsOnStairs = false;
-        elevation.SetElevation(targetLayer, targetLayer);
+        elevation.SetElevation(targetHeight, targetSortingLayer);
 
         if (movement != null)
         {
