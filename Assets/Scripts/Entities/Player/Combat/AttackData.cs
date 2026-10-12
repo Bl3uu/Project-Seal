@@ -1,17 +1,11 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public enum AttackType
-{
-    Melee,
-    Flintlock
-}
-
 [CreateAssetMenu(fileName = "NewAttackData", menuName = "Combat/Attack Data")]
 public class AttackData : ScriptableObject
 {
     [Header("Attack Classification")]
-    public AttackType attackType = AttackType.Melee;
+    public PlayerActionType attackType = PlayerActionType.Melee;
 
     [Tooltip("Distance forward from origin to cast the hitbox")]    
     public float attackDistance = 1.2f;

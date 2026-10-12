@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b12584b23c5ab049bef0f782ac671df, type: 3}
   m_Name: SO_Melee_Step1
   m_EditorClassIdentifier: Assembly-CSharp::AttackData
-  attackType: 0
-  hitboxSize: {x: 1.5, y: 1.5}
+  attackType: 1
   attackDistance: 1
   baseDamage: 10
   knockbackForce: 3
@@ -21,7 +20,9 @@ MonoBehaviour:
   lungeForce: 4
   animationTriggerName: Attack
   vfxPrefab: {fileID: 822317472821154818, guid: 66331a54a517ed24dbb628e8f8446d75, type: 3}
-  activeHitDuration: 0.1
+  activeHitDuration: 0.25
   recoveryDuration: 0.2
+  attackSFX: {fileID: 0}
+  hitImpactSFX: {fileID: 0}
   nextMeleeFollowUp: {fileID: 11400000, guid: f3ce720f4789fe64c8c8e7bc515497c0, type: 2}
   nextFlintlockFollowUp: {fileID: 0}

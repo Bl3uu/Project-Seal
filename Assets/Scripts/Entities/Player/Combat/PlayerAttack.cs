@@ -15,13 +15,12 @@ public class PlayerAttack : MonoBehaviour
 
     [Header("Combo Timings")]
     [SerializeField] private float comboResetWindow = 1.0f;
-
-    [Header("Input Buffer")]
     [SerializeField] private float inputBufferWindow = 0.15f;
 
     [Header("References")]
     [SerializeField] private MeleeAttack meleeAttack;
     [SerializeField] private FlintlockCarousel flintlockCarousel;
+
     private EntityMotor playerMotor;
     private EntityAnimator2D entityAnimator;
 
@@ -32,7 +31,7 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private bool isFreeFireStance = false;
 
     private ComboStateMachine stateMachine = new ComboStateMachine();
-    private InputBuffer<AttackType> inputBuffer;
+    private PlayerInputBuffer<PlayerActionType> inputBuffer;
     private IAimProvider aimProvider;
     private Coroutine attackRoutine;
 
@@ -48,8 +47,8 @@ public class PlayerAttack : MonoBehaviour
     {
         playerMotor = GetComponent<EntityMotor>();
         aimProvider = GetComponent<IAimProvider>();
-        inputBuffer = new InputBuffer<AttackType>(inputBufferWindow);
         entityAnimator = GetComponent<EntityAnimator2D>();
+        inputBuffer = new PlayerInputBuffer<PlayerActionType>(inputBufferWindow);
 
         if (meleeAttack == null)
         {
@@ -81,7 +80,7 @@ public class PlayerAttack : MonoBehaviour
             return;
         }
 
-        HandleInput(AttackType.Melee);
+        HandleInput(PlayerActionType.Melee);
     }
 
     public void OnFlintlockInput(InputValue value)
@@ -91,7 +90,7 @@ public class PlayerAttack : MonoBehaviour
             return;
         }
 
-        HandleInput(AttackType.Flintlock);
+        HandleInput(PlayerActionType.Flintlock);
     }
 
     public void OnToggleStanceInput(InputValue value)
@@ -144,7 +143,7 @@ public class PlayerAttack : MonoBehaviour
 
     #endregion
 
-    private void HandleInput(AttackType input)
+    private void HandleInput(PlayerActionType input)
     {
         if (!stateMachine.IsAttacking)
         {
@@ -156,7 +155,7 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
-    private void ExecuteStep(AttackType input)
+    private void ExecuteStep(PlayerActionType input)
     {
         AttackData targetAttack = EvaluateNextAttackNode(input);
 
@@ -187,11 +186,11 @@ public class PlayerAttack : MonoBehaviour
         attackRoutine = StartCoroutine(PerformAttack(input, currentAttackData, aimDirection));
     }
 
-    private AttackData EvaluateNextAttackNode(AttackType input)
+    private AttackData EvaluateNextAttackNode(PlayerActionType input)
     {
         if (currentAttackData == null || stateMachine.CurrentStep == 0)
         {
-            if (input == AttackType.Melee)
+            if (input == PlayerActionType.Melee)
             {
                 return entryMeleeAttackData;
             }
@@ -203,7 +202,7 @@ public class PlayerAttack : MonoBehaviour
 
         AttackData targetNode;
 
-        if (input == AttackType.Melee)
+        if (input == PlayerActionType.Melee)
         {
             targetNode = currentAttackData.nextMeleeFollowUp;
         }
@@ -221,9 +220,9 @@ public class PlayerAttack : MonoBehaviour
         return targetNode;
     }
 
-    private IEnumerator PerformAttack(AttackType inputType, AttackData attackData, Vector2 aimDirection)
+    private IEnumerator PerformAttack(PlayerActionType inputType, AttackData attackData, Vector2 aimDirection)
     {
-        if (inputType == AttackType.Flintlock && flintlockCarousel != null)
+        if (inputType == PlayerActionType.Flintlock && flintlockCarousel != null)
         {
             bool shotFired = flintlockCarousel.FireComboShot(attackData, aimDirection);
             if (!shotFired)
@@ -241,7 +240,7 @@ public class PlayerAttack : MonoBehaviour
         }
 
         // Dispatch attack execution to either melee or flintlock
-        if (inputType == AttackType.Melee && meleeAttack != null)
+        if (inputType == PlayerActionType.Melee && meleeAttack != null)
         {
             meleeAttack.ExecuteSlash(attackData, aimDirection);
         }
@@ -252,7 +251,7 @@ public class PlayerAttack : MonoBehaviour
         {
             timer += Time.fixedDeltaTime;
 
-            if (inputType == AttackType.Melee && attackData.lungeForce > 0f)
+            if (inputType == PlayerActionType.Melee && attackData.lungeForce > 0f)
             {
                 playerMotor.Move(aimDirection, attackData.lungeForce);
             }
@@ -265,16 +264,31 @@ public class PlayerAttack : MonoBehaviour
         // Enter Recovery
         stateMachine.EnterRecovery();
 
-        // Check input buffer upon entering recovery
-        if (inputBuffer.HasBufferedInput)
+        float recoveryTimer = 0f;
+        bool bufferedNextStep = false;
+        PlayerActionType nextInput = PlayerActionType.None;
+
+        while (recoveryTimer < attackData.recoveryDuration)
         {
-            AttackType nextInput = inputBuffer.Consume().Value;
+            recoveryTimer += Time.fixedDeltaTime;
+            if (inputBuffer.HasBufferedInput)
+            {
+                nextInput = inputBuffer.Consume().Value;
+                if (nextInput == PlayerActionType.Melee || nextInput == PlayerActionType.Flintlock)
+                {
+                    bufferedNextStep = true;
+                    break;
+                }
+            }
+
+            yield return null;
+        }
+
+        if (bufferedNextStep)
+        {
             ExecuteStep(nextInput);
             yield break;
         }
-
-        // Recovery Window
-        yield return new WaitForSeconds(attackData.recoveryDuration);
 
         bool hasFollowUp = (currentAttackData.nextMeleeFollowUp != null || currentAttackData.nextFlintlockFollowUp != null);
 

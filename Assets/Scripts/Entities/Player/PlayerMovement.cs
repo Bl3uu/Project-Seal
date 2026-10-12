@@ -9,7 +9,8 @@ public class PlayerMovement : MonoBehaviour
     private EntityMotor playerMotor;
     private PlayerDash playerDash;
     private PlayerAttack playerAttack;
-    private Vector2 moveDirection;
+
+    public Vector2 RawInputVector { get; private set; }
 
     private void Awake()
     { 
@@ -20,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        moveDirection = ReadInputVector();
+        RawInputVector = ReadInputVector();
     }
 
     private void FixedUpdate()
@@ -30,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
 
-        playerMotor.Move(moveDirection, defaultMoveSpeed);
+        playerMotor.Move(RawInputVector, defaultMoveSpeed);
     }
 
     private Vector2 ReadInputVector()

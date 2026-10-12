@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class InputBuffer<T> where T : struct
+public class PlayerInputBuffer<T> where T : struct
 {
     private T? bufferedCommand;
     private float bufferTimer;
@@ -9,7 +9,7 @@ public class InputBuffer<T> where T : struct
     public bool HasBufferedInput => bufferedCommand.HasValue;
     public T? Command => bufferedCommand;
 
-    public InputBuffer(float defaultWindow = 0.15f)
+    public PlayerInputBuffer(float defaultWindow = 0.15f)
     {
         this.defaultWindow = defaultWindow;
     }

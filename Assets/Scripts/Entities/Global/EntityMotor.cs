@@ -48,11 +48,20 @@ public class EntityMotor : MonoBehaviour
 
         if (hit.collider != null)
         {
-
+            Vector2 hitNormal = SnapToCardinalNormal(hit.normal);
+            Debug.DrawRay(hit.point, hitNormal * 0.5f, Color.red);
             moveVec -= Vector2.Dot(moveVec, hit.normal) * hit.normal;
         }
 
-        rb.linearVelocity = moveVec.normalized * speed;
+        if (moveVec.sqrMagnitude < 0.0025f)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+        else
+        {
+            float originalInputMagnitude = Mathf.Clamp01(direction.magnitude);
+            rb.linearVelocity = moveVec.normalized * (speed * originalInputMagnitude);
+        }
     }
 
     public RaycastHit2D CheckCollision(Vector2 dir)
@@ -67,7 +76,7 @@ public class EntityMotor : MonoBehaviour
             boxCollider.size,
             0f,
             dir,
-            0.15f,
+            0.10f,
             activeObstacleMask
         );
 
@@ -82,6 +91,17 @@ public class EntityMotor : MonoBehaviour
         return new RaycastHit2D();
     }
 
+    private Vector2 SnapToCardinalNormal(Vector2 rawNormal)
+    {
+        if (Mathf.Abs(rawNormal.x) > Mathf.Abs(rawNormal.y))
+        {
+            return new Vector2(Mathf.Sign(rawNormal.x), 0f);
+        }
+        else
+        {
+            return new Vector2(0f, Mathf.Sign(rawNormal.y));
+        }
+    }
 
     public void UpdateHeightLevel(int heightLevel)
     {
