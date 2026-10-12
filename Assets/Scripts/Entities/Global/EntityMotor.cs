@@ -48,6 +48,7 @@ public class EntityMotor : MonoBehaviour
 
         if (hit.collider != null)
         {
+
             moveVec -= Vector2.Dot(moveVec, hit.normal) * hit.normal;
         }
 
@@ -80,6 +81,7 @@ public class EntityMotor : MonoBehaviour
 
         return new RaycastHit2D();
     }
+
 
     public void UpdateHeightLevel(int heightLevel)
     {

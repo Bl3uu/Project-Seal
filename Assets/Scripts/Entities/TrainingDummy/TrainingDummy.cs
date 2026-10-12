@@ -14,7 +14,36 @@ public class TrainingDummy : Enemy
 
     public override void TakeDamage(DamageData payload)
     {
-        base.TakeDamage(payload);
+        float currentHp;
+
+        if (health != null)
+        {
+            currentHp = health.CurrentHealth;
+        }
+        else
+        {
+            currentHp = 0f;
+        }
+
+        if (health != null && (currentHp - payload.Amount) <= 0f)
+        {
+            float adjustDamage = Mathf.Max(0f, currentHp - 1f);
+                health.ApplyDamage(adjustDamage);
+        }
+        else
+        {
+            base.TakeDamage(payload);
+        }
+
+        if (knockbackReceiver != null && payload.KnockbackForce > 0f)
+        {
+            knockbackReceiver.ApplyKnockback(payload.HitDirection, payload.KnockbackForce, payload.KnockbackDuration);
+        }
+
+        if (hitFeedback != null)
+        {
+            hitFeedback.PlayHitEffects();
+        }
 
         if (resetDummy != null)
         {
@@ -27,7 +56,7 @@ public class TrainingDummy : Enemy
     private IEnumerator ResetRoutine()
     {
         remainingResetTime = resetDelay;
-        Debug.Log("Dummy Reset");
+
         while (remainingResetTime > 0f)
         {
             yield return null;
