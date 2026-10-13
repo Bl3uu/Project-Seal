@@ -10393,8 +10393,8 @@ GameObject:
   - component: {fileID: 998719340}
   - component: {fileID: 998719342}
   - component: {fileID: 998719341}
-  - component: {fileID: 998719337}
   - component: {fileID: 998719348}
+  - component: {fileID: 998719337}
   - component: {fileID: 998719344}
   - component: {fileID: 998719346}
   - component: {fileID: 998719345}
@@ -10663,7 +10663,6 @@ MonoBehaviour:
   dashSpeed: 15
   dashDuration: 0.15
   dashCooldown: 1
-  inputBufferWindow: 0.15
   healthComponent: {fileID: 998719339}
   playerAttack: {fileID: 998719340}
   playerMovement: {fileID: 0}
@@ -10703,10 +10702,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttack
   entryMeleeAttackData: {fileID: 11400000, guid: be1dcfb4720b75a40bcdf917ef599afc, type: 2}
   entryFlintlockAttackData: {fileID: 0}
+  dashMeleeAttackData: {fileID: 11400000, guid: 24eea396da215f547a03efd949039aa2, type: 2}
   comboResetWindow: 0.8
   inputBufferWindow: 0.15
-  meleeAttack: {fileID: 998719342}
-  flintlockCarousel: {fileID: 998719341}
   freeFireAttackData: {fileID: 11400000, guid: a08fbe6a95692cb46a89b3a1f4fa7cd6, type: 2}
   isFreeFireStance: 0
 --- !u!114 &998719341
@@ -10901,12 +10899,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 998719327}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 482149700a8ef32459fbec0e84ede8cc, type: 3}
+  m_Script: {fileID: 11500000, guid: 030f12a950ad67749a540ceaa1903cfd, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerInputBuffer
-  bufferWindow: 0.2
-  bufferedAction: 0
-  bufferTimer: 0
+  m_EditorClassIdentifier: Assembly-CSharp::AttackExecutor
+  meleeAttack: {fileID: 998719342}
+  flintlockCarousel: {fileID: 998719341}
 --- !u!1 &1030457128
 GameObject:
   m_ObjectHideFlags: 0
@@ -17788,7 +17785,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15ba04d59072506468763a68c75e2298, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityMotor
-  elevationConfig: {fileID: 0}
+  elevationConfig: {fileID: 11400000, guid: 6974f984e2352964d9121c77d5224813, type: 2}
   defaultHeight: 0
 --- !u!1 &1661877915
 GameObject:

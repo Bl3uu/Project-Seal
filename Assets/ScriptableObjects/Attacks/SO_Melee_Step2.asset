@@ -20,6 +20,7 @@ MonoBehaviour:
   lungeForce: 4
   animationTriggerName: Attack
   vfxPrefab: {fileID: 277225465166252023, guid: 461f58c7ff3b53c4982db44becb7fefe, type: 3}
+  startupDuration: 0
   activeHitDuration: 0.25
   recoveryDuration: 0.2
   attackSFX: {fileID: 0}

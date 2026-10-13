@@ -9,7 +9,6 @@ public class PlayerDash : MonoBehaviour
     [SerializeField] private float dashSpeed = 25f;
     [SerializeField] private float dashDuration = 0.15f;
     [SerializeField] private float dashCooldown = 0.5f;
-    [SerializeField] private float inputBufferWindow = 0.15f;
 
     [Header("References")]
     [SerializeField] private Health healthComponent;
@@ -28,7 +27,6 @@ public class PlayerDash : MonoBehaviour
     {
         playerMotor = GetComponent<EntityMotor>();
         aimProvider = GetComponent<IAimProvider>();
-        inputBuffer = new PlayerInputBuffer<PlayerActionType>(inputBufferWindow);
 
         if (healthComponent == null)
         {
@@ -44,11 +42,6 @@ public class PlayerDash : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        inputBuffer.Tick(Time.deltaTime);
-    }
-
     public void OnDash(InputValue value)
     {
         if (!value.isPressed)
@@ -57,25 +50,31 @@ public class PlayerDash : MonoBehaviour
         }
 
         Debug.Log("Dash input pressed!");
-        if (canDash && !isDashing)
+        if (playerAttack != null && playerAttack.IsAttacking)
         {
-            if (playerAttack != null && playerAttack.IsAttacking)
+            if (playerAttack.TryCancelAttack())
             {
-                if (playerAttack.TryCancelAttack())
-                {
-                    StartCoroutine(PerformDash());
-                    return;
-                }
-
-                inputBuffer.Buffer(PlayerActionType.Dash);
-                return;
+                TriggerDashFromAttack();
+            }
+            else
+            {
+                playerAttack.BufferInputFromDash(PlayerActionType.Dash);
             }
 
+            return;
+        }
+
+        if (canDash && !isDashing)
+        {
             StartCoroutine(PerformDash());
         }
-        else
+    }
+
+    public void TriggerDashFromAttack()
+    {
+        if (canDash && !isDashing)
         {
-            inputBuffer.Buffer(PlayerActionType.Dash);
+            StartCoroutine(PerformDash());
         }
     }
 
@@ -123,15 +122,5 @@ public class PlayerDash : MonoBehaviour
         // Cooldown timer before player can dash again
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
-
-        if (inputBuffer.HasBufferedInput)
-        {
-            if (inputBuffer.Command == PlayerActionType.Dash)
-            {
-                inputBuffer.Consume();
-                StartCoroutine(PerformDash());
-            }
-            
-        }
     }
 }
