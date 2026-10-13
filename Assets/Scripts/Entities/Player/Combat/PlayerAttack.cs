@@ -239,17 +239,25 @@ public class PlayerAttack : MonoBehaviour
             entityAnimator.PlayerAttack(stateMachine.CurrentStep, aimAngle);
         }
 
-        // Dispatch attack execution to either melee or flintlock
+        // Wind-Up Phase
+        float startupTimer = 0f;
+        while (startupTimer < attackData.startupDuration)
+        {
+            startupTimer += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        // Active Hit Phase
         if (inputType == PlayerActionType.Melee && meleeAttack != null)
         {
             meleeAttack.ExecuteSlash(attackData, aimDirection);
         }
 
-        float timer = 0f;
+        float activeTimer = 0f;
 
-        while (timer < attackData.activeHitDuration)
+        while (activeTimer < attackData.activeHitDuration)
         {
-            timer += Time.fixedDeltaTime;
+            activeTimer += Time.fixedDeltaTime;
 
             if (inputType == PlayerActionType.Melee && attackData.lungeForce > 0f)
             {
@@ -261,7 +269,7 @@ public class PlayerAttack : MonoBehaviour
 
         playerMotor.Move(Vector2.zero, 0f);
 
-        // Enter Recovery
+        // Recovery Phase
         stateMachine.EnterRecovery();
 
         float recoveryTimer = 0f;
