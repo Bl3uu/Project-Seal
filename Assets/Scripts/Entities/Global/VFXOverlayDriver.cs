@@ -22,7 +22,7 @@ public class VFXOverlayDriver : MonoBehaviour
         return vfxInstance;
     }
 
-    public MeleeHitbox SpawnAttackVFX(GameObject vfxPrefab, float aimAngle, float attackDistance)
+    public DataDrivenVFXPlayer SpawnAttackVFX(GameObject vfxPrefab, float aimAngle, float attackDistance)
     {
         if (weaponPivot == null || vfxPrefab == null)
         {
@@ -30,11 +30,9 @@ public class VFXOverlayDriver : MonoBehaviour
         }
 
         weaponPivot.rotation = Quaternion.Euler(0f, 0f, aimAngle);
-
         GameObject vfxInstance = Instantiate(vfxPrefab, weaponPivot.position, weaponPivot.rotation, weaponPivot);
-
         vfxInstance.transform.localPosition = new Vector3(attackDistance, 0f, 0f);
-
-        return vfxInstance.GetComponent<MeleeHitbox>();
+    
+        return vfxInstance.GetComponent<DataDrivenVFXPlayer>();
     }
 }

@@ -20,9 +20,17 @@ MonoBehaviour:
   lungeForce: 8
   animationTriggerName: DashAttack
   vfxPrefab: {fileID: 822317472821154818, guid: 66331a54a517ed24dbb628e8f8446d75, type: 3}
-  startupDuration: 0
-  activeHitDuration: 0.4
-  recoveryDuration: 0.2
+  startupDuration: 0.05
+  activeHitDuration: 0.1
+  recoveryDuration: 0.05
+  startupSprites:
+  - {fileID: 6142581537722279085, guid: db95f921852de6041adc28da984e919d, type: 3}
+  activeSprites:
+  - {fileID: 6529365084078575885, guid: db95f921852de6041adc28da984e919d, type: 3}
+  - {fileID: 454563809201908377, guid: db95f921852de6041adc28da984e919d, type: 3}
+  recoverySprites:
+  - {fileID: 3917697693920265161, guid: db95f921852de6041adc28da984e919d, type: 3}
+  animationFPS: 12
   attackSFX: {fileID: 0}
   hitImpactSFX: {fileID: 0}
   nextMeleeFollowUp: {fileID: 11400000, guid: be1dcfb4720b75a40bcdf917ef599afc, type: 2}

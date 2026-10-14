@@ -28,6 +28,14 @@ public class AttackData : ScriptableObject
     [Tooltip("Duration of recovery phase where cancels or sequence follow-ups are permitted")]
     public float recoveryDuration = 0.25f;
 
+    [Header("Frame Sprite Data")]
+    public Sprite[] startupSprites;
+    public Sprite[] activeSprites;
+    public Sprite[] recoverySprites;
+
+    [Tooltip("Frames per second for playing the data-driven sprites")]
+    public float animationFPS = 12f;
+
     [Header("Audio")]
     public AudioClip attackSFX;
     public AudioClip hitImpactSFX;

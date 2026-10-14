@@ -5,16 +5,46 @@ public class MeleeHitbox : MonoBehaviour
 {
     private DamageData damageData;
     private HashSet<GameObject> hitTargets = new HashSet<GameObject>();
+    private Collider2D hitboxCollider;
+    private Animator animator;
 
-    public void Initialize(DamageData data, float activeHitDuration)
+    private void Awake()
+    {
+        hitboxCollider = GetComponent<Collider2D>();
+        animator = GetComponent<Animator>();
+    }
+
+    public void PrepareHitbox(DamageData data)
     {
         this.damageData = data;
+        DisableHitbox();
 
-        Invoke(nameof(DisableHitbox), activeHitDuration);
+        if (animator != null && animator.runtimeAnimatorController != null)
+        {
+            float clipLength = 0.2f;
 
-        float vfxDuration = this.GetAnimationLengthOrDefault();
+            AnimatorClipInfo[] clipInfo = animator.GetCurrentAnimatorClipInfo(0);
+            if (clipInfo.Length > 0)
+            {
+                clipLength = clipInfo[0].clip.length;
+            }
+        }
+    }
 
-        Destroy(gameObject, vfxDuration);
+    public void EnableHitbox()
+    {
+        if (hitboxCollider != null)
+        {
+            hitboxCollider.enabled = true;
+        }
+    }
+
+    public void DisableHitbox()
+    {
+        if (hitboxCollider != null)
+        {
+            hitboxCollider.enabled = false;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -33,14 +63,6 @@ public class MeleeHitbox : MonoBehaviour
                 hitTargets.Add(rootTarget);
                 damageable.TakeDamage(damageData);
             }
-        }
-    }
-
-    private void DisableHitbox()
-    {
-        if (TryGetComponent<Collider2D>(out var col))
-        {
-            col.enabled = false;
         }
     }
 

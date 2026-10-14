@@ -5,20 +5,11 @@ public class MeleeAttack : MonoBehaviour
     [SerializeField] private Transform attackOrigin;
     [SerializeField] private VFXOverlayDriver vfxDriver;
 
-    private AttackData lastAttackData;
-    private Vector2 lastAimDirection;
+    private DataDrivenVFXPlayer vfxPlayer;
 
-    private void Awake()
+    public void PrepareAttackVFX(AttackData attackData, Vector2 aimDirection)
     {
-        if (attackOrigin == null)
-        {
-            attackOrigin = transform;
-        }
-    }
-
-    public void ExecuteSlash(AttackData attackData, Vector2 aimDirection)
-    {
-        if (attackData == null)
+        if (attackData == null || vfxDriver == null || attackData.vfxPrefab == null)
         {
             return;
         }
@@ -36,13 +27,10 @@ public class MeleeAttack : MonoBehaviour
         payload.KnockbackDuration = attackData.knockbackDuration;
         payload.Source = transform.root.gameObject;
 
-        if (vfxDriver != null)
+        vfxPlayer = vfxDriver.SpawnAttackVFX(attackData.vfxPrefab, aimAngle, attackData.attackDistance);
+        if (vfxPlayer != null)
         {
-            MeleeHitbox hitbox = vfxDriver.SpawnAttackVFX(attackData.vfxPrefab, aimAngle, attackData.attackDistance);
-            if (hitbox != null)
-            {
-                hitbox.Initialize(payload, attackData.activeHitDuration);
-            }
+            vfxPlayer.InitializeAndPlay(attackData, payload);
         }
     }
 }

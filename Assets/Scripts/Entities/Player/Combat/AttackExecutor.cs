@@ -14,6 +14,7 @@ public class AttackExecutor : MonoBehaviour
     private IAimProvider aimProvider;
 
     private Coroutine attackRoutine;
+    private AttackData currentAttackData;
 
     public bool IsExecuting => attackRoutine != null;
 
@@ -48,6 +49,8 @@ public class AttackExecutor : MonoBehaviour
 
     private IEnumerator AttackTimelineRoutine(PlayerActionType inputType, AttackData attackData, int currenStep, PlayerAttack playerAttack)
     {
+        currentAttackData = attackData;
+
         Vector2 aimDirection;
         if (aimProvider != null)
         {
@@ -75,45 +78,44 @@ public class AttackExecutor : MonoBehaviour
             playerAnimator.PlayerAttack(currenStep, aimAngle);
         }
 
+        if (inputType == PlayerActionType.Melee && meleeAttack != null)
+        {
+            meleeAttack.PrepareAttackVFX(attackData, aimDirection);
+        }
+
         bool bufferedNextStep = false;
         PlayerActionType nextInput = PlayerActionType.None;
 
-        // Startup / Wind-up Phase
-        if (attackData.startupDuration > 0f)
+        float totalAttackDuration = attackData.startupDuration + attackData.activeHitDuration + attackData.recoveryDuration;
+        float timer = 0f;
+
+        while (timer < totalAttackDuration)
         {
-            float startupTimer = 0f;
-            while (startupTimer < attackData.startupDuration)
+            timer += Time.fixedDeltaTime;
+
+            if (inputType == PlayerActionType.Melee && attackData.lungeForce > 0f && playerMotor)
             {
-                startupTimer += Time.fixedDeltaTime;
+                float activeStartTime = attackData.startupDuration;
+                float activeEndTime = attackData.startupDuration + attackData.activeHitDuration;
                 
-                if (!bufferedNextStep)
+                if (timer >= activeStartTime && timer <= activeEndTime)
                 {
-                    bufferedNextStep = CheckAndCaptureBuffer(playerAttack, ref nextInput);
+                    playerMotor.Move(aimDirection, attackData.lungeForce);
                 }
-
-                yield return new WaitForFixedUpdate();
-            }
-        }
-
-        // Active Hit Phase
-        if (inputType == PlayerActionType.Melee && meleeAttack != null)
-        {
-            meleeAttack.ExecuteSlash(attackData, aimDirection);
-        }
-
-        float activeTimer = 0f;
-        while (activeTimer < attackData.activeHitDuration)
-        {
-            activeTimer += Time.fixedDeltaTime;
-
-            if (inputType == PlayerActionType.Melee && attackData.lungeForce > 0f && playerMotor != null)
-            {
-                playerMotor.Move(aimDirection, attackData.lungeForce);
+                else
+                {
+                    playerMotor.Move(Vector2.zero, 0f);
+                }
             }
 
             if (!bufferedNextStep)
             {
                 bufferedNextStep = CheckAndCaptureBuffer(playerAttack, ref nextInput);
+            }
+
+            if (bufferedNextStep && nextInput == PlayerActionType.Dash && timer > attackData.startupDuration)
+            {
+                break;
             }
 
             yield return new WaitForFixedUpdate();
@@ -122,26 +124,6 @@ public class AttackExecutor : MonoBehaviour
         if (playerMotor != null)
         {
             playerMotor.Move(Vector2.zero, 0f);
-        }
-
-        // Recovery Phase
-        float recoveryTimer = 0f;
-
-        while (recoveryTimer < attackData.recoveryDuration)
-        {
-            recoveryTimer += Time.deltaTime;
-
-            if (!bufferedNextStep)
-            {
-                bufferedNextStep = CheckAndCaptureBuffer(playerAttack, ref nextInput);
-            }
-
-            if (bufferedNextStep)
-            {
-                break;
-            }
-
-            yield return null;
         }
 
         attackRoutine = null;

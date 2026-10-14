@@ -20,9 +20,17 @@ MonoBehaviour:
   lungeForce: 4
   animationTriggerName: Attack
   vfxPrefab: {fileID: 822317472821154818, guid: 66331a54a517ed24dbb628e8f8446d75, type: 3}
-  startupDuration: 0.5
-  activeHitDuration: 0.25
-  recoveryDuration: 0.2
+  startupDuration: 0.3
+  activeHitDuration: 0.4
+  recoveryDuration: 0.05
+  startupSprites:
+  - {fileID: 8842398555604916490, guid: db95f921852de6041adc28da984e919d, type: 3}
+  activeSprites:
+  - {fileID: -3573775185859571444, guid: db95f921852de6041adc28da984e919d, type: 3}
+  - {fileID: -6173332619332831229, guid: db95f921852de6041adc28da984e919d, type: 3}
+  recoverySprites:
+  - {fileID: 4568558679452224477, guid: db95f921852de6041adc28da984e919d, type: 3}
+  animationFPS: 12
   attackSFX: {fileID: 0}
   hitImpactSFX: {fileID: 0}
   nextMeleeFollowUp: {fileID: 11400000, guid: f3ce720f4789fe64c8c8e7bc515497c0, type: 2}

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5346433583308589242}
   - component: {fileID: 893094281959617958}
   - component: {fileID: 2027904104056833006}
-  - component: {fileID: -3440919848372962984}
   - component: {fileID: 1907236021770048611}
+  - component: {fileID: 7980516278572944402}
   m_Layer: 0
   m_Name: PFX_Thrust
   m_TagString: Untagged
@@ -141,28 +141,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.5, y: 1}
   m_EdgeRadius: 0
---- !u!95 &-3440919848372962984
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8503299490493517115}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 50a66896f0d7759489563e39558ef17e, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1907236021770048611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,3 +153,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e6fcd15e85b8e42a813f3119c5ccdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeHitbox
+--- !u!114 &7980516278572944402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8503299490493517115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83640cca48854df4fa79eda3b89d0176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DataDrivenVFXPlayer

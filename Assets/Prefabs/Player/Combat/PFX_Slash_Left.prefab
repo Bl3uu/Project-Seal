@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 4661054907730138058}
   - component: {fileID: 143029117921073422}
   - component: {fileID: 5406610537815180111}
-  - component: {fileID: 6949395872434435352}
   - component: {fileID: 5544688735177482494}
+  - component: {fileID: 7823075026454267623}
   m_Layer: 0
   m_Name: PFX_Slash_Left
   m_TagString: Untagged
@@ -141,28 +141,6 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.5, y: 1}
   m_EdgeRadius: 0
---- !u!95 &6949395872434435352
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 277225465166252023}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d34a1140af1f9a1428a667c6252ae59d, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &5544688735177482494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -175,3 +153,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1e6fcd15e85b8e42a813f3119c5ccdd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MeleeHitbox
+--- !u!114 &7823075026454267623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 277225465166252023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 83640cca48854df4fa79eda3b89d0176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DataDrivenVFXPlayer
