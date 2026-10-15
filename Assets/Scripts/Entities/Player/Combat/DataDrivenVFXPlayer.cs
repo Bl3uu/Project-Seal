@@ -10,7 +10,7 @@ public class DataDrivenVFXPlayer : MonoBehaviour
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        
+        meleeHitbox = GetComponent<MeleeHitbox>();
     }
 
     public void InitializeAndPlay(AttackData attackData, DamageData damageData)

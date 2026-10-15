@@ -17,11 +17,11 @@ MonoBehaviour:
   baseDamage: 12
   knockbackForce: 4
   knockbackDuration: 0.2
-  lungeForce: 4
+  lungeForce: 5
   animationTriggerName: Attack
   vfxPrefab: {fileID: 277225465166252023, guid: 461f58c7ff3b53c4982db44becb7fefe, type: 3}
   startupDuration: 0.05
-  activeHitDuration: 0.1
+  activeHitDuration: 0.2
   recoveryDuration: 0.05
   startupSprites:
   - {fileID: 6142581537722279085, guid: db95f921852de6041adc28da984e919d, type: 3}

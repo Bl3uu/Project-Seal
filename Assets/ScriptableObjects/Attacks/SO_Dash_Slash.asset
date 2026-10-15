@@ -21,7 +21,7 @@ MonoBehaviour:
   animationTriggerName: DashAttack
   vfxPrefab: {fileID: 822317472821154818, guid: 66331a54a517ed24dbb628e8f8446d75, type: 3}
   startupDuration: 0.05
-  activeHitDuration: 0.1
+  activeHitDuration: 0.2
   recoveryDuration: 0.05
   startupSprites:
   - {fileID: 6142581537722279085, guid: db95f921852de6041adc28da984e919d, type: 3}
