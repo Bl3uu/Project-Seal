@@ -22,6 +22,7 @@ public class MeleeAttack : MonoBehaviour
         DamageData payload = new DamageData();
 
         payload.Amount = attackData.baseDamage;
+        payload.PoiseDamage = attackData.poiseDamage;
         payload.HitDirection = normalizedAimDir;
         payload.KnockbackForce = attackData.knockbackForce; ;
         payload.KnockbackDuration = attackData.knockbackDuration;

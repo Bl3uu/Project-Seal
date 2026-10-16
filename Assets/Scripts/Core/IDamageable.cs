@@ -3,6 +3,7 @@ using UnityEngine;
 public struct DamageData
 {
     public float Amount;
+    public float PoiseDamage;
     public Vector2 HitDirection;
     public GameObject Source;
     public float KnockbackForce;

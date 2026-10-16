@@ -27,7 +27,29 @@ public class Health : MonoBehaviour
 
     private void Start()
     {
-        OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
+        if (OnHealthChanged != null)
+        {
+            OnHealthChanged.Invoke(CurrentHealth, maxHealth);
+        }
+    }
+
+    public void SetMaxHealth(float newMaxHealth, bool resetCurrentHealth = true)
+    {
+        maxHealth = newMaxHealth;
+
+        if (resetCurrentHealth)
+        {
+            CurrentHealth = maxHealth;
+        }
+        else
+        {
+            CurrentHealth = Mathf.Min(CurrentHealth, maxHealth);
+        }
+
+        if (OnHealthChanged != null)
+        {
+            OnHealthChanged.Invoke(CurrentHealth, maxHealth);
+        }
     }
 
     public void ApplyDamage(float amount)
@@ -41,8 +63,15 @@ public class Health : MonoBehaviour
         CurrentHealth = Mathf.Max(CurrentHealth, 0f);
 
         // Notify anything listening (for UI, damage popups, hit flashes etc)
-        OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
-        OnDamaged?.Invoke(amount);
+        if (OnHealthChanged != null)
+        {
+            OnHealthChanged.Invoke(CurrentHealth, maxHealth);
+        }
+
+        if (OnDamaged != null)
+        {
+            OnDamaged.Invoke(amount);
+        }
 
         if (CurrentHealth <= 0f && !isDead)
         {
@@ -53,7 +82,11 @@ public class Health : MonoBehaviour
     private void Die()
     {
         isDead = true;
-        OnDeath?.Invoke();
+
+        if (OnDeath != null)
+        {
+            OnDeath.Invoke();
+        }
     }
 
     public void Heal(float amount)
@@ -64,13 +97,21 @@ public class Health : MonoBehaviour
         }
 
         CurrentHealth = Mathf.Min(CurrentHealth + amount, maxHealth);
-        OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
+
+        if (OnHealthChanged != null)
+        {
+            OnHealthChanged.Invoke(CurrentHealth, maxHealth);
+        }
     }
 
     public void ResetHealth()
     {
         CurrentHealth = maxHealth;
         isDead = false;
-        OnHealthChanged?.Invoke(CurrentHealth, maxHealth);
+
+        if (OnHealthChanged != null)
+        {
+            OnHealthChanged.Invoke(CurrentHealth, maxHealth);
+        }
     }
 }

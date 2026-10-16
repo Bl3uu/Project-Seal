@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
 
     private Rigidbody2D rb;
     private float damage;
+    private float poiseDamage;
     private float knockbackForce;
     private float knockbackDuration;
     private GameObject ownerSource;
@@ -20,10 +21,11 @@ public class Bullet : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
-    public void Initialize(Vector2 direction, float damage, float knockbackForce, float knockbackDuration, GameObject source)
+    public void Initialize(Vector2 direction, float damage, float poiseDamage, float knockbackForce, float knockbackDuration, GameObject source)
     {
         this.moveDirection = direction.normalized;
         this.damage = damage;
+        this.poiseDamage = poiseDamage;
         this.knockbackForce = knockbackForce;
         this.knockbackDuration = knockbackDuration;
         this.ownerSource = source;
@@ -53,6 +55,7 @@ public class Bullet : MonoBehaviour
             DamageData payload;
 
             payload.Amount = damage;
+            payload.PoiseDamage = poiseDamage;
             payload.HitDirection = moveDirection;
             payload.KnockbackForce = knockbackForce;
             payload.KnockbackDuration = knockbackDuration;

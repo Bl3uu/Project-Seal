@@ -2,18 +2,42 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamageable
 {
+    [Header("Data")]
+    [SerializeField] protected EnemyData enemyData;
+
     [Header("References")]
     [SerializeField] protected Health health;
+    [SerializeField] protected Poise poise;
     [SerializeField] protected KnockbackReceiver knockbackReceiver;
     [SerializeField] protected HitFeedback hitFeedback;
 
     public bool IsDead => health != null && health.IsDead;
+    public EnemyData Data => enemyData;
 
     private void Awake()
     {
         health = GetComponent<Health>();
+        poise = GetComponent<Poise>();
         knockbackReceiver = GetComponent<KnockbackReceiver>();
         hitFeedback = GetComponent<HitFeedback>();
+
+        if (enemyData != null)
+        {
+            ApplyEnemyData();
+        }
+    }
+
+    protected virtual void ApplyEnemyData()
+    {
+        if (health != null)
+        {
+            health.SetMaxHealth(enemyData.maxHealth);
+        }
+
+        if (poise != null)
+        {
+            poise.Initialize(enemyData.maxPoise);
+        }
     }
 
     public virtual void TakeDamage(DamageData payload)
@@ -26,6 +50,11 @@ public class Enemy : MonoBehaviour, IDamageable
         if (health != null)
         {
             health.ApplyDamage(payload.Amount);
+        }
+
+        if (poise != null)
+        {
+            poise.ApplyPoiseDamage(payload.PoiseDamage);
         }
 
         if (knockbackReceiver != null)

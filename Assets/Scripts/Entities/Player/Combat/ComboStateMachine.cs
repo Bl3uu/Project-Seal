@@ -6,6 +6,7 @@ public enum ComboState
     Active,
     Recovery
 }
+
 public class ComboStateMachine
 {
     public ComboState CurrentState { get; private set; } = ComboState.Idle;

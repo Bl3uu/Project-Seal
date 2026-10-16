@@ -12,6 +12,7 @@ public class AttackData : ScriptableObject
 
     [Header("Payload Stats")]
     public float baseDamage = 25f;
+    public float poiseDamage = 15f;
     public float knockbackForce = 5f;
     public float knockbackDuration = 0.2f;
 

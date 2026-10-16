@@ -119,23 +119,26 @@ public class FlintlockCarousel : MonoBehaviour
             if (bulletObj.TryGetComponent<Bullet>(out var bullet))
             {
                 float damage;
+                float poiseDamage;
                 float kbForce;
                 float kbDuration;
 
                 if (attackData != null)
                 {
                     damage = attackData.baseDamage;
+                    poiseDamage = attackData.poiseDamage;
                     kbForce = attackData.knockbackForce;
                     kbDuration = attackData.knockbackDuration;
                 }
                 else
                 {
                     damage = 15f;
+                    poiseDamage = 25f;
                     kbForce = 3f;
                     kbDuration = 0.15f;
                 }
 
-                bullet.Initialize(aimDirection, damage, kbForce, kbDuration, transform.root.gameObject);
+                bullet.Initialize(aimDirection, damage, poiseDamage, kbForce, kbDuration, transform.root.gameObject);
             }
         }
     }
