@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fabf7b90631348469c3d8ac28c6e511, type: 3}
+  m_Name: Corvina
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimationData
+  clips:
+  - clipName: Idle_Right
+    frames:
+    - {fileID: 558841896111137245, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    - {fileID: 9210909021483336219, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    frameRate: 4
+    loop: 1
+  - clipName: Idle_Left
+    frames:
+    - {fileID: -7391550924158125200, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    - {fileID: 3793641337892839225, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    frameRate: 4
+    loop: 1
+  - clipName: Run_Right
+    frames:
+    - {fileID: -1148709989942824557, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    - {fileID: -8208238003415534526, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    - {fileID: 2346173424702291206, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    - {fileID: 6675217198299841055, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    frameRate: 4
+    loop: 1
+  - clipName: Run_Left
+    frames:
+    - {fileID: -4005627815546762254, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    - {fileID: 8083326903065148163, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    - {fileID: -298842563497810326, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    - {fileID: -2368845646366031937, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    frameRate: 4
+    loop: 1
+  - clipName: Attack_Right
+    frames:
+    - {fileID: -3225354690625230870, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    - {fileID: 6291171637701766159, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    frameRate: 12
+    loop: 0
+  - clipName: Attack_Left
+    frames:
+    - {fileID: 947015274631175713, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    - {fileID: 3014824265113992139, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    frameRate: 12
+    loop: 0
+  - clipName: Dash_Right
+    frames:
+    - {fileID: -3225354690625230870, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    - {fileID: 6291171637701766159, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    frameRate: 12
+    loop: 0
+  - clipName: Dash_Left
+    frames:
+    - {fileID: 947015274631175713, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    - {fileID: 3014824265113992139, guid: 268a46bccf121744b9dfd7fc6ef05396, type: 3}
+    frameRate: 12
+    loop: 0

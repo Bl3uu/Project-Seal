@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class MeleeAttack : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private Transform attackOrigin;
     [SerializeField] private VFXOverlayDriver vfxDriver;
-
     private DataDrivenVFXPlayer vfxPlayer;
 
     public void PrepareAttackVFX(AttackData attackData, Vector2 aimDirection)

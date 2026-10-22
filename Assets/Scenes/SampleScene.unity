@@ -10382,7 +10382,6 @@ GameObject:
   - component: {fileID: 998719330}
   - component: {fileID: 998719329}
   - component: {fileID: 998719334}
-  - component: {fileID: 998719333}
   - component: {fileID: 998719343}
   - component: {fileID: 998719328}
   - component: {fileID: 998719347}
@@ -10522,28 +10521,6 @@ Transform:
   - {fileID: 757629723}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!95 &998719333
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 998719327}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 39941786cabb3434280819b453f27150, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!61 &998719334
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -10751,7 +10728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EntityAnimator2d
   spriteRenderer: {fileID: 998719330}
-  animator: {fileID: 998719333}
+  animationDatabase: {fileID: 11400000, guid: 189e5be1cd25c6045a323bfd5bc6270b, type: 2}
   faceAimDirection: 1
   useSpriteFlipping: 0
 --- !u!114 &998719344
@@ -17445,7 +17422,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cff3b1404b888734baeb31375d9aa396, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrainingDummy
+  enemyData: {fileID: 0}
   health: {fileID: 0}
+  poise: {fileID: 0}
   knockbackReceiver: {fileID: 0}
   hitFeedback: {fileID: 0}
   resetDelay: 3

@@ -9,6 +9,7 @@ public class FlintlockCarousel : MonoBehaviour
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private VFXOverlayDriver vfxDriver;
+    private DataDrivenVFXPlayer vfxPlayer;
 
     private EntityMotor playerMotor;
     private EntityAudioDriver audioDriver;
@@ -95,9 +96,13 @@ public class FlintlockCarousel : MonoBehaviour
     {
         float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
 
-        if (attackData != null && attackData.vfxPrefab != null)
+        if (attackData != null && attackData.vfxPrefab != null && vfxDriver != null)
         {
-            vfxDriver.PlayVFX(attackData.vfxPrefab, aimAngle, attackData.attackDistance);
+            vfxPlayer = vfxDriver.SpawnAttackVFX(attackData.vfxPrefab, aimAngle, attackData.attackDistance);
+            if (vfxPlayer != null)
+            {
+                vfxPlayer.InitializeAndPlay(attackData);
+            }
         }
 
         if (audioDriver != null && attackData != null && attackData.attackSFX != null)

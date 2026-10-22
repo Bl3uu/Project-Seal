@@ -84,7 +84,7 @@ public class PlayerAttack : MonoBehaviour
         }
 
         isFreeFireStance = !isFreeFireStance;
-        Debug.Log($"[PlayerAttack] Swtiched Stance. Free-Fire Active: {isFreeFireStance}");
+        Debug.Log($"[PlayAttack] Swtiched Stance. Free-Fire Active: {isFreeFireStance}");
     }
 
     public void OnFreeFireInput(InputValue value)
@@ -155,7 +155,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (targetAttack == null)
         {
-            Debug.LogWarning("[PlayerAttack] No valid AttackData node found for input. Resetting combo.");
+            Debug.LogWarning("[PlayAttack] No valid AttackData node found for input. Resetting combo.");
             ResetCombo();
             return;
         }
@@ -207,7 +207,7 @@ public class PlayerAttack : MonoBehaviour
         stateMachine.CompleteAttack();
         comboDecayTimer = comboResetWindow;
 
-        Debug.Log($"[PlayerAttack] Action Interrupted! Combo preserved at Step {stateMachine.CurrentStep}.");
+        Debug.Log($"[PlayAttack] Action Interrupted! Combo preserved at Step {stateMachine.CurrentStep}.");
     }
 
     public bool HasBufferedInput(out PlayerActionType bufferedType)
@@ -255,7 +255,7 @@ public class PlayerAttack : MonoBehaviour
         inputBuffer.Clear();
         comboDecayTimer = 0f;
         currentAttackData = null;
-        Debug.Log("[PlayerAttack] Combo Sequence Reset.");
+        Debug.Log("[PlayAttack] Combo Sequence Reset.");
     }
 
     private void UpdateComboDecay()

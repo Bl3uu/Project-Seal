@@ -10,8 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 221951457502933607}
   - component: {fileID: 9097732062777824910}
-  - component: {fileID: 5801487569028895433}
-  - component: {fileID: 7775858655325957909}
+  - component: {fileID: 7841153484492070820}
   m_Layer: 0
   m_Name: PFX_Flintlock_Muzzle
   m_TagString: Untagged
@@ -94,29 +93,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
---- !u!95 &5801487569028895433
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2453681267547979762}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 6f2cd4ac7bb2c5c4ba715ad1182d2d6c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &7775858655325957909
+--- !u!114 &7841153484492070820
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,7 +102,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2453681267547979762}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbdb41c70214852448557de374e7a3aa, type: 3}
+  m_Script: {fileID: 11500000, guid: 83640cca48854df4fa79eda3b89d0176, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AutoDestroyVFX
-  fallbackLifetime: 0.3
+  m_EditorClassIdentifier: Assembly-CSharp::DataDrivenVFXPlayer

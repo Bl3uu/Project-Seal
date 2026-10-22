@@ -1,14 +1,17 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EntityAnimator2D : MonoBehaviour, IAnimationController
 {
     [Header("References")]
     [SerializeField] private SpriteRenderer spriteRenderer;
-    [SerializeField] private Animator animator;
-
     private EntityMotor motor;
     private PlayerAim playerAim;
     private PlayerAttack playerAttack;
+    private PlayerDash playerDash;
+
+    [Header("Animations")]
+    [SerializeField] private CharacterAnimationData animationDatabase;
 
     [Header("Settings")]
     [Tooltip("Dynamicamically toggle: ")]
@@ -16,17 +19,49 @@ public class EntityAnimator2D : MonoBehaviour, IAnimationController
     [Tooltip("Uncheck this for asymmetrical character designs so sprite graphics arent mirrored horizontally.")]
     [SerializeField] private bool useSpriteFlipping = false;
 
-    private static readonly int SpeedParam = Animator.StringToHash("Speed");
-    private static readonly int FacingXParam = Animator.StringToHash("FacingX");
-    private static readonly int AttackTrigger = Animator.StringToHash("Attack");
-    private static readonly int HurtTrigger = Animator.StringToHash("Hurt");
-    private static readonly int IsDeadParam = Animator.StringToHash("IsDead");
+    private Dictionary<string, SpriteAnimationClip> clipDictionary = new Dictionary<string, SpriteAnimationClip>();
+    private SpriteAnimationClip currentClip;
+    private int currentFrameIndex = 0;
+    private float timer = 0f;
+    private bool isPlaying = false;
+
+    private Vector2 cachedMoveDir;
+    private Vector2 cachedAimDir;
+    private string lastFacingDirection = "_Right";
 
     private void Awake()
     {
         motor = GetComponent<EntityMotor>();
         playerAim = GetComponent<PlayerAim>();
         playerAttack = GetComponent<PlayerAttack>();
+        playerDash = GetComponent<PlayerDash>();
+
+        if (animationDatabase != null)
+        {
+            foreach (var clip in animationDatabase.clips)
+            {
+                if (!clipDictionary.ContainsKey(clip.clipName))
+                {
+                    clipDictionary.Add(clip.clipName, clip);
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError($"Animation Database is missing on {gameObject.name}!", this);
+        }
+    }
+
+    private void Start()
+    {
+        if (useSpriteFlipping)
+        {
+            Play("Idle");
+        }
+        else
+        {
+            Play("Idle_Right");
+        }
     }
 
     private void Update()
@@ -34,30 +69,86 @@ public class EntityAnimator2D : MonoBehaviour, IAnimationController
         if (motor != null)
         {
             bool isAttacking = playerAttack != null && playerAttack.IsAttacking;
+            bool isDashing = playerDash != null && playerDash.IsDashing;
+
             faceAimDirection = isAttacking;
 
-            Vector2 moveDir = motor.MoveDirection;
-            Vector2 aimDir;
+            cachedMoveDir = motor.MoveDirection;
 
             if (playerAim != null)
             {
-                aimDir = playerAim.AimDirection;
+                cachedAimDir = playerAim.AimDirection;
             }
-            else
+
+            if (!isAttacking && !isDashing)
             {
-                aimDir = Vector2.zero;
+                UpdateLocomotion(cachedMoveDir, cachedAimDir);
             }
-            UpdateLocomotion(moveDir, aimDir);
+        }
+
+        UpdateAnimationPlayback();
+    }
+
+    private void UpdateAnimationPlayback()
+    {
+        if (!isPlaying || currentClip == null || currentClip.frames.Length == 0)
+        {
+            return;
+        }
+
+        timer += Time.deltaTime;
+        float frameDuration = 1f / currentClip.frameRate;
+
+        if (timer >= frameDuration)
+        {
+            timer -= frameDuration;
+            currentFrameIndex++;
+
+            if (currentFrameIndex >= currentClip.frames.Length)
+            {
+                if (currentClip.loop)
+                {
+                    currentFrameIndex = 0;
+                }
+                else
+                {
+                    currentFrameIndex = currentClip.frames.Length - 1;
+                    isPlaying = false;
+                }
+            }
+
+            if (spriteRenderer != null && currentClip.frames[currentFrameIndex] != null)
+            {
+                spriteRenderer.sprite = currentClip.frames[currentFrameIndex];
+            }
+        }
+    }
+
+    public void Play(string clipName)
+    {
+        if (clipDictionary.TryGetValue(clipName, out SpriteAnimationClip clip))
+        {
+            if (currentClip == clip && isPlaying)
+            {
+                return;
+            }
+
+            currentClip = clip;
+            currentFrameIndex = 0;
+            timer = 0f;
+            isPlaying = true;
+
+            Debug.Log($"{gameObject.name} Switched Animation -> {clipName}");
+
+            if (spriteRenderer != null && currentClip.frames.Length > 0)
+            {
+                spriteRenderer.sprite = currentClip.frames[0];
+            }
         }
     }
 
     public void UpdateLocomotion(Vector2 movementInput, Vector2 lookDirection)
     {
-        if (animator != null)
-        {
-            animator.SetFloat(SpeedParam, movementInput.magnitude);
-        }
-
         Vector2 targetDir;
 
         if (faceAimDirection && lookDirection != Vector2.zero)
@@ -69,40 +160,81 @@ public class EntityAnimator2D : MonoBehaviour, IAnimationController
             targetDir = movementInput;
         }
 
-        if (targetDir.x != 0)
+        ApplySpriteFlipping(targetDir);
+
+        string baseState;
+
+        if (movementInput.magnitude > 0.1f)
         {
-            if (useSpriteFlipping && spriteRenderer != null)
-            {
-                spriteRenderer.flipX = targetDir.x < 0;
-            }
-            else if (animator != null)
-            {
-                animator.SetFloat(FacingXParam, Mathf.Sign(targetDir.x));
-            }
+            baseState = "Run";
         }
+        else
+        {
+            baseState = "Idle";
+        }
+
+        string targetClip = baseState + GetDirectionSuffix(targetDir);
+        Play(baseState + GetDirectionSuffix(targetDir));
     }
 
-    public void PlayerAttack(int comboStep, float aimAngle)
+    public void PlayAttack(int comboStep, float aimAngle)
     {
-        if (animator != null)
-        {
-            animator.SetTrigger(AttackTrigger);
-        }
+        Play("Attack" + GetDirectionSuffix(cachedAimDir));
+    }
+
+    public void PlayDash(Vector2 dashDirection)
+    {
+        ApplySpriteFlipping(dashDirection);
+        Play("Dash" + GetDirectionSuffix(dashDirection));
     }
 
     public void PlayHurt()
     {
-        if (animator != null)
-        {
-            animator.SetTrigger(HurtTrigger);
-        }
+        Play("Hurt" + GetDirectionSuffix(Vector2.zero));
     }
 
     public void PlayDeath()
     {
-        if (animator != null)
+        Play("Death" + GetDirectionSuffix(Vector2.zero));
+        isPlaying = false;
+    }
+
+    private string GetDirectionSuffix(Vector2 direction)
+    {
+        if (useSpriteFlipping)
         {
-            animator.SetBool(IsDeadParam, true);
+            return "";
         }
+
+        if (direction.x != 0)
+        {
+            if (direction.x < 0)
+            {
+                lastFacingDirection = "_Left";
+            }
+            else
+            {
+                lastFacingDirection = "_Right";
+            }
+        }
+
+        return lastFacingDirection;
+    }
+
+    private void ApplySpriteFlipping(Vector2 direction)
+    {
+        if (useSpriteFlipping && direction.x != 0 && spriteRenderer != null)
+        {
+            spriteRenderer.flipX = direction.x < 0;
+        }
+    }
+
+    public float GetCurrentClipDuration()
+    {
+        if (currentClip == null || currentClip.frameRate <= 0f)
+        {
+            return 0.3f;
+        }
+        return currentClip.frames.Length / currentClip.frameRate;
     }
 }

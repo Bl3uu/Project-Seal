@@ -2,27 +2,27 @@ using System.Collections;
 using UnityEngine;
 
 [RequireComponent (typeof(SpriteRenderer))]
-[RequireComponent (typeof(MeleeHitbox))]
 public class DataDrivenVFXPlayer : MonoBehaviour
 {
     private SpriteRenderer spriteRenderer;
     private MeleeHitbox meleeHitbox;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
-        meleeHitbox = GetComponent<MeleeHitbox>();
+        TryGetComponent(out meleeHitbox);
     }
 
-    public void InitializeAndPlay(AttackData attackData, DamageData damageData)
+    public void InitializeAndPlay(AttackData attackData, DamageData? damageData = null)
     {
         if (attackData == null)
         {
             return;
         }
 
-        if (meleeHitbox != null)
+        if (meleeHitbox != null && damageData != null)
         {
-            meleeHitbox.PrepareHitbox(damageData);
+            meleeHitbox.PrepareHitbox(damageData.Value);
             meleeHitbox.DisableHitbox();
         }
 
@@ -36,12 +36,12 @@ public class DataDrivenVFXPlayer : MonoBehaviour
         {
             yield return PlaySpriteArray(attackData.startupSprites, attackData.startupDuration);
         }
-        else
+        else if (attackData.startupDuration > 0f)
         {
             yield return new WaitForSeconds(attackData.startupDuration);
         }
 
-        // Active Hit
+        // Active Hit / Fire
         if (meleeHitbox != null)
         {
             meleeHitbox.EnableHitbox();
@@ -51,7 +51,7 @@ public class DataDrivenVFXPlayer : MonoBehaviour
         {
             yield return PlaySpriteArray(attackData.activeSprites, attackData.activeHitDuration);
         }
-        else
+        else if (attackData.activeHitDuration > 0f)
         {
             yield return new WaitForSeconds(attackData.activeHitDuration);
         }
@@ -66,7 +66,7 @@ public class DataDrivenVFXPlayer : MonoBehaviour
         {
             yield return PlaySpriteArray(attackData.recoverySprites, attackData.recoveryDuration);
         }
-        else
+        else if (attackData.recoveryDuration > 0f)
         {
             yield return new WaitForSeconds(attackData.recoveryDuration);
         }

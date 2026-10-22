@@ -17,6 +17,7 @@ public class PlayerDash : MonoBehaviour
 
     private EntityMotor playerMotor;
     private IAimProvider aimProvider;
+    private IAnimationController animController;
     private PlayerInputBuffer<PlayerActionType> inputBuffer;
     private bool isDashing;
     private bool canDash = true;
@@ -27,6 +28,7 @@ public class PlayerDash : MonoBehaviour
     {
         playerMotor = GetComponent<EntityMotor>();
         aimProvider = GetComponent<IAimProvider>();
+        animController = GetComponent<IAnimationController>();
 
         if (healthComponent == null)
         {
@@ -105,6 +107,11 @@ public class PlayerDash : MonoBehaviour
         }
 
         dashDirection = dashDirection.normalized;
+
+        if (animController != null)
+        {
+            animController.PlayDash(dashDirection);
+        }
 
         float timer = 0f;
 

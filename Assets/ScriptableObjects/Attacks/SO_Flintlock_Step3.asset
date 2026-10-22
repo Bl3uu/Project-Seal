@@ -15,13 +15,23 @@ MonoBehaviour:
   attackType: 2
   attackDistance: 1
   baseDamage: 25
+  poiseDamage: 15
   knockbackForce: 5
   knockbackDuration: 0.2
   lungeForce: 3
   animationTriggerName: Attack
   vfxPrefab: {fileID: 2453681267547979762, guid: 59789d698a1f92f4fbace10d48dfe3e7, type: 3}
+  startupDuration: 0.05
   activeHitDuration: 0.1
   recoveryDuration: 0.25
+  startupSprites:
+  - {fileID: -2311893675320398080, guid: db95f921852de6041adc28da984e919d, type: 3}
+  activeSprites:
+  - {fileID: 8612556916757847227, guid: db95f921852de6041adc28da984e919d, type: 3}
+  - {fileID: 2723778780857930268, guid: db95f921852de6041adc28da984e919d, type: 3}
+  recoverySprites:
+  - {fileID: -1461575405390735719, guid: db95f921852de6041adc28da984e919d, type: 3}
+  animationFPS: 12
   attackSFX: {fileID: 8300000, guid: e11de5eec9d235e4b96c66e94c968fed, type: 3}
   hitImpactSFX: {fileID: 0}
   nextMeleeFollowUp: {fileID: 0}

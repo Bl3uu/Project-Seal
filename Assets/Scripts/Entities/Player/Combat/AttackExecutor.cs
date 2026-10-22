@@ -75,7 +75,7 @@ public class AttackExecutor : MonoBehaviour
         float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
         if (playerAnimator != null)
         {
-            playerAnimator.PlayerAttack(currenStep, aimAngle);
+            playerAnimator.PlayAttack(currenStep, aimAngle);
         }
 
         if (inputType == PlayerActionType.Melee && meleeAttack != null)
