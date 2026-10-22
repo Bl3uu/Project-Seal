@@ -1,5 +1,5 @@
 using System;
-using System.Linq.Expressions;
+using UnityEngine.Events;
 using UnityEngine;
 
 public class Poise : MonoBehaviour
@@ -12,6 +12,10 @@ public class Poise : MonoBehaviour
     public float CurrentPoise { get; private set;  }
     public float MaxPoise => maxPoise;
     public bool IsBroken { get; private set; }
+
+    [Header("Events")]
+    [Tooltip("Event whenever poise changes, passes current and max poise.")]
+    public UnityEvent<float, float> OnPoiseChanged;
 
     // Events for UI, FX or AI state transitions
     public event Action OnPoisedDamaged;
