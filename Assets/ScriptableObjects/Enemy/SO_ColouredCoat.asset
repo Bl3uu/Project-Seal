@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b73804a9f0d1c7c44884f71b9dca3d2e, type: 3}
+  m_Name: SO_ColouredCoat
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyData
+  enemyName: Coloured Coat
+  maxHealth: 100
+  maxPoise: 50
+  moveSpeed: 3
+  chaseSpeed: 4.5
+  sightRadius: 8
+  meleeAttackRange: 1.5
+  rangedAttackRange: 7
+  meleeAttackData:
+  - {fileID: 11400000, guid: a3956291737e9094792d607b39b6f6c6, type: 2}
+  rangeAttackData: {fileID: 11400000, guid: bd31c13d4e0b2bf488d8d465d368564d, type: 2}
+  globalAttackCooldown: 2

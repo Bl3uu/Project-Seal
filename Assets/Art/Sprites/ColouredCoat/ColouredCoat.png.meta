@@ -82,7 +82,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -96,7 +96,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 32
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -119,7 +119,7 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: -1
+    textureFormat: 4
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -148,12 +148,12 @@ TextureImporter:
       name: ColouredCoat_0
       rect:
         serializedVersion: 2
-        x: 22
-        y: 335
-        width: 21
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 23
+        y: 144
+        width: 19
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -170,12 +170,12 @@ TextureImporter:
       name: ColouredCoat_1
       rect:
         serializedVersion: 2
-        x: 86
-        y: 335
-        width: 21
-        height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 87
+        y: 144
+        width: 19
+        height: 33
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -192,12 +192,12 @@ TextureImporter:
       name: ColouredCoat_2
       rect:
         serializedVersion: 2
-        x: 21
-        y: 271
-        width: 21
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 23
+        y: 81
+        width: 19
+        height: 33
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -214,12 +214,12 @@ TextureImporter:
       name: ColouredCoat_3
       rect:
         serializedVersion: 2
-        x: 85
-        y: 271
-        width: 21
-        height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 87
+        y: 80
+        width: 19
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -236,12 +236,12 @@ TextureImporter:
       name: ColouredCoat_4
       rect:
         serializedVersion: 2
-        x: 22
-        y: 208
-        width: 21
-        height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 151
+        y: 81
+        width: 19
+        height: 33
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -258,12 +258,12 @@ TextureImporter:
       name: ColouredCoat_5
       rect:
         serializedVersion: 2
-        x: 86
-        y: 207
-        width: 21
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 215
+        y: 80
+        width: 19
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -280,12 +280,12 @@ TextureImporter:
       name: ColouredCoat_6
       rect:
         serializedVersion: 2
-        x: 150
-        y: 208
-        width: 21
-        height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 23
+        y: 16
+        width: 19
+        height: 32
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -302,12 +302,12 @@ TextureImporter:
       name: ColouredCoat_7
       rect:
         serializedVersion: 2
-        x: 214
-        y: 207
-        width: 21
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 88
+        y: 16
+        width: 19
+        height: 31
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -320,187 +320,11 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: ColouredCoat_8
-      rect:
-        serializedVersion: 2
-        x: 21
-        y: 144
-        width: 21
-        height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 225b513fb71bc4a30800000000000000
-      internalID: 4200927698347210018
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ColouredCoat_9
-      rect:
-        serializedVersion: 2
-        x: 85
-        y: 143
-        width: 21
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e3dc7535f3406acc0800000000000000
-      internalID: -3700265373810569922
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ColouredCoat_10
-      rect:
-        serializedVersion: 2
-        x: 149
-        y: 144
-        width: 21
-        height: 35
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d02d26275fc587860800000000000000
-      internalID: 7527868986405605901
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ColouredCoat_11
-      rect:
-        serializedVersion: 2
-        x: 213
-        y: 143
-        width: 21
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: bd99fc2eff5647830800000000000000
-      internalID: 4067988513118722523
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ColouredCoat_12
-      rect:
-        serializedVersion: 2
-        x: 22
-        y: 79
-        width: 21
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 157801b64e94c0a90800000000000000
-      internalID: -7346415646750505135
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ColouredCoat_13
-      rect:
-        serializedVersion: 2
-        x: 87
-        y: 79
-        width: 21
-        height: 33
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 2b9fbad0a1461ef20800000000000000
-      internalID: 3450148852603812274
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ColouredCoat_14
-      rect:
-        serializedVersion: 2
-        x: 21
-        y: 15
-        width: 21
-        height: 34
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 82c3523f8d2c81220800000000000000
-      internalID: 2456927833778633768
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ColouredCoat_15
-      rect:
-        serializedVersion: 2
-        x: 84
-        y: 15
-        width: 21
-        height: 33
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 4b39ba0a948bed5f0800000000000000
-      internalID: -729943463219719244
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: f5a5ec2f66329024798fe003b9525515
     internalID: 0
     vertices: []
     indices: 
@@ -508,24 +332,18 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     spriteCustomMetadata:
-      entries: []
+      entries:
+      - key: SpriteEditor.SliceSettings
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":32.0,"y":32.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
       ColouredCoat_0: 5530314700235084024
       ColouredCoat_1: -3441514624966290352
-      ColouredCoat_10: 7527868986405605901
-      ColouredCoat_11: 4067988513118722523
-      ColouredCoat_12: -7346415646750505135
-      ColouredCoat_13: 3450148852603812274
-      ColouredCoat_14: 2456927833778633768
-      ColouredCoat_15: -729943463219719244
       ColouredCoat_2: -8274268503922604435
       ColouredCoat_3: -8368876881803584483
       ColouredCoat_4: 4565330572768062605
       ColouredCoat_5: -4735403429917541839
       ColouredCoat_6: -8071661842405873997
       ColouredCoat_7: -7042722316862077944
-      ColouredCoat_8: 4200927698347210018
-      ColouredCoat_9: -3700265373810569922
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

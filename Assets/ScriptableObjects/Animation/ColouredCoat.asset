@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1fabf7b90631348469c3d8ac28c6e511, type: 3}
+  m_Name: ColouredCoat
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAnimationData
+  clips:
+  - clipName: Idle
+    frames:
+    - {fileID: 5530314700235084024, guid: ec4d5f3f99c5e704c802183b60e00415, type: 3}
+    - {fileID: -3441514624966290352, guid: ec4d5f3f99c5e704c802183b60e00415, type: 3}
+    frameRate: 4
+    loop: 1
+  - clipName: Run
+    frames:
+    - {fileID: -8274268503922604435, guid: ec4d5f3f99c5e704c802183b60e00415, type: 3}
+    - {fileID: -8368876881803584483, guid: ec4d5f3f99c5e704c802183b60e00415, type: 3}
+    - {fileID: 4565330572768062605, guid: ec4d5f3f99c5e704c802183b60e00415, type: 3}
+    - {fileID: -4735403429917541839, guid: ec4d5f3f99c5e704c802183b60e00415, type: 3}
+    frameRate: 4
+    loop: 1
+  - clipName: Attack
+    frames:
+    - {fileID: -8071661842405873997, guid: ec4d5f3f99c5e704c802183b60e00415, type: 3}
+    - {fileID: -7042722316862077944, guid: ec4d5f3f99c5e704c802183b60e00415, type: 3}
+    frameRate: 12
+    loop: 0
+  - clipName: Dash
+    frames:
+    - {fileID: -8071661842405873997, guid: ec4d5f3f99c5e704c802183b60e00415, type: 3}
+    - {fileID: -7042722316862077944, guid: ec4d5f3f99c5e704c802183b60e00415, type: 3}
+    frameRate: 12
+    loop: 0
