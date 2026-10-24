@@ -17,7 +17,9 @@ public class EntityMotor : MonoBehaviour
     public float StairYBias { get; set; } = 0f;
     public Vector2 MoveDirection { get; private set; }
 
+    [Header("State Flags")]
     public bool IsMoving => MoveDirection != Vector2.zero;
+    public bool IsKnockedBack { get; set; } = false;
 
     private void Awake()
     {
@@ -28,6 +30,11 @@ public class EntityMotor : MonoBehaviour
 
     public void Move(Vector2 direction, float speed)
     {
+        if (IsKnockedBack)
+        {
+            MoveDirection = Vector2.zero;
+            return;
+        }
         MoveDirection = direction;
         MoveSpeed = speed;
 

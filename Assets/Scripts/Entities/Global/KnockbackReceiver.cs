@@ -5,6 +5,7 @@ public class KnockbackReceiver : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private EntityMotor motor;
 
     [Header("Knockback Settings")]
     [SerializeField] private bool canBeKnockedBack = true;
@@ -21,6 +22,10 @@ public class KnockbackReceiver : MonoBehaviour
         {
             rb = GetComponent<Rigidbody2D>();
         }
+        if (motor == null)
+        {
+            motor = GetComponent<EntityMotor>();
+        }
     }
 
     private IEnumerator ResetKnockbackRoutine(float delay)
@@ -33,6 +38,11 @@ public class KnockbackReceiver : MonoBehaviour
         }
         
         isKnockedBack = false;
+
+        if (motor != null)
+        {
+            motor.IsKnockedBack = false;
+        }
     }
 
     public void ApplyKnockback(Vector2 direction, float force, float duration)
@@ -43,6 +53,11 @@ public class KnockbackReceiver : MonoBehaviour
         }
 
         isKnockedBack = true;
+
+        if (motor != null)
+        {
+            motor.IsKnockedBack = true;
+        }
 
         if (rb != null)
         {
