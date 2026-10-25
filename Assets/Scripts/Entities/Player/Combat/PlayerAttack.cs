@@ -23,10 +23,23 @@ public class PlayerAttack : MonoBehaviour
     private AttackExecutor attackExecutor;
     private FlintlockCarousel flintlockCarousel;
     private IAimProvider aimProvider;
-    private PlayerDash playerDash;
 
     private AttackData currentAttackData;
     private float comboDecayTimer;
+
+    public ComboStateMachine StateMachine => stateMachine;
+    public PlayerInputBuffer<PlayerActionType> InputBuffer => inputBuffer;
+    public ComboSequenceEvaluator SequenceEvaluator => sequenceEvaluator;
+    public AttackExecutor AttackExecutor => attackExecutor;
+    public FlintlockCarousel FlintlockCarousel => flintlockCarousel;
+    public AttackData DashMeleeAttackData => dashMeleeAttackData;
+    public AttackData FreeFireAttackData => freeFireAttackData;
+
+    public AttackData CurrentAttackData
+    {
+        get => currentAttackData;
+        set => currentAttackData = value;
+    }
 
     public int CurrentComboStep => stateMachine.CurrentStep;
     public bool IsAttacking => stateMachine.IsAttacking;
@@ -39,7 +52,6 @@ public class PlayerAttack : MonoBehaviour
         flintlockCarousel = GetComponentInChildren<FlintlockCarousel>();
         inputBuffer = new PlayerInputBuffer<PlayerActionType>(inputBufferWindow);
         aimProvider = GetComponent<IAimProvider>();
-        playerDash = GetComponent<PlayerDash>();
         sequenceEvaluator = new ComboSequenceEvaluator(entryMeleeAttackData, entryFlintlockAttackData);
     }
 
@@ -63,7 +75,7 @@ public class PlayerAttack : MonoBehaviour
             return;
         }
 
-        HandleInput(PlayerActionType.Melee);
+        inputBuffer.Buffer(PlayerActionType.Melee);
     }
 
     public void OnFlintlockInput(InputValue value)
@@ -73,7 +85,20 @@ public class PlayerAttack : MonoBehaviour
             return;
         }
 
-        HandleInput(PlayerActionType.Flintlock);
+        inputBuffer.Buffer(PlayerActionType.Flintlock);
+    }
+
+    public void OnDash(InputValue value)
+    {
+        if (!value.isPressed)
+        {
+            return;
+        }
+
+        if (stateMachine.IsAttacking)
+        {
+            inputBuffer.Buffer(PlayerActionType.Dash);
+        }
     }
 
     public void OnToggleStanceInput(InputValue value)
@@ -87,34 +112,6 @@ public class PlayerAttack : MonoBehaviour
         Debug.Log($"[PlayAttack] Swtiched Stance. Free-Fire Active: {isFreeFireStance}");
     }
 
-    public void OnFreeFireInput(InputValue value)
-    {
-        if (!value.isPressed || flintlockCarousel == null || !isFreeFireStance)
-        {
-            return;
-        }
-
-        if (stateMachine.IsAttacking)
-        {
-            return;
-        }
-
-        stateMachine.StartStep();
-
-        Vector2 aimDirection;
-
-        if (aimProvider != null)
-        {
-            aimDirection = aimProvider.AimDirection;
-        }
-        else
-        {
-            aimDirection = Vector2.right;
-        }
-
-        attackExecutor.ExecuteFreeFire(aimDirection, freeFireAttackData, this);
-    }
-
     public void OnReloadInput(InputValue value)
     {
         if (!value.isPressed || flintlockCarousel == null || stateMachine.IsAttacking)
@@ -126,89 +123,6 @@ public class PlayerAttack : MonoBehaviour
     }
 
     #endregion
-
-    private void HandleInput(PlayerActionType input)
-    {
-        if (!stateMachine.IsAttacking)
-        {
-            bool isDashing = (playerDash != null && playerDash.IsDashing);
-
-            if (stateMachine.CurrentStep == 0 && isDashing && input == PlayerActionType.Melee && dashMeleeAttackData != null)
-            {
-                Debug.Log("Executing Dash Attack");
-                ExecuteDashAttack();
-            }
-            else
-            {
-                ExecuteStep(input);
-            }
-        }
-        else
-        {
-            inputBuffer.Buffer(input);
-        }
-    }
-
-    private void ExecuteStep(PlayerActionType input)
-    {
-        AttackData targetAttack = sequenceEvaluator.EvaluateNextNode(input, currentAttackData, stateMachine.CurrentStep);
-
-        if (targetAttack == null)
-        {
-            Debug.LogWarning("[PlayAttack] No valid AttackData node found for input. Resetting combo.");
-            ResetCombo();
-            return;
-        }
-
-        attackExecutor.StopActiveAttack();
-
-        currentAttackData = targetAttack;
-        stateMachine.StartStep();
-        comboDecayTimer = comboResetWindow;
-
-        attackExecutor.ExecuteAttack(input, currentAttackData, stateMachine.CurrentStep, this);
-    }
-
-    private void ExecuteDashAttack()
-    {
-        attackExecutor.StopActiveAttack();
-        
-        currentAttackData = dashMeleeAttackData;
-        stateMachine.StartStep();
-        comboDecayTimer = comboResetWindow;
-
-        attackExecutor.ExecuteAttack(PlayerActionType.Melee, currentAttackData, stateMachine.CurrentStep, this);
-    }
-
-    public bool TryCancelAttack()
-    {
-        if (stateMachine.CanCancel)
-        {
-            NotifyActionInterrupt();
-            return true;
-        }
-
-        return false;
-    }
-
-    public void NotifyActionInterrupt()
-    {
-        if (stateMachine.CurrentStep == 0)
-        {
-            return;
-        }
-
-        if (attackExecutor != null)
-        {
-            attackExecutor.StopActiveAttack();
-        }
-
-        inputBuffer.Clear();
-        stateMachine.CompleteAttack();
-        comboDecayTimer = comboResetWindow;
-
-        Debug.Log($"[PlayAttack] Action Interrupted! Combo preserved at Step {stateMachine.CurrentStep}.");
-    }
 
     public bool HasBufferedInput(out PlayerActionType bufferedType)
     {
@@ -224,33 +138,12 @@ public class PlayerAttack : MonoBehaviour
         return false;
     }
 
-    public void ExecuteBufferedStep(PlayerActionType nextInput)
-    {
-        ExecuteStep(nextInput);
-    }
-
-    public void BufferInputFromDash(PlayerActionType type)
-    {
-        inputBuffer.Buffer(type);
-    }
-
-    public void CheckForComboCompletion()
-    {
-        bool hasFollowup = (currentAttackData.nextMeleeFollowUp != null || currentAttackData.nextFlintlockFollowUp != null);
-        
-        if (!hasFollowup)
-        {
-            ResetCombo();
-        }
-        else
-        {
-            stateMachine.CompleteAttack();
-        }
-    }
-
     public void ResetCombo()
     {
-        attackExecutor.StopActiveAttack();
+        if (attackExecutor != null)
+        {
+            attackExecutor.StopActiveAttack();
+        }
         stateMachine.Reset();
         inputBuffer.Clear();
         comboDecayTimer = 0f;
@@ -269,5 +162,10 @@ public class PlayerAttack : MonoBehaviour
                 ResetCombo();
             }
         }
+    }
+
+    public void RefreshComboDecayTimer()
+    {
+        comboDecayTimer = comboResetWindow;
     }
 }

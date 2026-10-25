@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
@@ -10,7 +11,6 @@ public class AttackExecutor : MonoBehaviour
 
     private EntityMotor playerMotor;
     private EntityAnimator2D playerAnimator;
-    private PlayerDash playerDash;
     private IAimProvider aimProvider;
 
     private Coroutine attackRoutine;
@@ -23,7 +23,6 @@ public class AttackExecutor : MonoBehaviour
         playerMotor = GetComponent<EntityMotor>();
         playerAnimator = GetComponent<EntityAnimator2D>();
         aimProvider = GetComponent<IAimProvider>();
-        playerDash = GetComponent<PlayerDash>();
 
         if (meleeAttack == null)
         {
@@ -35,19 +34,19 @@ public class AttackExecutor : MonoBehaviour
         }
     }
 
-    public void ExecuteAttack(PlayerActionType inputType, AttackData attackData, int currenStep, PlayerAttack playerAttack)
+    public void ExecuteAttack(PlayerActionType inputType, AttackData attackData, int currenStep, Action onTimelineFinished)
     {
         StopActiveAttack();
-        attackRoutine = StartCoroutine(AttackTimelineRoutine(inputType, attackData, currenStep, playerAttack));
+        attackRoutine = StartCoroutine(AttackTimelineRoutine(inputType, attackData, currenStep, onTimelineFinished));
     }
 
-    public void ExecuteFreeFire(Vector2 aimDirection, AttackData freeFireData, PlayerAttack playerAttack)
+    public void ExecuteFreeFire(Vector2 aimDirection, AttackData freeFireData, Action onFinished)
     {
         StopActiveAttack();
-        attackRoutine = StartCoroutine(FreeFireRoutine(aimDirection, freeFireData, playerAttack));
+        attackRoutine = StartCoroutine(FreeFireRoutine(aimDirection, freeFireData, onFinished));
     }
 
-    private IEnumerator AttackTimelineRoutine(PlayerActionType inputType, AttackData attackData, int currenStep, PlayerAttack playerAttack)
+    private IEnumerator AttackTimelineRoutine(PlayerActionType inputType, AttackData attackData, int currenStep, Action onTimelineFinished)
     {
         currentAttackData = attackData;
 
@@ -67,7 +66,10 @@ public class AttackExecutor : MonoBehaviour
             if (!shotFired)
             {
                 attackRoutine = null;
-                playerAttack.ResetCombo();
+                if (onTimelineFinished != null)
+                {
+                    onTimelineFinished();
+                }
                 yield break;
             }
         }
@@ -82,9 +84,6 @@ public class AttackExecutor : MonoBehaviour
         {
             meleeAttack.PrepareAttackVFX(attackData, aimDirection);
         }
-
-        bool bufferedNextStep = false;
-        PlayerActionType nextInput = PlayerActionType.None;
 
         float totalAttackDuration = attackData.startupDuration + attackData.activeHitDuration + attackData.recoveryDuration;
         float timer = 0f;
@@ -108,16 +107,6 @@ public class AttackExecutor : MonoBehaviour
                 }
             }
 
-            if (!bufferedNextStep)
-            {
-                bufferedNextStep = CheckAndCaptureBuffer(playerAttack, ref nextInput);
-            }
-
-            if (bufferedNextStep && nextInput == PlayerActionType.Dash && timer > attackData.startupDuration)
-            {
-                break;
-            }
-
             yield return new WaitForFixedUpdate();
         }
 
@@ -127,30 +116,13 @@ public class AttackExecutor : MonoBehaviour
         }
 
         attackRoutine = null;
-
-        if (bufferedNextStep)
+        if (onTimelineFinished != null)
         {
-            if (nextInput == PlayerActionType.Dash)
-            {
-                playerAttack.NotifyActionInterrupt();
-
-                if (playerDash != null)
-                {
-                    playerDash.TriggerDashFromAttack();
-                }
-            }
-            else
-            {
-                playerAttack.ExecuteBufferedStep(nextInput);
-            }
-        }
-        else
-        {
-            playerAttack.CheckForComboCompletion();
+            onTimelineFinished();
         }
     }
 
-    private IEnumerator FreeFireRoutine(Vector2 aimDirection, AttackData freeFireData, PlayerAttack playerAttack)
+    private IEnumerator FreeFireRoutine(Vector2 aimDirection, AttackData freeFireData, Action onFinished)
     {
         if (flintlockCarousel != null)
         {
@@ -170,23 +142,10 @@ public class AttackExecutor : MonoBehaviour
         yield return new WaitForSeconds(duration); 
 
         attackRoutine = null;
-        playerAttack.ResetCombo();
-    }
-
-    private bool CheckAndCaptureBuffer(PlayerAttack playerAttack, ref PlayerActionType nextInput)
-    {
-        if (playerAttack.HasBufferedInput(out PlayerActionType bufferedType))
+        if (onFinished != null)
         {
-            if (bufferedType == PlayerActionType.Melee ||
-                bufferedType == PlayerActionType.Flintlock ||
-                bufferedType == PlayerActionType.Dash)
-            {
-                nextInput = bufferedType;
-                return true;
-            }
+            onFinished();
         }
-
-        return false;
     }
 
     public void StopActiveAttack()

@@ -10383,12 +10383,10 @@ GameObject:
   - component: {fileID: 998719329}
   - component: {fileID: 998719334}
   - component: {fileID: 998719343}
-  - component: {fileID: 998719328}
   - component: {fileID: 998719347}
   - component: {fileID: 998719335}
   - component: {fileID: 998719336}
   - component: {fileID: 998719339}
-  - component: {fileID: 998719338}
   - component: {fileID: 998719340}
   - component: {fileID: 998719342}
   - component: {fileID: 998719341}
@@ -10397,6 +10395,8 @@ GameObject:
   - component: {fileID: 998719344}
   - component: {fileID: 998719346}
   - component: {fileID: 998719345}
+  - component: {fileID: 998719350}
+  - component: {fileID: 998719349}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -10404,19 +10404,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &998719328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 998719327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 333dd18c29431fa41a8e2f02ac3092b8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  defaultMoveSpeed: 5
 --- !u!50 &998719329
 Rigidbody2D:
   serializedVersion: 5
@@ -10625,24 +10612,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &998719338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 998719327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c684c7eb9a96eb4e944957363f43a9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::DashController
-  dashSpeed: 15
-  dashDuration: 0.15
-  dashCooldown: 1
-  healthComponent: {fileID: 998719339}
-  playerAttack: {fileID: 998719340}
-  playerMovement: {fileID: 0}
 --- !u!114 &998719339
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10881,6 +10850,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AttackExecutor
   meleeAttack: {fileID: 998719342}
   flintlockCarousel: {fileID: 998719341}
+--- !u!114 &998719349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998719327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5653a541be98264f9f253c802652c17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::KnockbackReceiver
+  rb: {fileID: 0}
+  motor: {fileID: 0}
+  playerController: {fileID: 0}
+  canBeKnockedBack: 1
+  knockbackResistance: 0
+--- !u!114 &998719350
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998719327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a359c8f2745cd44dbafb1caa9ea1f8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  moveSpeed: 5
+  dashSpeed: 25
+  dashDuration: 0.15
+  dashCooldown: 0.5
 --- !u!1 &1030457128
 GameObject:
   m_ObjectHideFlags: 0
@@ -17567,6 +17569,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackReceiver
   rb: {fileID: 0}
+  motor: {fileID: 0}
+  playerController: {fileID: 0}
   canBeKnockedBack: 0
   knockbackResistance: 1
 --- !u!114 &1624135002
@@ -17604,7 +17608,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0
+  m_LinearDamping: 10
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -19963,6 +19967,10 @@ PrefabInstance:
     - target: {fileID: 7970883817137490428, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
       propertyPath: m_Name
       value: Coloured_Coat
+      objectReference: {fileID: 0}
+    - target: {fileID: 7970883817137490428, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

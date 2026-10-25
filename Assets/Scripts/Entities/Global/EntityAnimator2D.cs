@@ -8,7 +8,7 @@ public class EntityAnimator2D : MonoBehaviour, IAnimationController
     private EntityMotor motor;
     private PlayerAim playerAim;
     private PlayerAttack playerAttack;
-    private PlayerDash playerDash;
+    private PlayerController playerController;
 
     [Header("Animations")]
     [SerializeField] private CharacterAnimationData animationDatabase;
@@ -34,7 +34,7 @@ public class EntityAnimator2D : MonoBehaviour, IAnimationController
         motor = GetComponent<EntityMotor>();
         playerAim = GetComponent<PlayerAim>();
         playerAttack = GetComponent<PlayerAttack>();
-        playerDash = GetComponent<PlayerDash>();
+        playerController = GetComponent<PlayerController>();
 
         if (animationDatabase != null)
         {
@@ -69,7 +69,7 @@ public class EntityAnimator2D : MonoBehaviour, IAnimationController
         if (motor != null)
         {
             bool isAttacking = playerAttack != null && playerAttack.IsAttacking;
-            bool isDashing = playerDash != null && playerDash.IsDashing;
+            bool isDashing = playerController != null && playerController.CurrentState == playerController.DashState;
 
             faceAimDirection = isAttacking;
 

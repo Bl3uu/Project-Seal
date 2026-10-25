@@ -6,6 +6,7 @@ public class KnockbackReceiver : MonoBehaviour
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private EntityMotor motor;
+    [SerializeField] private PlayerController playerController;
 
     [Header("Knockback Settings")]
     [SerializeField] private bool canBeKnockedBack = true;
@@ -26,22 +27,9 @@ public class KnockbackReceiver : MonoBehaviour
         {
             motor = GetComponent<EntityMotor>();
         }
-    }
-
-    private IEnumerator ResetKnockbackRoutine(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
-        if (rb != null)
+        if (playerController == null)
         {
-            rb.linearVelocity = Vector2.zero;
-        }
-        
-        isKnockedBack = false;
-
-        if (motor != null)
-        {
-            motor.IsKnockedBack = false;
+            playerController = GetComponent<PlayerController>();
         }
     }
 
@@ -66,6 +54,12 @@ public class KnockbackReceiver : MonoBehaviour
             rb.AddForce(direction.normalized * finalForce, ForceMode2D.Impulse);
         }
 
+        if (playerController != null)
+        {
+            playerController.ApplyKnockback(duration);
+            return;
+        }
+
         if (knockbackCoroutine != null)
         {
             StopCoroutine(knockbackCoroutine);
@@ -73,5 +67,22 @@ public class KnockbackReceiver : MonoBehaviour
 
         knockbackCoroutine = StartCoroutine(ResetKnockbackRoutine(duration));
 
+    }
+
+    private IEnumerator ResetKnockbackRoutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        isKnockedBack = false;
+
+        if (motor != null)
+        {
+            motor.IsKnockedBack = false;
+        }
     }
 }
