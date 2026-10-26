@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class InfantryAI : MonoBehaviour
@@ -42,15 +41,15 @@ public class InfantryAI : MonoBehaviour
         {
             poise = GetComponent<Poise>();
         }
+        if (motor == null)
+        {
+            motor = GetComponent<EntityMotor>();
+        }
 
         // Attack property handling
         if (enemy != null)
         {
             data = enemy.Data;
-        }
-        else
-        {
-            data = null;
         }
 
         IdleState = new EnemyIdleState(this, targetDetector);
