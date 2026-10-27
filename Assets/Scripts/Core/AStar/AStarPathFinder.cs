@@ -228,6 +228,23 @@ public class AStarPathFinder : MonoBehaviour
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.white;
-        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 1f));
+        Gizmos.DrawWireCube(transform.position, new Vector3(gridWorldSize.x, gridWorldSize.y, 0));
+
+        if (grid != null)
+        {
+            foreach (Node node in grid)
+            {
+                if (node.isWalkable)
+                {
+                    Gizmos.color = new Color(0, 1, 0, 0.15f);
+                }
+                else
+                {
+                    Gizmos.color = new Color(1, 0, 0, 0.5f);
+                }
+
+                Gizmos.DrawCube(node.worldPosition, Vector3.one * (nodeRadius * 1.8f));
+            }
+        }
     }
 }

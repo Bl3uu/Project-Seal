@@ -60,6 +60,7 @@ public class InfantryAI : MonoBehaviour
 
     private void Start()
     {
+        attackCooldownTimer = 0f;
         ChangeState(IdleState);
     }
 
@@ -125,6 +126,8 @@ public class InfantryAI : MonoBehaviour
     public void StartAttackCooldown(float duration)
     {
         attackCooldownTimer = duration;
+
+        Debug.Log($"[InfantryAI] Cooldown started: {duration}s", this);
     }
 
     private void HandleGuardBroken()

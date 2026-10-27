@@ -12,9 +12,9 @@ TagManager:
   - Water
   - UI
   - Triggers
-  - Layer 1
-  - Layer 2
-  - Layer 3
+  - Ground
+  - Obstacle
+  - Destructible
   - Player
   - Enemy
   - Ally

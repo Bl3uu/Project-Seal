@@ -20,6 +20,8 @@ public class EnemyChaseState : IEnemyState
     private const float PATH_RECALC_INTERVAL = 0.25f;
     private const float WAYPOINT_REACHED_RADIUS = 0.3f;
 
+    private float debugTimer;
+
     public EnemyChaseState(InfantryAI ai, TargetDetector detector, EnemyAim aim, EntityMotor motor, EnemyData data)
     {
         this.ai = ai;
@@ -64,6 +66,8 @@ public class EnemyChaseState : IEnemyState
         {
             aim.UpdateAim(directionToTarget);
         }
+
+        //Debug.Log($"Distance: {distanceToTarget} | CanAttack: {ai.CanAttack} | MeleeRange: {data.meleeAttackRange}");
 
         if (ai.CanAttack)
         {
