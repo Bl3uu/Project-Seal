@@ -93,6 +93,11 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        if (playerAttack != null)
+        {
+            playerAttack.InputBuffer.Buffer(PlayerActionType.Melee);
+        }
+
         if (CurrentState == IdleMoveState || CurrentState == DashState)
         {
             ChangeState(AttackState);
@@ -104,6 +109,11 @@ public class PlayerController : MonoBehaviour
         if (!value.isPressed)
         {
             return;
+        }
+
+        if (playerAttack != null)
+        {
+            playerAttack.InputBuffer.Buffer(PlayerActionType.Flintlock);
         }
 
         if (CurrentState == IdleMoveState || CurrentState == DashState)
@@ -123,6 +133,10 @@ public class PlayerController : MonoBehaviour
         {
             ChangeState(DashState);
         }
+        else if (playerAttack != null && playerAttack.StateMachine.IsAttacking)
+        {
+            playerAttack.InputBuffer.Buffer(PlayerActionType.Dash);
+        }
     }
 
     public void OnFreeFireInput(InputValue value)
@@ -135,6 +149,32 @@ public class PlayerController : MonoBehaviour
         if (playerAttack != null && playerAttack.IsFreeFireStance && CurrentState == IdleMoveState)
         {
             ChangeState(AttackState);
+        }
+    }
+
+    public void OnToggleStanceInput(InputValue value)
+    {
+        if (!value.isPressed)
+        {
+            return;
+        }
+
+        if (playerAttack != null)
+        {
+            playerAttack.ToggleStance();
+        }
+    }
+
+    public void OnReloadInput(InputValue value)
+    {
+        if (!value.isPressed)
+        {
+            return;
+        }
+
+        if (playerAttack != null && !playerAttack.IsAttacking && playerAttack.FlintlockCarousel != null)
+        {
+            playerAttack.FlintlockCarousel.StartReload();
         }
     }
 

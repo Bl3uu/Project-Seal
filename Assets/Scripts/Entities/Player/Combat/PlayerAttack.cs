@@ -66,44 +66,9 @@ public class PlayerAttack : MonoBehaviour
         UpdateComboDecay();
     }
 
-    #region Input Handlers
-
-    public void OnMeleeInput(InputValue value)
+    public void ToggleStance()
     {
-        if (!value.isPressed || isFreeFireStance)
-        {
-            return;
-        }
-
-        inputBuffer.Buffer(PlayerActionType.Melee);
-    }
-
-    public void OnFlintlockInput(InputValue value)
-    {
-        if (!value.isPressed || isFreeFireStance)
-        {
-            return;
-        }
-
-        inputBuffer.Buffer(PlayerActionType.Flintlock);
-    }
-
-    public void OnDash(InputValue value)
-    {
-        if (!value.isPressed)
-        {
-            return;
-        }
-
         if (stateMachine.IsAttacking)
-        {
-            inputBuffer.Buffer(PlayerActionType.Dash);
-        }
-    }
-
-    public void OnToggleStanceInput(InputValue value)
-    {
-        if (!value.isPressed || stateMachine.IsAttacking) 
         {
             return;
         }
@@ -111,18 +76,6 @@ public class PlayerAttack : MonoBehaviour
         isFreeFireStance = !isFreeFireStance;
         Debug.Log($"[PlayAttack] Swtiched Stance. Free-Fire Active: {isFreeFireStance}");
     }
-
-    public void OnReloadInput(InputValue value)
-    {
-        if (!value.isPressed || flintlockCarousel == null || stateMachine.IsAttacking)
-        {
-            return;
-        }
-
-        flintlockCarousel.StartReload();
-    }
-
-    #endregion
 
     public bool HasBufferedInput(out PlayerActionType bufferedType)
     {

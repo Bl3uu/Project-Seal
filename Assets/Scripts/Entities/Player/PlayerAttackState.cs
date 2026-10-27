@@ -37,6 +37,8 @@ public class PlayerAttackState : IPlayerState
                 playerAttack.FreeFireAttackData,
                 OnFreeFireFinished
             );
+
+            return;
         }
 
         if (playerAttack.HasBufferedInput(out PlayerActionType actionType))
@@ -86,6 +88,10 @@ public class PlayerAttackState : IPlayerState
 
     public void UpdateState()
     {
+        if (playerAttack.IsFreeFireStance)
+        {
+            return;
+        }
         if (playerAttack.HasBufferedInput(out PlayerActionType bufferedInput))
         {
             if (bufferedInput == PlayerActionType.Dash && player.CanDash())
