@@ -5,7 +5,7 @@ public class EnemyAttackState : IEnemyState
     private readonly InfantryAI ai;
     private readonly TargetDetector detector;
     private readonly EntityMotor motor;
-    private float windUpTimer;
+    private bool isTimelineFinished;
 
     public EnemyAttackState(InfantryAI ai, TargetDetector detector, EntityMotor motor)
     {
@@ -16,34 +16,33 @@ public class EnemyAttackState : IEnemyState
 
     public void Enter()
     {
-        if (ai.SelectedAttack != null)
-        {
-            windUpTimer = ai.SelectedAttack.startupDuration;
-        }
+        isTimelineFinished = false;
 
-        if (motor != null)
-        {
-            motor.Move(Vector2.zero, 0f);
-        }
-    }
-
-    public void UpdateState()
-    {
         if (ai.SelectedAttack == null)
         {
             ai.ChangeState(ai.ChaseState);
             return;
         }
 
-        windUpTimer -= Time.deltaTime;
-
-        if (windUpTimer <= 0f)
+        if (motor != null)
         {
-            if (ai.SelectedAttack.lungeForce > 0f && motor != null && detector.HasTarget)
-            {
-                motor.Move(detector.DirectionToTarget, ai.SelectedAttack.lungeForce);
-            }
+            motor.Move(Vector2.zero, 0f);
+        }
 
+        if (ai.AttackExecutor != null)
+        {
+            ai.AttackExecutor.ExecuteAttack(ai.SelectedAttack, OnTimelineFinished);
+        }
+        else
+        {
+            OnTimelineFinished();
+        }
+    }
+
+    public void UpdateState()
+    {
+        if (isTimelineFinished)
+        {
             float cooldown;
             if (ai.Data != null)
             {
@@ -53,10 +52,29 @@ public class EnemyAttackState : IEnemyState
             {
                 cooldown = 1.5f;
             }
+
             ai.StartAttackCooldown(cooldown);
+
+            if (ai.SelectedAttack != null && ai.SelectedAttack.nextMeleeFollowUp != null)
+            {
+                ai.SelectAttack(ai.SelectedAttack.nextMeleeFollowUp);
+                Enter();
+                return;
+            }
+
             ai.ChangeState(ai.ChaseState);
         }
     }
 
-    public void Exit() { }
+    public void FixedUpdateState() { }
+
+    public void Exit() 
+    {
+        isTimelineFinished = false;
+    }
+
+    private void OnTimelineFinished()
+    {
+        isTimelineFinished = true;
+    }
 }

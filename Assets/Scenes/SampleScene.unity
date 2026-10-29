@@ -425,7 +425,7 @@ GameObject:
   - component: {fileID: 100600443}
   - component: {fileID: 100600442}
   - component: {fileID: 100600441}
-  m_Layer: 7
+  m_Layer: 8
   m_Name: E1_Walls
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6728,14 +6728,15 @@ GameObject:
   - component: {fileID: 998719339}
   - component: {fileID: 998719340}
   - component: {fileID: 998719342}
+  - component: {fileID: 998719351}
   - component: {fileID: 998719341}
   - component: {fileID: 998719348}
+  - component: {fileID: 998719350}
   - component: {fileID: 998719337}
+  - component: {fileID: 998719349}
   - component: {fileID: 998719344}
   - component: {fileID: 998719346}
   - component: {fileID: 998719345}
-  - component: {fileID: 998719350}
-  - component: {fileID: 998719349}
   m_Layer: 10
   m_Name: Player
   m_TagString: Player
@@ -7004,9 +7005,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c813425d6ecd5324bb319dce73ed627a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FlintlockCarousel
-  bulletPrefab: {fileID: 7107048573077243279, guid: 50bbf3a2de6788e489c1a7f4283052a5, type: 3}
-  firePoint: {fileID: 998719331}
-  vfxDriver: {fileID: 998719344}
+  rangeAttack: {fileID: 0}
   maxBarrels: 4
   reloadDuration: 1.2
 --- !u!114 &998719342
@@ -7222,6 +7221,21 @@ MonoBehaviour:
   dashSpeed: 25
   dashDuration: 0.15
   dashCooldown: 0.5
+--- !u!114 &998719351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 998719327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28c0bc7953248284d935f3e51a9b7925, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RangeAttack
+  bulletPrefab: {fileID: 7107048573077243279, guid: 50bbf3a2de6788e489c1a7f4283052a5, type: 3}
+  firePoint: {fileID: 998719331}
+  vfxDriver: {fileID: 998719344}
 --- !u!1 &1030457128
 GameObject:
   m_ObjectHideFlags: 0
@@ -7992,7 +8006,7 @@ GameObject:
   - component: {fileID: 1276089510}
   - component: {fileID: 1276089512}
   - component: {fileID: 1276089511}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: E1_Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14401,6 +14415,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1822817931}
   m_CullTransparentMesh: 1
+--- !u!1 &1827043332 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7970883817137490428, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
+  m_PrefabInstance: {fileID: 1734736459934948378}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1827043348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827043332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f77494687fb6f3f46bc02c6218e303c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeAttack
+  attackOrigin: {fileID: 2107888595}
+  vfxDriver: {fileID: 1827043366}
+--- !u!114 &1827043349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827043332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e242f99164e118d4dba754055a6105a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAttackExecutor
+  meleeAttack: {fileID: 1827043348}
+--- !u!114 &1827043365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827043332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1e6fcd15e85b8e42a813f3119c5ccdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MeleeHitbox
+--- !u!114 &1827043366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1827043332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 038c1e3f9d0bdf440a015e6f5bc8f249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXOverlayDriver
+  weaponPivot: {fileID: 2107888595}
 --- !u!1 &1829825635
 GameObject:
   m_ObjectHideFlags: 0
@@ -15513,6 +15584,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2088619060}
   m_CullTransparentMesh: 1
+--- !u!4 &2107888595 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 587505109082869535, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
+  m_PrefabInstance: {fileID: 1734736459934948378}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2111963695
 GameObject:
   m_ObjectHideFlags: 0
@@ -15716,6 +15792,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2521168434340330288, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
+      propertyPath: attackExecutor
+      value: 
+      objectReference: {fileID: 1827043349}
     - target: {fileID: 7970883817137490428, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
       propertyPath: m_Name
       value: Coloured_Coat
@@ -15727,7 +15807,19 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7970883817137490428, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1827043349}
+    - targetCorrespondingSourceObject: {fileID: 7970883817137490428, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1827043348}
+    - targetCorrespondingSourceObject: {fileID: 7970883817137490428, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1827043365}
+    - targetCorrespondingSourceObject: {fileID: 7970883817137490428, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1827043366}
   m_SourcePrefab: {fileID: 100100000, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

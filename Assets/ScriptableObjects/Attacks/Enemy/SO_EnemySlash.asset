@@ -15,6 +15,7 @@ MonoBehaviour:
   attackType: 1
   attackDistance: 1
   baseDamage: 10
+  poiseDamage: 15
   knockbackForce: 3
   knockbackDuration: 0.2
   lungeForce: 5
@@ -33,5 +34,5 @@ MonoBehaviour:
   animationFPS: 12
   attackSFX: {fileID: 0}
   hitImpactSFX: {fileID: 0}
-  nextMeleeFollowUp: {fileID: 11400000, guid: f3ce720f4789fe64c8c8e7bc515497c0, type: 2}
+  nextMeleeFollowUp: {fileID: 0}
   nextFlintlockFollowUp: {fileID: 0}

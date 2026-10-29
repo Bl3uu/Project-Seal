@@ -3,6 +3,7 @@ using UnityEngine;
 public class InfantryAI : MonoBehaviour
 {
     [SerializeField] private Enemy enemy;
+    [SerializeField] private EnemyAttackExecutor attackExecutor;
     [SerializeField] private TargetDetector targetDetector;
     [SerializeField] private EnemyAim enemyAim;
     [SerializeField] private EntityMotor motor;
@@ -18,6 +19,7 @@ public class InfantryAI : MonoBehaviour
     // Attack Properties
     public AttackData SelectedAttack { get; private set;  }
     public EnemyData Data => data;
+    public EnemyAttackExecutor AttackExecutor => attackExecutor;
     public bool CanAttack => attackCooldownTimer <= 0f;
 
     private float attackCooldownTimer;
@@ -44,6 +46,10 @@ public class InfantryAI : MonoBehaviour
         if (motor == null)
         {
             motor = GetComponent<EntityMotor>();
+        }
+        if (attackExecutor == null)
+        {
+            attackExecutor = GetComponent<EnemyAttackExecutor>();
         }
 
         // Attack property handling
