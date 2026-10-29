@@ -6,6 +6,7 @@ public class EnemyAttackExecutor : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private MeleeAttack meleeAttack;
+    [SerializeField] private RangeAttack rangeAttack;
 
     private EntityMotor motor;
     private TargetDetector detector;
@@ -20,6 +21,10 @@ public class EnemyAttackExecutor : MonoBehaviour
         if (meleeAttack == null)
         {
             meleeAttack = GetComponentInChildren<MeleeAttack>();
+        }
+        if (rangeAttack == null)
+        {
+            rangeAttack = GetComponentInChildren<RangeAttack>();
         }
     }
 
@@ -41,7 +46,13 @@ public class EnemyAttackExecutor : MonoBehaviour
             attackDirection = Vector2.right;
         }
 
-        if (meleeAttack != null)
+        bool isRanged = attackData != null && attackData.attackType == PlayerActionType.Flintlock;
+
+        if (isRanged && rangeAttack != null)
+        {
+            rangeAttack.Fire(attackDirection, attackData);
+        }
+        else if (meleeAttack != null)
         {
             meleeAttack.PrepareAttackVFX(attackData, attackDirection);
         }
@@ -53,7 +64,7 @@ public class EnemyAttackExecutor : MonoBehaviour
         {
             timer += Time.fixedDeltaTime;
 
-            if (attackData.lungeForce > 0f && motor != null)
+            if (attackData.lungeForce > 0f && motor != null && !isRanged)
             {
                 float activeStartTime = attackData.startupDuration;
                 float activeEndTime = attackData.startupDuration + attackData.activeHitDuration;
