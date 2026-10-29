@@ -1,13 +1,19 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class InfantryAI : MonoBehaviour
 {
+    [Header("References")]
     [SerializeField] private Enemy enemy;
     [SerializeField] private EnemyAttackExecutor attackExecutor;
     [SerializeField] private TargetDetector targetDetector;
     [SerializeField] private EnemyAim enemyAim;
     [SerializeField] private EntityMotor motor;
     [SerializeField] private Poise poise;
+
+    [Header("AI Decision Components")]
+    [SerializeField] private DecisionEvaluator decisionEvaluator;
+    [SerializeField] private AmmoTracker ammoTracker;
 
     // State Instances
     public IEnemyState CurrentState { get; private set;  }
@@ -18,8 +24,11 @@ public class InfantryAI : MonoBehaviour
 
     // Attack Properties
     public AttackData SelectedAttack { get; private set;  }
+    public bool HasBullet { get; private set; } = true;
     public EnemyData Data => data;
     public EnemyAttackExecutor AttackExecutor => attackExecutor;
+    public DecisionEvaluator DecisionEvaluator => decisionEvaluator;
+    public AmmoTracker AmmoTracker => ammoTracker;
     public bool CanAttack => attackCooldownTimer <= 0f;
 
     private float attackCooldownTimer;
@@ -51,6 +60,14 @@ public class InfantryAI : MonoBehaviour
         {
             attackExecutor = GetComponent<EnemyAttackExecutor>();
         }
+        if (decisionEvaluator == null)
+        {
+            decisionEvaluator = GetComponent<DecisionEvaluator>();
+        }
+        if (ammoTracker == null)
+        {
+            ammoTracker = GetComponent<AmmoTracker>();
+        }
 
         // Attack property handling
         if (enemy != null)
@@ -59,7 +76,7 @@ public class InfantryAI : MonoBehaviour
         }
 
         IdleState = new EnemyIdleState(this, targetDetector);
-        ChaseState = new EnemyChaseState(this, targetDetector, enemyAim, motor, Data);
+        ChaseState = new EnemyChaseState(this, targetDetector, enemyAim, motor, data, decisionEvaluator);
         AttackState = new EnemyAttackState(this, targetDetector, motor);
         StaggeredState = new EnemyStaggeredState(motor);
     }

@@ -36,3 +36,6 @@ MonoBehaviour:
   hitImpactSFX: {fileID: 0}
   nextMeleeFollowUp: {fileID: 0}
   nextFlintlockFollowUp: {fileID: 0}
+  minExecutionRange: 1.5
+  maxExecutionRange: 6
+  baseWeight: 70

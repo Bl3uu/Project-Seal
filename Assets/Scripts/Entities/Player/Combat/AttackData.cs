@@ -44,4 +44,9 @@ public class AttackData : ScriptableObject
     [Header("Sequence Branching (Follow-ups)")]
     public AttackData nextMeleeFollowUp;
     public AttackData nextFlintlockFollowUp;
+
+    [Header("AI Attack Selection Variables (ENEMY ONLY!)")]
+    public float minExecutionRange = 0f;
+    public float maxExecutionRange = 1.5f;
+    public int baseWeight = 50;
 }

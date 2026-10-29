@@ -11,8 +11,11 @@ public class Enemy : MonoBehaviour, IDamageable
     [SerializeField] protected KnockbackReceiver knockbackReceiver;
     [SerializeField] protected HitFeedback hitFeedback;
 
+    public float healthPercentage;
     public bool IsDead => health != null && health.IsDead;
     public EnemyData Data => enemyData;
+    public Health Health => health;
+    public float HealthPercentage => healthPercentage;
 
     private void Awake()
     {
@@ -24,6 +27,15 @@ public class Enemy : MonoBehaviour, IDamageable
         if (enemyData != null)
         {
             ApplyEnemyData();
+        }
+
+        if (health != null && health.MaxHealth > 0)
+        {
+            healthPercentage = health.CurrentHealth / health.MaxHealth;
+        }
+        else
+        {
+            healthPercentage = 1f;
         }
     }
 

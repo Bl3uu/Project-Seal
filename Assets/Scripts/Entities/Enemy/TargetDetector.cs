@@ -7,6 +7,7 @@ public class TargetDetector : MonoBehaviour
     
     [Header("Detection Settings")]
     [SerializeField] private LayerMask targetLayer;
+    [SerializeField] private LayerMask obstacleMask;
     [SerializeField] private Transform currentTarget;
 
     public Transform CurrentTarget => currentTarget;
@@ -41,6 +42,26 @@ public class TargetDetector : MonoBehaviour
 
             return Vector2.Distance(transform.position, currentTarget.position);
         }
+    }
+
+    public bool HasLineOfSight()
+    {
+        if (!HasTarget)
+        {
+            return false;
+        }
+
+        Vector2 direction = (currentTarget.position - transform.position);
+        float distance = direction.magnitude;
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction.normalized, distance, obstacleMask);
+
+        if (hit.collider != null && hit.transform != currentTarget)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public bool DetectTargetInRadius(float radius)

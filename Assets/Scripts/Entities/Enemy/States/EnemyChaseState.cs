@@ -8,6 +8,7 @@ public class EnemyChaseState : IEnemyState
     private readonly EnemyAim aim;
     private readonly EntityMotor motor;
     private readonly EnemyData data;
+    private readonly DecisionEvaluator decisionEvaluator;
 
     private float strafeDirection = 1f;
     private float strafeTimer;
@@ -22,13 +23,14 @@ public class EnemyChaseState : IEnemyState
 
     private float debugTimer;
 
-    public EnemyChaseState(InfantryAI ai, TargetDetector detector, EnemyAim aim, EntityMotor motor, EnemyData data)
+    public EnemyChaseState(InfantryAI ai, TargetDetector detector, EnemyAim aim, EntityMotor motor, EnemyData data, DecisionEvaluator decisionEvaluator)
     {
         this.ai = ai;
         this.detector = detector;
         this.aim = aim;
         this.motor = motor;
         this.data = data;
+        this.decisionEvaluator = decisionEvaluator;
     }
 
     public void Enter() 
@@ -69,19 +71,12 @@ public class EnemyChaseState : IEnemyState
 
         //Debug.Log($"Distance: {distanceToTarget} | CanAttack: {ai.CanAttack} | MeleeRange: {data.meleeAttackRange}");
 
-        if (ai.CanAttack)
+        if (ai.CanAttack && decisionEvaluator != null)
         {
-            if (distanceToTarget <= data.meleeAttackRange && data.meleeAttackData.Length > 0)
+            AttackData chosenAttack = decisionEvaluator.DetermineAttack(distanceToTarget);
+            if (chosenAttack != null)
             {
-                // pick random melee attack from melee attack list
-                int randomIndex = Random.Range(0, data.meleeAttackData.Length);
-                ai.SelectAttack(data.meleeAttackData[randomIndex]);
-                ai.ChangeState(ai.AttackState);
-                return;
-            }
-            else if (distanceToTarget <= data.rangedAttackRange && data.rangeAttackData != null)
-            {
-                ai.SelectAttack(data.rangeAttackData);
+                ai.SelectAttack(chosenAttack);
                 ai.ChangeState(ai.AttackState);
                 return;
             }
