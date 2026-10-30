@@ -36,3 +36,7 @@ MonoBehaviour:
   hitImpactSFX: {fileID: 0}
   nextMeleeFollowUp: {fileID: 0}
   nextFlintlockFollowUp: {fileID: 0}
+  telegraphDuration: 1
+  minExecutionRange: 0
+  maxExecutionRange: 1.5
+  baseWeight: 50

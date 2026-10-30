@@ -7,6 +7,7 @@ public class EnemyAttackExecutor : MonoBehaviour
     [Header("References")]
     [SerializeField] private MeleeAttack meleeAttack;
     [SerializeField] private RangeAttack rangeAttack;
+    [SerializeField] private AttackTelegraph telegraph;
 
     private EntityMotor motor;
     private TargetDetector detector;
@@ -18,6 +19,11 @@ public class EnemyAttackExecutor : MonoBehaviour
     {
         motor = GetComponent<EntityMotor>();
         detector = GetComponent<TargetDetector>();
+
+        if (telegraph == null)
+        {
+            telegraph = GetComponentInChildren<AttackTelegraph>();
+        }
         if (meleeAttack == null)
         {
             meleeAttack = GetComponentInChildren<MeleeAttack>();
@@ -44,6 +50,20 @@ public class EnemyAttackExecutor : MonoBehaviour
         else
         {
             attackDirection = Vector2.right;
+        }
+
+        if (telegraph != null && attackData != null && attackData.telegraphDuration > 0f)
+        {
+            telegraph.ShowTelegraph(attackDirection, attackData.attackDistance);
+
+            float telegraphTimer = 0f;
+            while (telegraphTimer < attackData.telegraphDuration)
+            {
+                telegraphTimer += Time.fixedDeltaTime;
+                yield return new WaitForFixedUpdate();
+            }
+
+            telegraph.HideTelegraph();
         }
 
         bool isRanged = attackData != null && attackData.attackType == PlayerActionType.Flintlock;
@@ -100,6 +120,11 @@ public class EnemyAttackExecutor : MonoBehaviour
         {
             StopCoroutine(attackRoutine);
             attackRoutine = null;
+        }
+
+        if (telegraph != null)
+        {
+            telegraph.HideTelegraph();
         }
 
         if (motor != null)

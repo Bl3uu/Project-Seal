@@ -46,6 +46,7 @@ public class AttackData : ScriptableObject
     public AttackData nextFlintlockFollowUp;
 
     [Header("AI Attack Selection Variables (ENEMY ONLY!)")]
+    public float telegraphDuration = 0.6f;
     public float minExecutionRange = 0f;
     public float maxExecutionRange = 1.5f;
     public int baseWeight = 50;

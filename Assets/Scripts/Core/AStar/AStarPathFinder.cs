@@ -78,9 +78,18 @@ public class AStarPathFinder : MonoBehaviour
         Node startNode = NodeFromWorldPoint(startPosition);
         Node targetNode = NodeFromWorldPoint(targetPosition);
 
-        if (startNode == null || targetNode == null || !targetNode.isWalkable)
+        if (startNode == null || targetNode == null)
         {
             return null;
+        }
+
+        if (!targetNode.isWalkable)
+        {
+            targetNode = GetClosestWalkableNode(targetNode);
+            if (targetNode == null)
+            {
+                return null;
+            }
         }
 
         List<Node> openSet = new List<Node>();
@@ -206,6 +215,35 @@ public class AStarPathFinder : MonoBehaviour
         }
 
         return neighbors;
+    }
+
+    private Node GetClosestWalkableNode(Node targetNode)
+    {
+        Queue<Node> queue = new Queue<Node>();
+        HashSet<Node> visited = new HashSet<Node>();
+
+        queue.Enqueue(targetNode);
+        visited.Add(targetNode);
+
+        while (queue.Count > 0)
+        {
+            Node currentNode = queue.Dequeue();
+            if (currentNode.isWalkable)
+            {
+                return currentNode;
+            }
+
+            foreach (Node neighbor in currentNode.neighbors)
+            {
+                if (!visited.Contains(neighbor))
+                {
+                    visited.Add(neighbor);
+                    queue.Enqueue(neighbor);
+                }
+            }
+        }
+
+        return null;
     }
 
     public Node NodeFromWorldPoint(Vector2 worldPosition)
