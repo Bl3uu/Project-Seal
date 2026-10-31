@@ -54,12 +54,12 @@ public class EnemyAttackExecutor : MonoBehaviour
 
         if (telegraph != null && attackData != null && attackData.telegraphDuration > 0f)
         {
-            telegraph.ShowTelegraph(attackDirection, attackData.attackDistance);
-
             float telegraphTimer = 0f;
             while (telegraphTimer < attackData.telegraphDuration)
             {
                 telegraphTimer += Time.fixedDeltaTime;
+
+                telegraph.ShowTelegraph(attackDirection, attackData);
                 yield return new WaitForFixedUpdate();
             }
 

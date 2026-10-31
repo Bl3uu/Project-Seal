@@ -14,9 +14,6 @@ public class AttackExecutor : MonoBehaviour
     private IAimProvider aimProvider;
 
     private Coroutine attackRoutine;
-    private AttackData currentAttackData;
-
-    public bool IsExecuting => attackRoutine != null;
 
     private void Awake()
     {
@@ -48,8 +45,6 @@ public class AttackExecutor : MonoBehaviour
 
     private IEnumerator AttackTimelineRoutine(PlayerActionType inputType, AttackData attackData, int currenStep, Action onTimelineFinished)
     {
-        currentAttackData = attackData;
-
         Vector2 aimDirection;
         if (aimProvider != null)
         {

@@ -26,12 +26,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1691981048142803377}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2511908921822160918}
+  m_Father: {fileID: 587505109082869535}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &19659946651959838
 SpriteRenderer:
@@ -106,7 +106,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackTelegraph
   indicatorRenderer: {fileID: 19659946651959838}
-  telegraphWidth: 1
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 256
+  rayLineWidth: 0.5
 --- !u!1 &3083274228700025345
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,10 +135,11 @@ Transform:
   m_GameObject: {fileID: 3083274228700025345}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1816524490382715852}
   m_Father: {fileID: 2511908921822160918}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7707232101298756683
@@ -284,7 +288,6 @@ Transform:
   m_Children:
   - {fileID: 587505109082869535}
   - {fileID: 6154197737603921247}
-  - {fileID: 1816524490382715852}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &972245528520558674

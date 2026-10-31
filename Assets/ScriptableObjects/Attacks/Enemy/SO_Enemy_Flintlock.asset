@@ -37,6 +37,9 @@ MonoBehaviour:
   nextMeleeFollowUp: {fileID: 0}
   nextFlintlockFollowUp: {fileID: 0}
   telegraphDuration: 1
+  telegraphSprites:
+  - {fileID: -3271654976113244405, guid: 8b67badd5e57e364487b32bbfac362f0, type: 3}
   minExecutionRange: 1.5
   maxExecutionRange: 6
+  isRangedRay: 1
   baseWeight: 70

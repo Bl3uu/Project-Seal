@@ -47,7 +47,9 @@ public class AttackData : ScriptableObject
 
     [Header("AI Attack Selection Variables (ENEMY ONLY!)")]
     public float telegraphDuration = 0.6f;
+    public Sprite[] telegraphSprites;
     public float minExecutionRange = 0f;
     public float maxExecutionRange = 1.5f;
+    public bool isRangedRay = false;
     public int baseWeight = 50;
 }

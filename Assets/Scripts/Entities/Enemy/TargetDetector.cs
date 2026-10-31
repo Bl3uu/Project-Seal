@@ -27,7 +27,7 @@ public class TargetDetector : MonoBehaviour
                 return Vector2.zero;
             }
 
-            return (currentTarget.position - transform.position).normalized;
+            return (GetCenterPosition(currentTarget) - GetSelfCenterPosition()).normalized;
         }
     }
 
@@ -40,7 +40,7 @@ public class TargetDetector : MonoBehaviour
                 return float.MaxValue;
             }
 
-            return Vector2.Distance(transform.position, currentTarget.position);
+            return Vector2.Distance(GetSelfCenterPosition(), GetCenterPosition(currentTarget));
         }
     }
 
@@ -51,10 +51,12 @@ public class TargetDetector : MonoBehaviour
             return false;
         }
 
-        Vector2 direction = (currentTarget.position - transform.position);
+        Vector2 startPos = GetSelfCenterPosition();
+        Vector2 targetPos = GetCenterPosition(currentTarget);
+        Vector2 direction = targetPos - startPos;
         float distance = direction.magnitude;
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, direction.normalized, distance, obstacleMask);
+        RaycastHit2D hit = Physics2D.Raycast(startPos, direction.normalized, distance, obstacleMask);
 
         if (hit.collider != null && hit.transform != currentTarget)
         {
@@ -79,6 +81,21 @@ public class TargetDetector : MonoBehaviour
         }
 
         return false;
+    }
+
+    private Vector2 GetCenterPosition(Transform targetTransform)
+    {
+        if (targetTransform == null)
+        {
+            return Vector2.zero;
+        }
+
+        return (Vector2)targetTransform.position + new Vector2(0f, 0.4f);
+    }
+
+    private Vector2 GetSelfCenterPosition()
+    {
+        return (Vector2)transform.position + new Vector2(0f, 0.4f);
     }
 
     public void ClearTarget()
