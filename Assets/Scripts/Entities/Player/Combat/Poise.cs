@@ -86,6 +86,7 @@ public class Poise : MonoBehaviour
     {
         CurrentPoise = maxPoise;
         IsBroken = false;
+        lastDamageTime = Time.time;
 
         if (OnGuardRecovered != null)
         {

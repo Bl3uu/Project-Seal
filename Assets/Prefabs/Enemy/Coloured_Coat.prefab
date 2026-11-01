@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 1691981048142803377}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.6, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -80,7 +80,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1121438841
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_MaskInteraction: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 1b9e5880da05135418e6ca5c1954cddd, type: 3}
   m_Color: {r: 0.735849, g: 0.10065861, b: 0.10065861, a: 1}
@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AttackTelegraph
   indicatorRenderer: {fileID: 19659946651959838}
+  weaponPivot: {fileID: 587505109082869535}
   obstacleMask:
     serializedVersion: 2
     m_Bits: 256
@@ -135,7 +136,7 @@ Transform:
   m_GameObject: {fileID: 3083274228700025345}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.3, z: 0}
+  m_LocalPosition: {x: 0, y: 0.4, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -282,7 +283,7 @@ Transform:
   m_GameObject: {fileID: 7970883817137490428}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.62, y: -0.843, z: 0}
+  m_LocalPosition: {x: -4.53, y: -0.699, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -506,9 +507,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5653a541be98264f9f253c802652c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackReceiver
-  rb: {fileID: 8308758111817448860}
-  motor: {fileID: 1827028164625452037}
-  playerController: {fileID: 0}
   canBeKnockedBack: 1
   knockbackResistance: 0
 --- !u!114 &5340849857079357495
@@ -545,6 +543,8 @@ MonoBehaviour:
   poise: {fileID: 6371023368009111350}
   knockbackReceiver: {fileID: 3036453297820024061}
   hitFeedback: {fileID: 5340849857079357495}
+  motor: {fileID: 1827028164625452037}
+  rb: {fileID: 8308758111817448860}
   healthPercentage: 0
 --- !u!114 &2954021387422809965
 MonoBehaviour:
@@ -595,7 +595,7 @@ MonoBehaviour:
   motor: {fileID: 1827028164625452037}
   poise: {fileID: 6371023368009111350}
   decisionEvaluator: {fileID: 8781442931995663127}
-  ammoTracker: {fileID: 0}
+  ammoTracker: {fileID: 7227098677394673545}
 --- !u!114 &4935615769478869856
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -21,8 +21,6 @@ public class EnemyChaseState : IEnemyState
     private const float PATH_RECALC_INTERVAL = 0.25f;
     private const float WAYPOINT_REACHED_RADIUS = 0.3f;
 
-    private float debugTimer;
-
     public EnemyChaseState(InfantryAI ai, TargetDetector detector, EnemyAim aim, EntityMotor motor, EnemyData data, DecisionEvaluator decisionEvaluator)
     {
         this.ai = ai;
@@ -57,7 +55,7 @@ public class EnemyChaseState : IEnemyState
         Transform target = detector.CurrentTarget;
         if (!detector.HasTarget || data == null)
         {
-            ai.ChangeState(ai.IdleState);
+            ai.Enemy.ChangeState(ai.IdleState);
             return;
         }
 
@@ -69,7 +67,7 @@ public class EnemyChaseState : IEnemyState
             aim.UpdateAim(directionToTarget);
         }
 
-        //Debug.Log($"Distance: {distanceToTarget} | CanAttack: {ai.CanAttack} | MeleeRange: {data.meleeAttackRange}");
+        //Debug.Log($"Distance: {distanceToTarget} | CanAttack: {enemy.CanAttack} | MeleeRange: {data.meleeAttackRange}");
 
         if (ai.CanAttack && decisionEvaluator != null)
         {
@@ -77,7 +75,7 @@ public class EnemyChaseState : IEnemyState
             if (chosenAttack != null)
             {
                 ai.SelectAttack(chosenAttack);
-                ai.ChangeState(ai.AttackState);
+                ai.Enemy.ChangeState(ai.AttackState);
                 return;
             }
         }
@@ -104,7 +102,7 @@ public class EnemyChaseState : IEnemyState
             strafeTimer -= Time.deltaTime;
             if (strafeTimer <= 0f)
             {
-                strafeDirection *= 1f;
+                strafeDirection *= -1f;
                 strafeTimer = Random.Range(1f, 2.5f);
             }
 
@@ -142,6 +140,8 @@ public class EnemyChaseState : IEnemyState
             }
         }
     }
+
+    public void FixedUpdateState() { }
 
     public void Exit() 
     {

@@ -27,9 +27,11 @@ public class EnemyIdleState : IEnemyState
 
         if (detector != null && detector.DetectTargetInRadius(sightRadius))
         {
-            ai.ChangeState(ai.ChaseState);
+            ai.Enemy.ChangeState(ai.ChaseState);
         }
     }
+
+    public void FixedUpdateState() { }
 
     public void Exit() { }
 }

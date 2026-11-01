@@ -15,8 +15,9 @@ MonoBehaviour:
   attackType: 1
   attackDistance: 1
   baseDamage: 12
-  knockbackForce: 4
-  knockbackDuration: 0.2
+  poiseDamage: 15
+  knockbackForce: 5
+  knockbackDuration: 1
   lungeForce: 5
   animationTriggerName: Attack
   vfxPrefab: {fileID: 277225465166252023, guid: 461f58c7ff3b53c4982db44becb7fefe, type: 3}
@@ -35,3 +36,9 @@ MonoBehaviour:
   hitImpactSFX: {fileID: 0}
   nextMeleeFollowUp: {fileID: 11400000, guid: 76b5667c0c05c924a9ccf890c85008da, type: 2}
   nextFlintlockFollowUp: {fileID: 11400000, guid: bea72978741facc44bca9eb5fbac357f, type: 2}
+  telegraphDuration: 0.6
+  telegraphSprites: []
+  minExecutionRange: 0
+  maxExecutionRange: 1.5
+  isRangedRay: 0
+  baseWeight: 50

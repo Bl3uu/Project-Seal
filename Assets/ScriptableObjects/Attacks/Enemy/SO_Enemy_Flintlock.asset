@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SO_Enemy_Flintlock
   m_EditorClassIdentifier: Assembly-CSharp::AttackData
   attackType: 2
-  attackDistance: 1
+  attackDistance: 20
   baseDamage: 25
   poiseDamage: 15
   knockbackForce: 3
@@ -39,7 +39,7 @@ MonoBehaviour:
   telegraphDuration: 1
   telegraphSprites:
   - {fileID: -3271654976113244405, guid: 8b67badd5e57e364487b32bbfac362f0, type: 3}
-  minExecutionRange: 1.5
+  minExecutionRange: 2
   maxExecutionRange: 6
   isRangedRay: 1
   baseWeight: 70

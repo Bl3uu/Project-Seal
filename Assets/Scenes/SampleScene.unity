@@ -411,11 +411,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 413081fc53a78a043b38591243616398, type: 3}
---- !u!4 &100216593 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 587505109082869535, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
-  m_PrefabInstance: {fileID: 1734736459934948378}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &100600439
 GameObject:
   m_ObjectHideFlags: 0
@@ -7205,9 +7200,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5653a541be98264f9f253c802652c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackReceiver
-  rb: {fileID: 0}
-  motor: {fileID: 0}
-  playerController: {fileID: 0}
   canBeKnockedBack: 1
   knockbackResistance: 0
 --- !u!114 &998719350
@@ -13561,6 +13553,8 @@ MonoBehaviour:
   poise: {fileID: 0}
   knockbackReceiver: {fileID: 0}
   hitFeedback: {fileID: 0}
+  motor: {fileID: 0}
+  rb: {fileID: 0}
   healthPercentage: 0
   resetDelay: 3
 --- !u!114 &1624134998
@@ -13701,9 +13695,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5653a541be98264f9f253c802652c17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::KnockbackReceiver
-  rb: {fileID: 0}
-  motor: {fileID: 0}
-  playerController: {fileID: 0}
   canBeKnockedBack: 0
   knockbackResistance: 1
 --- !u!114 &1624135002
@@ -15696,21 +15687,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 19659946651959838, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
-      propertyPath: m_SortingOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 587505109082869535, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1816524490382715852, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2511908921822160918, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.811
+      value: -4.53
       objectReference: {fileID: 0}
     - target: {fileID: 2511908921822160918, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
       propertyPath: m_LocalPosition.y
@@ -15748,10 +15727,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6952211810745610910, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
-      propertyPath: weaponPivot
-      value: 
-      objectReference: {fileID: 100216593}
     - target: {fileID: 7970883817137490428, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
       propertyPath: m_Name
       value: Coloured_Coat

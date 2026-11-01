@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IKnockbackable
 {
     [Header("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
@@ -190,9 +190,13 @@ public class PlayerController : MonoBehaviour
         nextDashAvailableTime = Time.time + dashCooldown;
     }
 
-    public void ApplyKnockback(float duration)
+    public void ApplyKnockback(Vector2 direction, float force, float duration)
     {
-        KnockbackState.SetDuration(duration);
+        if (KnockbackState != null)
+        {
+            KnockbackState.SetupKnockback(direction, force, duration);
+        }
+
         ChangeState(KnockbackState);
     }
 

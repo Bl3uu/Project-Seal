@@ -20,7 +20,7 @@ public class EnemyAttackState : IEnemyState
 
         if (ai.SelectedAttack == null)
         {
-            ai.ChangeState(ai.ChaseState);
+            ai.Enemy.ChangeState(ai.ChaseState);
             return;
         }
 
@@ -62,7 +62,7 @@ public class EnemyAttackState : IEnemyState
                 return;
             }
 
-            ai.ChangeState(ai.ChaseState);
+            ai.Enemy.ChangeState(ai.ChaseState);
         }
     }
 

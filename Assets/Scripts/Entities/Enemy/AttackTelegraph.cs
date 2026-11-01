@@ -77,12 +77,12 @@ public class AttackTelegraph : MonoBehaviour
             
             if (hit.collider != null)
             {
-                Debug.Log($"Ray hit: {hit.collider.name} at distance {hit.distance}");
+                //Debug.Log($"Ray hit: {hit.collider.name} at distance {hit.distance}");
                 rayLength = hit.distance;
             }
             else
             {
-                Debug.Log("Ray hit nothing, using full attack distance.");
+                //Debug.Log("Ray hit nothing, using full attack distance.");
             }
 
             transform.localScale = new Vector3(rayLineWidth, rayLength, 1f);

@@ -16,15 +16,14 @@ public class InfantryAI : MonoBehaviour
     [SerializeField] private AmmoTracker ammoTracker;
 
     // State Instances
-    public IEnemyState CurrentState { get; private set;  }
     public EnemyIdleState IdleState { get; private set; }
     public EnemyChaseState ChaseState { get; private set; }
     public EnemyAttackState AttackState { get; private set; }
-    public EnemyStaggeredState StaggeredState { get; private set; }
 
     // Attack Properties
     public AttackData SelectedAttack { get; private set;  }
     public bool HasBullet { get; private set; } = true;
+    public Enemy Enemy => enemy;
     public EnemyData Data => data;
     public EnemyAttackExecutor AttackExecutor => attackExecutor;
     public DecisionEvaluator DecisionEvaluator => decisionEvaluator;
@@ -78,30 +77,13 @@ public class InfantryAI : MonoBehaviour
         IdleState = new EnemyIdleState(this, targetDetector);
         ChaseState = new EnemyChaseState(this, targetDetector, enemyAim, motor, data, decisionEvaluator);
         AttackState = new EnemyAttackState(this, targetDetector, motor);
-        StaggeredState = new EnemyStaggeredState(motor);
     }
 
     private void Start()
     {
-        attackCooldownTimer = 0f;
-        ChangeState(IdleState);
-    }
-
-    private void OnEnable()
-    {
-        if (poise != null)
+        if (enemy != null)
         {
-            poise.OnGuardBroken += HandleGuardBroken;
-            poise.OnGuardRecovered += HandleGuardRecovered;
-        }
-    }
-
-    private void OnDisable()
-    {
-        if (poise != null) 
-        { 
-            poise.OnGuardBroken -= HandleGuardBroken;
-            poise.OnGuardRecovered -= HandleGuardRecovered;
+            enemy.ChangeState(IdleState);
         }
     }
 
@@ -117,28 +99,24 @@ public class InfantryAI : MonoBehaviour
             attackCooldownTimer -= Time.deltaTime;
         }
 
-        if (CurrentState != null)
+        if (enemy != null)
         {
-            CurrentState.UpdateState();
+            if (enemy.CurrentState != null)
+            {
+                enemy.CurrentState.UpdateState();
+            }
+            else
+            {
+                if (targetDetector.HasTarget)
+                {
+                    enemy.ChangeState(ChaseState);
+                }
+                else
+                {
+                    enemy.ChangeState(IdleState);
+                }
+            }
         }
-    }
-
-    public void ChangeState(IEnemyState newState)
-    {
-        if (newState == null || newState == CurrentState)
-        {
-            return;
-        }
-
-        if (CurrentState != null)
-        {
-            CurrentState.Exit();
-        }
-
-        CurrentState = newState;
-
-        Debug.Log($"{gameObject.name} transitioned to: {newState.GetType().Name}", this);
-        CurrentState.Enter();
     }
 
     public void SelectAttack(AttackData attack)
@@ -151,16 +129,6 @@ public class InfantryAI : MonoBehaviour
         attackCooldownTimer = duration;
 
         Debug.Log($"[InfantryAI] Cooldown started: {duration}s", this);
-    }
-
-    private void HandleGuardBroken()
-    {
-        ChangeState(StaggeredState);
-    }
-
-    private void HandleGuardRecovered()
-    {
-        ChangeState(IdleState);
     }
 
     private void OnDrawGizmosSelected()
