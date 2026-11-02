@@ -55,17 +55,15 @@ public class AttackExecutor : MonoBehaviour
             aimDirection = Vector2.right;
         }
 
+        bool shotFired = true;
+
         if (inputType == PlayerActionType.Flintlock && flintlockCarousel != null)
         {
-            bool shotFired = flintlockCarousel.FireComboShot(attackData, aimDirection);
+            shotFired = flintlockCarousel.FireComboShot(attackData, aimDirection);
             if (!shotFired)
             {
-                attackRoutine = null;
-                if (onTimelineFinished != null)
-                {
-                    onTimelineFinished();
-                }
-                yield break;
+                // TODO: DRY FIRE SOUND EFFECT "CLICK"
+                Debug.Log("[AttackExecutor] Click! Dry fire click sound effect");
             }
         }
 
@@ -87,7 +85,7 @@ public class AttackExecutor : MonoBehaviour
         {
             timer += Time.fixedDeltaTime;
 
-            if (inputType == PlayerActionType.Melee && attackData.lungeForce > 0f && playerMotor)
+            if (shotFired && inputType == PlayerActionType.Melee && attackData.lungeForce > 0f && playerMotor)
             {
                 float activeStartTime = attackData.startupDuration;
                 float activeEndTime = attackData.startupDuration + attackData.activeHitDuration;

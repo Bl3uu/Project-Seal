@@ -15687,6 +15687,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 19659946651959838, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 19659946651959838, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2511908921822160918, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.53
@@ -15730,6 +15738,10 @@ PrefabInstance:
     - target: {fileID: 7970883817137490428, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
       propertyPath: m_Name
       value: Coloured_Coat
+      objectReference: {fileID: 0}
+    - target: {fileID: 7970883817137490428, guid: 93eb2ee313e755140ad9f08e16df7768, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

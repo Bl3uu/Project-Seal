@@ -108,10 +108,21 @@ public class PlayerAttackState : IPlayerState
         {
             if (pendingInput == PlayerActionType.Melee || pendingInput == PlayerActionType.Flintlock)
             {
-                PlayerActionType next = pendingInput;
-                pendingInput = PlayerActionType.None;
-                StartAttackStep(next);
-                return;
+                AttackData nextNode = playerAttack.SequenceEvaluator.EvaluateNextNode(
+                    pendingInput,
+                    playerAttack.CurrentAttackData,
+                    playerAttack.CurrentComboStep
+                );
+
+                if (nextNode != null)
+                {
+                    PlayerActionType next = pendingInput;
+                    pendingInput = PlayerActionType.None;
+                    StartAttackStep(next);
+                    return;
+                }
+
+                pendingInput = PlayerActionType.None; 
             }
 
             bool hasFollowup = (playerAttack.CurrentAttackData != null) &&
